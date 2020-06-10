@@ -149,6 +149,12 @@ Defaults to `false` (`http`)
 }
 ```
 
+### storybook
+
+`Boolean`
+
+This option enables experimental Storybook feature. When this feature is enabled you can create storybook files that should end with `.stories.(ts|tsx|js)`. Read Storybook documentation section ["Writing Stories"](https://storybook.js.org/docs/basics/writing-stories/) for more details.
+
 ## FAQ
 
 ### What `build` command produces?

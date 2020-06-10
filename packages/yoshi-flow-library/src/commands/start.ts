@@ -69,7 +69,7 @@ const start: cliCommand = async function (argv, config) {
     appName: config.pkgJson.name!,
     enableClientHotUpdates: false,
     compileTypeScriptFiles: true,
-    // storybook: config.storybook,
+    storybook: config.storybook,
   });
 
   await devEnvironment.start();

@@ -25,8 +25,8 @@ Alternatively, you can create a file named `yoshi.config.js` in your project's r
 ```js
 module.exports = {
   entry: {
-    app: "./app2.js"
-  }
+    app: "./app2.js",
+  },
 };
 ```
 
@@ -45,9 +45,9 @@ module.exports = {
   defaultConfig: {
     exports: "[name]",
     externals: {
-      lodash: "lodash"
-    }
-  }
+      lodash: "lodash",
+    },
+  },
 };
 ```
 
@@ -291,3 +291,9 @@ Next time you'll run `yoshi lint`, this command will execute and only then the l
 
 If option is `true` AMD modules of the UMD build will have names. Otherwise an anonymous define is used(the same as in [webpack](https://webpack.js.org/configuration/output/#output-umdnameddefine)).
 By default it is `false`.
+
+### experimentalStorybook
+
+`Boolean`
+
+This option enables experimental Storybook feature. When this feature is enabled you can create storybook files that should end with `.stories.(ts|tsx|js)`. Read Storybook documentation section ["Writing Stories"](https://storybook.js.org/docs/basics/writing-stories/) for more details.
