@@ -17,6 +17,7 @@ module.exports = {
     {
       Development: [
         'development/bundle-analyze',
+        'development/environment-variables',
         'development/debugging',
         'development/hmr',
         'development/momentjs-optimization',
