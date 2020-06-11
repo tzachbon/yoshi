@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.93.1 (2020-06-11)
+
+#### :bug: Bug Fix
+
+- `yoshi-common`
+  - [#2551](https://github.com/wix/yoshi/pull/2551) Simplify the way we perform requests to the BI ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-flow-bm`
+  - [#2545](https://github.com/wix/yoshi/pull/2545) Fix missing JSON.stringify for sentry and fedops in flow-bm ([@Gongreg](https://github.com/Gongreg))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2546](https://github.com/wix/yoshi/pull/2546) Minify server worker in monorepo flow ([@ronami](https://github.com/ronami))
+
 ## 4.93.0 (2020-06-10)
 
 #### :rocket: New Feature
@@ -46,11 +60,6 @@
 #### :memo: Documentation
 
 - [#2536](https://github.com/wix/yoshi/pull/2536) Document env vars related to debugging ([@daliusd](https://github.com/daliusd))
-
-#### Committers: 2
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Dalius Dobravolskas ([@daliusd](https://github.com/daliusd))
 
 ## 4.90.1 (2020-06-09)
 
@@ -159,14 +168,6 @@
 
 - `jest-yoshi-preset`, `yoshi-flow-legacy`, `yoshi-flow-library`
   - [#2510](https://github.com/wix/yoshi/pull/2510) Replace jest-teamcity-reporter with jest-teamcity ([@ohana54](https://github.com/ohana54))
-
-#### Committers: 5
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Artem Yavorsky ([@yavorsky](https://github.com/yavorsky))
-- Ran Yitzhaki ([@ranyitz](https://github.com/ranyitz))
-- Tomer Ohana ([@ohana54](https://github.com/ohana54))
-- [@wix-renovate](https://github.com/wix-renovate)
 
 ## 4.85.0 (2020-06-04)
 
@@ -396,22 +397,12 @@
 - `create-yoshi-app`
   - [#2426](https://github.com/wix/yoshi/pull/2426) Fix dev.js script to support template loops ([@yavorsky](https://github.com/yavorsky))
 
-#### Committers: 3
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Artem Yavorsky ([@yavorsky](https://github.com/yavorsky))
-- barak igal ([@barak007](https://github.com/barak007))
-
 ## 4.77.1 (2020-05-17)
 
 #### :bug: Bug Fix
 
 - `yoshi-common`
   - [#2421](https://github.com/wix/yoshi/pull/2421) Library Flow: fix typescript and react babel bug ([@ranyitz](https://github.com/ranyitz))
-
-#### Committers: 1
-
-- Ran Yitzhaki ([@ranyitz](https://github.com/ranyitz))
 
 ## 4.77.0 (2020-05-17)
 
@@ -697,12 +688,6 @@
   - [#2279](https://github.com/wix/yoshi/pull/2279) Customize module topology through `.module.json` ([@amitdahan](https://github.com/amitdahan))
 - `yoshi-server-client`
   - [#2251](https://github.com/wix/yoshi/pull/2251) Yoshi Server Client: use `wix-headers` ([@yanivefraim](https://github.com/yanivefraim))
-
-#### Committers: 3
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Yaniv Efraim ([@yanivefraim](https://github.com/yanivefraim))
-- [@wix-renovate](https://github.com/wix-renovate)
 
 ## 4.65.0 (2020-04-30)
 
