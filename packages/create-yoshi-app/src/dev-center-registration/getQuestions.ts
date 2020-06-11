@@ -216,24 +216,30 @@ const isSupportedComponentType = (type: string) =>
 //   );
 // };
 
-export const addOOIComponentStep = (): ExtendedPromptObject<string> => {
+export const addOOIComponentStep = (
+  {
+    multiple,
+  }: {
+    multiple: boolean;
+  } = { multiple: false },
+): ExtendedPromptObject<string> => {
   return {
     type: 'select',
     name: 'registerComponentType',
-    message: 'Register a component',
+    message: 'Add a component',
     choices: [
       {
-        title: 'Register a Widget',
+        title: 'Add a Widget',
         value: WIDGET_OUT_OF_IFRAME,
       },
-      { title: 'Register a Page', value: PAGE_OUT_OF_IFRAME },
+      { title: 'Add a Page', value: PAGE_OUT_OF_IFRAME },
       {
-        title: 'Finish registration',
+        title: multiple ? 'Finish registration' : 'Cancel',
         value: null,
       },
     ],
     repeatUntil(answers) {
-      return !answers.registerComponentType;
+      return !multiple || !answers.registerComponentType;
     },
     next(answers) {
       if (answers.registerComponentType) {
@@ -342,7 +348,7 @@ export default (): Array<ExtendedPromptObject<string>> => {
               message: 'Name of the app:',
               next(answers, context: any) {
                 if (isOutOfIframe(context.templateDefinition.name)) {
-                  return [addOOIComponentStep()];
+                  return [addOOIComponentStep({ multiple: true })];
                 }
                 return [];
               },

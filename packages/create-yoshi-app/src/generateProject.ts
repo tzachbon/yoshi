@@ -36,7 +36,10 @@ export const processFilesWithScopes = (
   });
 };
 
-export default (templateModel: TemplateModel, workingDir: string) => {
+export default <T extends TemplateModel = TemplateModel>(
+  templateModel: T,
+  workingDir: string,
+) => {
   const valuesMap = getValuesMap(templateModel);
   const files = getFilesInDir(templateModel.getPath());
 

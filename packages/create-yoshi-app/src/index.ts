@@ -1,5 +1,6 @@
 export { default as createApp, CreateAppOptions } from './createApp';
 export { default as runPrompt } from './runPrompt';
+export { default as DevCenterTemplateModel } from './dev-center-registration/TemplateModel';
 export {
   default as getDevCenterQuestions,
   addOOIComponentStep,
@@ -11,6 +12,7 @@ export {
 } from './generateProject';
 export { default as TemplateModel } from './TemplateModel';
 export { replaceTemplates, getTemplateScopes } from './template-utils';
+export { isOutOfIframe, isAppBuilder } from './utils';
 export { default as getValuesMap } from './getValuesMap';
 export { default as verifyWorkingDirectory } from './verifyWorkingDirectory';
 export { default as verifyRegistry } from './verifyRegistry';

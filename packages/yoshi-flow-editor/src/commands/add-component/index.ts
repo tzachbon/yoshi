@@ -1,12 +1,35 @@
+import path from 'path';
 import arg from 'arg';
 import {
   addOOIComponentStep,
+  generateProject,
   ExtendedPropmtsAnswers,
   extendedPropmts,
   getAuthInstance,
   initAPIService,
+  TemplateModel,
+  DevCenterTemplateModel,
+  isOutOfIframe,
+  templates,
 } from 'create-yoshi-app';
 import { cliCommand } from '../../cli';
+import updateFedopsConfig from './fedops';
+
+const onCancel = (reason: string) => {
+  console.error(`❌ ${reason}...`);
+  process.exit(0);
+};
+
+class AddComponentTemplateModel extends TemplateModel {
+  getPath() {
+    return path.join(
+      this.templateDefinition.path,
+      this.language,
+      'src',
+      'components',
+    );
+  }
+}
 
 const add: cliCommand = async function (argv, config, model) {
   const args = arg(
@@ -39,33 +62,62 @@ const add: cliCommand = async function (argv, config, model) {
     process.exit(0);
   }
 
-  let answers: ExtendedPropmtsAnswers<string>;
-
   const instance = await getAuthInstance();
   if (instance) {
     initAPIService(instance);
   }
 
+  let answers: ExtendedPropmtsAnswers<string> = {
+    appId: model.appDefId,
+    components: [],
+  };
+
+  const options = {
+    isViewerScriptRegistered: true,
+    projectName: model.projectName,
+  };
+
   try {
-    const questions = [addOOIComponentStep()];
-    answers = await extendedPropmts<{ apps?: any }>(
-      questions,
-      {},
-      {
-        appId: model.appDefId,
-      },
-    );
+    const questions = [addOOIComponentStep({ multiple: false })];
+    answers = await extendedPropmts<{
+      isViewerScriptRegistered: boolean;
+      projectName: string;
+    }>(questions, options, answers);
   } catch (e) {
     // We want to show unhandled errors
     if (e.message !== 'Aborted') {
       console.error(e);
     }
-    console.log();
-    console.log('Aborting ...');
-    process.exit(0);
+    onCancel('Aborted');
+  }
+  if (!answers.components.length) {
+    onCancel('Canceled');
   }
 
-  console.log(answers);
+  const ooiTemplate = templates.find((tempalte) =>
+    isOutOfIframe(tempalte.name),
+  )!;
+
+  const templateModel = new AddComponentTemplateModel({
+    projectName: model.projectName,
+    authorName: 'editor flow',
+    authorEmail: 'editor@flow',
+    language: 'typescript',
+    templateDefinition: {
+      ...ooiTemplate,
+      name: 'editor-flow-component',
+    },
+  });
+  const flowData = new DevCenterTemplateModel(answers as any);
+  templateModel.setFlowData<DevCenterTemplateModel>(flowData);
+  const projectComponentsDir = path.join(process.cwd(), 'src', 'components');
+  generateProject(templateModel, projectComponentsDir);
+  updateFedopsConfig(templateModel, flowData);
+
+  console.log(
+    `👶 The new component was added to Dev Center and bootstrapped under ${projectComponentsDir}/${answers.componentName}`,
+  );
+  process.exit();
 };
 
 export default add;
