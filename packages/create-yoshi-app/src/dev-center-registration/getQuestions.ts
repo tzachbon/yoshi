@@ -216,6 +216,89 @@ const isSupportedComponentType = (type: string) =>
 //   );
 // };
 
+export const addOOIComponentStep = (): ExtendedPromptObject<string> => {
+  return {
+    type: 'select',
+    name: 'registerComponentType',
+    message: 'Register a component',
+    choices: [
+      {
+        title: 'Register a Widget',
+        value: WIDGET_OUT_OF_IFRAME,
+      },
+      { title: 'Register a Page', value: PAGE_OUT_OF_IFRAME },
+      {
+        title: 'Finish registration',
+        value: null,
+      },
+    ],
+    repeatUntil(answers) {
+      return !answers.registerComponentType;
+    },
+    next(answers) {
+      if (answers.registerComponentType) {
+        return [
+          {
+            type: 'text',
+            name: 'componentName',
+            format: (val) => val.split(/\s|-/).join(''),
+            async after(answers, context: any) {
+              if (!answers.components) {
+                answers.components = [];
+              }
+              if (!context.isViewerScriptRegistered) {
+                await createComponent({
+                  name: 'Platform',
+                  appId: answers.appId,
+                  type: PLATFORM,
+                  data: getDataForComponent(
+                    generatePlatformComponentData(context.projectName),
+                    PLATFORM,
+                  ),
+                });
+                context.isViewerScriptRegistered = true;
+              }
+              answers.components = answers.components.concat(
+                await createComponent({
+                  name: answers.componentName,
+                  appId: answers.appId,
+                  type: answers.registerComponentType,
+                  data: getDataForComponent(
+                    generateComponentData(
+                      context.projectName,
+                      answers.componentName,
+                      answers.registerComponentType,
+                    ),
+                    answers.registerComponentType,
+                  ),
+                }),
+              );
+              return answers;
+            },
+            validate(value: string) {
+              return !!value;
+            },
+            message: `${
+              answers.registerComponentType === PAGE_OUT_OF_IFRAME
+                ? 'Page'
+                : 'Widget'
+            } name`,
+          },
+        ];
+      }
+      if (answers.appRegistrationState === WILL_REGISTER) {
+        console.log(
+          [
+            `Congrats! You just registered the ${answers.appName} app! 🚀`,
+            `Dev Center url: https://dev.wix.com/dc3/my-apps/${answers.appId}/build/components`,
+          ].join('\n'),
+        );
+      }
+      return [];
+    },
+  };
+};
+
 export default (): Array<ExtendedPromptObject<string>> => {
   return [
     {
@@ -259,92 +342,7 @@ export default (): Array<ExtendedPromptObject<string>> => {
               message: 'Name of the app:',
               next(answers, context: any) {
                 if (isOutOfIframe(context.templateDefinition.name)) {
-                  return [
-                    {
-                      type: 'select',
-                      name: 'registerComponentType',
-                      message: 'Register a component',
-                      choices: [
-                        {
-                          title: 'Register a Widget',
-                          value: WIDGET_OUT_OF_IFRAME,
-                        },
-                        { title: 'Register a Page', value: PAGE_OUT_OF_IFRAME },
-                        {
-                          title: 'Finish registration',
-                          value: null,
-                        },
-                      ],
-                      // isOutOfIframe(context.templateDefinition.name)
-                      repeatUntil(answers) {
-                        return !answers.registerComponentType;
-                      },
-                      next(answers) {
-                        if (answers.registerComponentType) {
-                          return [
-                            {
-                              type: 'text',
-                              name: 'componentName',
-                              format: (val) => val.split(/\s|-/).join(''),
-                              async after(answers, context: any) {
-                                if (!answers.components) {
-                                  answers.components = [];
-                                }
-                                if (!context.isViewerScriptRegistered) {
-                                  await createComponent({
-                                    name: 'Platform',
-                                    appId: answers.appId,
-                                    type: PLATFORM,
-                                    data: getDataForComponent(
-                                      generatePlatformComponentData(
-                                        context.projectName,
-                                      ),
-                                      PLATFORM,
-                                    ),
-                                  });
-                                  context.isViewerScriptRegistered = true;
-                                }
-                                answers.components = answers.components.concat(
-                                  await createComponent({
-                                    name: answers.componentName,
-                                    appId: answers.appId,
-                                    type: answers.registerComponentType,
-                                    data: getDataForComponent(
-                                      generateComponentData(
-                                        context.projectName,
-                                        answers.componentName,
-                                        answers.registerComponentType,
-                                      ),
-                                      answers.registerComponentType,
-                                    ),
-                                  }),
-                                );
-                                return answers;
-                              },
-                              validate(value: string) {
-                                return !!value;
-                              },
-                              message: `${
-                                answers.registerComponentType ===
-                                PAGE_OUT_OF_IFRAME
-                                  ? 'Page'
-                                  : 'Widget'
-                              } name`,
-                            },
-                          ];
-                        }
-                        if (answers.appRegistrationState === WILL_REGISTER) {
-                          console.log(
-                            [
-                              `Congrats! You just registered the ${answers.appName} app! 🚀`,
-                              `Dev Center url: https://dev.wix.com/dc3/my-apps/${answers.appId}/build/components`,
-                            ].join('\n'),
-                          );
-                        }
-                        return [];
-                      },
-                    },
-                  ];
+                  return [addOOIComponentStep()];
                 }
                 return [];
               },
