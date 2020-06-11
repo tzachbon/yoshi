@@ -296,4 +296,6 @@ By default it is `false`.
 
 `Boolean`
 
-This option enables experimental Storybook feature. When this feature is enabled you can create storybook files that should end with `.stories.(ts|tsx|js)`. Read Storybook documentation section ["Writing Stories"](https://storybook.js.org/docs/basics/writing-stories/) for more details.
+This option enables experimental Storybook feature. You will need to install `yoshi-storybook-dependencies` as well.
+
+When this feature is enabled you can create storybook files that should end with `.stories.(ts|tsx|js)`. Read Storybook documentation section ["Writing Stories"](https://storybook.js.org/docs/basics/writing-stories/) for more details.
