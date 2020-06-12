@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import execa from 'execa';
-import templates from './templates';
 import { privateRegistry } from './constants';
 
 export const clearConsole = () => process.stdout.write('\x1Bc');

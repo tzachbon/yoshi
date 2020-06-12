@@ -18,6 +18,7 @@ export default async (templateModel: TemplateModel) => {
       ),
     );
   } catch (e) {
+    console.error(e);
     console.error(
       `Can't set up an auto release for current project.
 Please check the docs to configure it manually:

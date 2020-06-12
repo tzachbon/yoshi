@@ -4,6 +4,10 @@ export { default as DevCenterTemplateModel } from './dev-center-registration/Tem
 export {
   default as getDevCenterQuestions,
   addOOIComponentStep,
+  WIDGET_OUT_OF_IFRAME,
+  PAGE_OUT_OF_IFRAME,
+  STUDIO_WIDGET,
+  PLATFORM,
 } from './dev-center-registration/getQuestions';
 export {
   default as generateProject,
@@ -23,3 +27,4 @@ export {
 } from './extended-prompts';
 export { getAuthInstance } from './dev-center-registration/auth';
 export { initAPIService } from './api';
+export { default as setupAutoRelease } from './auto-release/setupAutoRelease';

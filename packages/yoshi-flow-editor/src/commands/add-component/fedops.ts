@@ -13,11 +13,18 @@ interface FedopsConfigElement {
   };
 }
 
-const readFedopsConfig = (configPath: string): FedopsConfig => {
-  return fs.readJSONSync(configPath);
+const readFedopsConfig = async (configPath: string): Promise<FedopsConfig> => {
+  return fs.readJSON(configPath);
 };
 
-const updateFedopsConfig = (
+const writeFedopsConfig = async (
+  configPath: string,
+  config: FedopsConfig,
+): Promise<void> => {
+  return fs.outputJSON(configPath, config, { spaces: 2 });
+};
+
+const updateFedopsConfig = async (
   templateModel: TemplateModel,
   flowData: DevCenterTemplateModel,
 ) => {
@@ -34,9 +41,9 @@ const updateFedopsConfig = (
     },
   );
   const fedopsPathname = path.join(process.cwd(), 'fedops.json');
-  const projectFedopsConfig = readFedopsConfig(fedopsPathname);
+  const projectFedopsConfig = await readFedopsConfig(fedopsPathname);
   projectFedopsConfig.push(...componentsToAdd);
-  fs.outputJSONSync(fedopsPathname, projectFedopsConfig, { spaces: 2 });
+  return writeFedopsConfig(fedopsPathname, projectFedopsConfig);
 };
 
 export default updateFedopsConfig;

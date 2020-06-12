@@ -107,3 +107,7 @@ export const generateSentryScript = (sentry: SentryConfig) => {
   var t=c[p];c[p]=function(a){m({p:a.reason});t&&t.apply(c,arguments)};f||setTimeout(function(){k(h)})})(window,document,"script","onerror","onunhandledrejection","Sentry","${sentry.id}","${BROWSER_LIB_URL}",{"dsn":"${sentry.DSN}"});
   </script>\n`;
 };
+
+export const normalizeProjectName = (projectName: string) => {
+  return projectName.replace('@wix/', '');
+};

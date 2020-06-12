@@ -1,35 +1,10 @@
 import path from 'path';
+import chalk from 'chalk';
 import arg from 'arg';
-import {
-  addOOIComponentStep,
-  generateProject,
-  ExtendedPropmtsAnswers,
-  extendedPropmts,
-  getAuthInstance,
-  initAPIService,
-  TemplateModel,
-  DevCenterTemplateModel,
-  isOutOfIframe,
-  templates,
-} from 'create-yoshi-app';
+import { generateProject, setupAutoRelease } from 'create-yoshi-app';
 import { cliCommand } from '../../cli';
+import runPrompt from './runPrompt';
 import updateFedopsConfig from './fedops';
-
-const onCancel = (reason: string) => {
-  console.error(`❌ ${reason}...`);
-  process.exit(0);
-};
-
-class AddComponentTemplateModel extends TemplateModel {
-  getPath() {
-    return path.join(
-      this.templateDefinition.path,
-      this.language,
-      'src',
-      'components',
-    );
-  }
-}
 
 const add: cliCommand = async function (argv, config, model) {
   const args = arg(
@@ -62,61 +37,27 @@ const add: cliCommand = async function (argv, config, model) {
     process.exit(0);
   }
 
-  const instance = await getAuthInstance();
-  if (instance) {
-    initAPIService(instance);
-  }
-
-  let answers: ExtendedPropmtsAnswers<string> = {
-    appId: model.appDefId,
-    components: [],
-  };
-
-  const options = {
-    isViewerScriptRegistered: true,
-    projectName: model.projectName,
-  };
-
-  try {
-    const questions = [addOOIComponentStep({ multiple: false })];
-    answers = await extendedPropmts<{
-      isViewerScriptRegistered: boolean;
-      projectName: string;
-    }>(questions, options, answers);
-  } catch (e) {
-    // We want to show unhandled errors
-    if (e.message !== 'Aborted') {
-      console.error(e);
-    }
-    onCancel('Aborted');
-  }
-  if (!answers.components.length) {
-    onCancel('Canceled');
-  }
-
-  const ooiTemplate = templates.find((tempalte) =>
-    isOutOfIframe(tempalte.name),
-  )!;
-
-  const templateModel = new AddComponentTemplateModel({
-    projectName: model.projectName,
-    authorName: 'editor flow',
-    authorEmail: 'editor@flow',
-    language: 'typescript',
-    templateDefinition: {
-      ...ooiTemplate,
-      name: 'editor-flow-component',
-    },
-  });
-  const flowData = new DevCenterTemplateModel(answers as any);
-  templateModel.setFlowData<DevCenterTemplateModel>(flowData);
+  const templateModel = await runPrompt(model);
   const projectComponentsDir = path.join(process.cwd(), 'src', 'components');
   generateProject(templateModel, projectComponentsDir);
-  updateFedopsConfig(templateModel, flowData);
+  const flowData = templateModel.getFlowData();
+  if (!flowData) {
+    throw new Error("Can't initalize the flow data for a new component");
+  }
 
-  console.log(
-    `👶 The new component was added to Dev Center and bootstrapped under ${projectComponentsDir}/${answers.componentName}`,
-  );
+  await Promise.all([
+    updateFedopsConfig(templateModel, flowData),
+    setupAutoRelease(templateModel),
+  ]);
+
+  flowData.components.map((component) => {
+    const componentLocation = chalk.cyan.underline(
+      `${projectComponentsDir}/${component.name}`,
+    );
+    console.log(
+      `👶 The new component was added to Dev Center and bootstrapped under ${componentLocation}`,
+    );
+  });
   process.exit();
 };
 

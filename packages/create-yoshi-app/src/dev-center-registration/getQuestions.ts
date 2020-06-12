@@ -11,12 +11,12 @@ import {
 
 const WILL_REGISTER = 2;
 const WAS_REGISTERED = 1;
-const WIDGET_OUT_OF_IFRAME = 'WIDGET_OUT_OF_IFRAME';
-const PAGE_OUT_OF_IFRAME = 'PAGE_OUT_OF_IFRAME';
-const PLATFORM = 'PLATFORM';
+export const WIDGET_OUT_OF_IFRAME = 'WIDGET_OUT_OF_IFRAME';
+export const PAGE_OUT_OF_IFRAME = 'PAGE_OUT_OF_IFRAME';
+export const STUDIO_WIDGET = 'STUDIO_WIDGET';
+export const PLATFORM = 'PLATFORM';
 const WIDGET_IFRAME = 'WIDGET';
 const PAGE_IFRAME = 'PAGE';
-const STUDIO_WIDGET = 'STUDIO_WIDGET';
 
 type OOIComponent = typeof WIDGET_OUT_OF_IFRAME | typeof PAGE_OUT_OF_IFRAME;
 type StudioComponent = typeof STUDIO_WIDGET;
@@ -219,20 +219,30 @@ const isSupportedComponentType = (type: string) =>
 export const addOOIComponentStep = (
   {
     multiple,
+    isDisabled,
+    warn,
   }: {
     multiple: boolean;
+    warn?: string;
+    isDisabled?: (value: string) => boolean;
   } = { multiple: false },
 ): ExtendedPromptObject<string> => {
   return {
     type: 'select',
+    warn: warn || 'Component type is not supported',
     name: 'registerComponentType',
     message: 'Add a component',
     choices: [
       {
         title: 'Add a Widget',
         value: WIDGET_OUT_OF_IFRAME,
+        disabled: isDisabled ? isDisabled(WIDGET_OUT_OF_IFRAME) : false,
       },
-      { title: 'Add a Page', value: PAGE_OUT_OF_IFRAME },
+      {
+        title: 'Add a Page',
+        value: PAGE_OUT_OF_IFRAME,
+        disabled: isDisabled ? isDisabled(PAGE_OUT_OF_IFRAME) : false,
+      },
       {
         title: multiple ? 'Finish registration' : 'Cancel',
         value: null,
