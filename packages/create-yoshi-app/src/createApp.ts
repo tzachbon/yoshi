@@ -70,7 +70,7 @@ export default async ({
     )} project in:\n\n${chalk.green(workingDir)}\n`,
   );
 
-  generateProject(templateModel, workingDir);
+  generateProject(templateModel, workingDir, templateModel.getPath());
 
   if (!isInsideGitRepo(workingDir)) {
     gitInit(workingDir);

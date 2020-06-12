@@ -1,10 +1,28 @@
 import path from 'path';
 import chalk from 'chalk';
 import arg from 'arg';
-import { generateProject, setupAutoRelease } from 'create-yoshi-app';
+import {
+  setupAutoRelease,
+  generateProject,
+  TemplateModel,
+} from 'create-yoshi-app';
 import { cliCommand } from '../../cli';
 import runPrompt from './runPrompt';
 import updateFedopsConfig from './fedops';
+
+const generateTemplate = (templateModel: TemplateModel, dir: string) => {
+  const projectComponentsDir = path.join(process.cwd(), dir);
+  const templateComponentDir = path.join(
+    templateModel.templateDefinition.path,
+    templateModel.language,
+    dir,
+  );
+  return generateProject(
+    templateModel,
+    projectComponentsDir,
+    templateComponentDir,
+  );
+};
 
 const add: cliCommand = async function (argv, config, model) {
   const args = arg(
@@ -38,8 +56,8 @@ const add: cliCommand = async function (argv, config, model) {
   }
 
   const templateModel = await runPrompt(model);
-  const projectComponentsDir = path.join(process.cwd(), 'src', 'components');
-  generateProject(templateModel, projectComponentsDir);
+  generateTemplate(templateModel, 'src/components');
+  generateTemplate(templateModel, 'sled/ssr');
   const flowData = templateModel.getFlowData();
   if (!flowData) {
     throw new Error("Can't initalize the flow data for a new component");
@@ -52,10 +70,10 @@ const add: cliCommand = async function (argv, config, model) {
 
   flowData.components.map((component) => {
     const componentLocation = chalk.cyan.underline(
-      `${projectComponentsDir}/${component.name}`,
+      `./src/components/${component.name}`,
     );
     console.log(
-      `👶 The new component was added to Dev Center and bootstrapped under ${componentLocation}`,
+      `👶 The new component was generated under ${componentLocation}`,
     );
   });
   process.exit();

@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   ExtendedPropmtsAnswers,
   extendedPropmts,
@@ -13,19 +12,6 @@ import {
 } from 'create-yoshi-app';
 import chalk from 'chalk';
 import { FlowEditorModel } from '../../model';
-
-class AddComponentTemplateModel<
-  F extends DevCenterTemplateModel
-> extends TemplateModel<F> {
-  getPath() {
-    return path.join(
-      this.templateDefinition.path,
-      this.language,
-      'src',
-      'components',
-    );
-  }
-}
 
 const getOOITemplate = () => {
   return templates.find((tempalte) => isOutOfIframe(tempalte.name))!;
@@ -91,7 +77,7 @@ export default async (model: FlowEditorModel) => {
     onCancel();
   }
 
-  const templateModel = new AddComponentTemplateModel<DevCenterTemplateModel>({
+  const templateModel = new TemplateModel<DevCenterTemplateModel>({
     projectName: model.projectName,
     language: 'typescript',
     ...getTemplateDefaultOptions(),
