@@ -13,6 +13,7 @@
     "test": "yoshi-flow-editor test && npm run sled",
     "sled": "sled-test-runner remote -v -l",
     "lint": "yoshi-flow-editor lint",
+    "add": "yoshi-flow-editor add",
     "posttest": "npm run lint"
   },
   "husky": {
