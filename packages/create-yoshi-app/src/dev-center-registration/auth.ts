@@ -56,7 +56,7 @@ async function openExistingChrome(): Promise<LaunchedChrome | null> {
   return null;
 }
 
-export async function getInstance(): Promise<string | null> {
+export async function getAuthInstance(): Promise<string | null> {
   console.info(
     `⌛️ We need to receive your Wix instance. Please sign in if needed.`,
   );

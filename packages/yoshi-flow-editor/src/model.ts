@@ -23,6 +23,7 @@ import {
   EDITOR_APP_FILENAME,
   URLS_CONFIG,
 } from './constants';
+import { normalizeProjectName } from './utils';
 
 export interface FlowEditorModel {
   appName: string | null;
@@ -233,7 +234,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     // dev center app name from .application.json
     appName: appConfig.appName || null,
     // package name from package.json
-    projectName: config.name,
+    projectName: normalizeProjectName(config.name),
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,

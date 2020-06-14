@@ -10,7 +10,7 @@ sidebar_label: Getting Started
 Run create-yoshi-app and generate the project:
 
 ```bash
-npx create-yoshi-app@latest my-app
+❯ npx create-yoshi-app@latest my-app
 ```
 
 Now, you'll be prompt with questions.
@@ -37,8 +37,8 @@ Moreover, we already configure it based on your app's artifact, ids, and links t
 
 Start your local experience by running:
 ```bash
-cd my-app
-npm run start
+ ❯ cd my-app
+ ❯ npm run start
 ```
 
 After build will be finished, we'll open a webpage with the next steps you might be interested in.

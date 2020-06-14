@@ -39,7 +39,9 @@ export default async ({
     // If we don't have template model injected, ask the user
     // to answer the questions and generate one for us
     const runPrompt = require('./runPrompt').default;
-    templateModel = (await runPrompt(workingDir)) as TemplateModel;
+    templateModel = (await runPrompt(workingDir)) as TemplateModel<
+      DevCenterTemplateModel
+    >;
   }
 
   if (templateModel.templateDefinition.name.includes('flow-editor')) {
@@ -51,7 +53,7 @@ export default async ({
     const devCenterModel = (await runDevCenterRegistrationPrompt(
       templateModel,
     )) as DevCenterTemplateModel;
-    templateModel.setFlowData<DevCenterTemplateModel>(devCenterModel);
+    templateModel.setFlowData(devCenterModel);
 
     const sentryModel = (await runSentryRegistrationPrompt(
       templateModel,
@@ -68,7 +70,7 @@ export default async ({
     )} project in:\n\n${chalk.green(workingDir)}\n`,
   );
 
-  generateProject(templateModel, workingDir);
+  generateProject(templateModel, workingDir, templateModel.getPath());
 
   if (!isInsideGitRepo(workingDir)) {
     gitInit(workingDir);
