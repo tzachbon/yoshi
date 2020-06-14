@@ -1,5 +1,32 @@
 # Changelog
 
+## 4.94.0 (2020-06-14)
+
+#### :rocket: New Feature
+
+- `create-yoshi-app`, `yoshi-flow-editor`
+  - [#2557](https://github.com/wix/yoshi/pull/2557) New CLI Command for editor flow: add ([@yavorsky](https://github.com/yavorsky))
+- `yoshi-common`
+  - [#2553](https://github.com/wix/yoshi/pull/2553) Improve debugging guide and added debug mode - initial version ([@ranyitz](https://github.com/ranyitz))
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`
+  - [#2555](https://github.com/wix/yoshi/pull/2555) Make library flow template deploy a tar.gz file to parastorage ([@amitdahan](https://github.com/amitdahan))
+
+#### :bug: Bug Fix
+
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2563](https://github.com/wix/yoshi/pull/2563) Force webworker server to use process.env.browser with false ([@ronami](https://github.com/ronami))
+
+#### :memo: Documentation
+
+- [#2559](https://github.com/wix/yoshi/pull/2559) Add comment about Bundle Stats Board ([@splintor](https://github.com/splintor))
+
+#### :house: Internal
+
+- [#2556](https://github.com/wix/yoshi/pull/2556) Screencast scripts and simple screencast created. ([@daliusd](https://github.com/daliusd))
+
 ## 4.93.1 (2020-06-11)
 
 #### :bug: Bug Fix
