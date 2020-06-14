@@ -364,6 +364,7 @@ export function createBaseWebpackConfig({
   serverExternals,
   umdNamedDefine = false,
   transpileCarmiOutput = false,
+  forceDefinePluginBrowserEnvVar = false,
 }: {
   name: string;
   configName:
@@ -411,6 +412,7 @@ export function createBaseWebpackConfig({
   serverExternals?: ExternalsElement | Array<ExternalsElement>;
   umdNamedDefine?: boolean;
   transpileCarmiOutput?: boolean;
+  forceDefinePluginBrowserEnvVar?: boolean;
 }): webpack.Configuration {
   const join = (...dirs: Array<string>) => path.join(cwd, ...dirs);
 
@@ -769,7 +771,9 @@ export function createBaseWebpackConfig({
             }
           : {}),
         'process.env.PACKAGE_NAME': JSON.stringify(stripOrganization(name)),
-        'process.env.browser': JSON.stringify(target !== 'node'),
+        'process.env.browser': JSON.stringify(
+          forceDefinePluginBrowserEnvVar || target !== 'node',
+        ),
       }),
 
       ...(target === 'node'
