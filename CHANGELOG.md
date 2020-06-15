@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.95.0 (2020-06-15)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-editor`
+  - [#2511](https://github.com/wix/yoshi/pull/2511) Added support for `appBuilderUrl` ([@tzachiazo1](https://github.com/tzachiazo1))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2569](https://github.com/wix/yoshi/pull/2569) Minify site-assets node compilation bundle ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2568](https://github.com/wix/yoshi/pull/2568) Remove sourcemaps from site-assets node bundle ([@ranyitz](https://github.com/ranyitz))
+
 ## 4.94.0 (2020-06-14)
 
 #### :rocket: New Feature
