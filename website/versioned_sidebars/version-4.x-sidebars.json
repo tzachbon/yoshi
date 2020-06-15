@@ -56,6 +56,10 @@
         },
         {
           "type": "doc",
+          "id": "version-4.x/development/environment-variables"
+        },
+        {
+          "type": "doc",
           "id": "version-4.x/development/debugging"
         },
         {

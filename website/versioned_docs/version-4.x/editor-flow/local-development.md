@@ -11,7 +11,7 @@ We are prodiving Live Reload (HMR feature is in progress...), optimizing the bun
 
 The main purpose of the local development part to be really small. It shouldn't be an API or required actions. This is just an informative article to explain what's happening after the hood.
 
-### `yoshi-flow-editor start`
+### `❯ yoshi-flow-editor start`
 This command will do few things:
 - Start webpack dev cerver to serve bundles and 'refresh' it when the codebase will be changed. All bundles from `dist` directory will be served via `https://locahost:3200`.
 - Start a server to render components for editor side. Since editor renders Out of iFrame apps in iFrame, we should have a way to render it locally. Each component will create own route for Widget and Settings.
