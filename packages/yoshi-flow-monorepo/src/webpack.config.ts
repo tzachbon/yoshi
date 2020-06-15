@@ -351,6 +351,7 @@ export function createSiteAssetsWebpackConfig(
     // We don't have any server externals for `site assets` bundle
     // So with empty object, we'll be sure that no default externals value will be applied
     serverExternals: target === 'node' ? {} : undefined,
+    forceMinimizeServer: target === 'node',
     disableEmitSourceMaps,
     exportAsLibraryName: pkg.config.exports,
     enhancedTpaStyle: pkg.config.enhancedTpaStyle,
