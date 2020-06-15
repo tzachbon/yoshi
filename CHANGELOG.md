@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.96.0 (2020-06-15)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-flow-library`
+  - [#2566](https://github.com/wix/yoshi/pull/2566) [Library Flow]: Add target for case of a node library ([@ranyitz](https://github.com/ranyitz))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-monorepo`
+  - [#2572](https://github.com/wix/yoshi/pull/2572) Do not minify site-assets node during start ([@ranyitz](https://github.com/ranyitz))
+
+#### :memo: Documentation
+
+- [#2565](https://github.com/wix/yoshi/pull/2565) Migration guide for Library flow from the Legacy flow ([@ranyitz](https://github.com/ranyitz))
+
 ## 4.95.0 (2020-06-15)
 
 #### :rocket: New Feature
