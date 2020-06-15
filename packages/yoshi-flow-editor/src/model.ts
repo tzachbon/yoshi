@@ -41,6 +41,7 @@ export interface FlowEditorModel {
 export interface URLsConfig {
   viewerUrl?: string | null;
   editorUrl?: string | null;
+  appBuilderUrl?: string | null;
 }
 
 export interface ComponentModel {
@@ -245,6 +246,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     urls: {
       viewerUrl: (urlsConfig && urlsConfig.viewerUrl) || null,
       editorUrl: (urlsConfig && urlsConfig.editorUrl) || null,
+      appBuilderUrl: (urlsConfig && urlsConfig.appBuilderUrl) || null,
     },
   };
 

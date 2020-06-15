@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import chalk from 'chalk';
 import DevEnvironment from 'yoshi-common/build/dev-environment';
 import { TARGET_DIR, BUILD_DIR } from 'yoshi-config/build/paths';
+import { mapValues } from 'lodash';
 import { cliCommand } from '../cli';
 import {
   joinDirs,
@@ -19,6 +20,7 @@ import {
   buildViewerScriptEntry,
   webWorkerExternals,
 } from '../buildEditorEntires';
+import { URLsConfig } from '../model';
 
 const start: cliCommand = async function (argv, config, model) {
   const args = arg(
@@ -86,13 +88,17 @@ const start: cliCommand = async function (argv, config, model) {
     webWorkerExternals,
   });
 
-  const normalizedUrls = normalizeStartUrlOption(model.urls);
-  const startUrl = normalizedUrls.map(
-    overrideQueryParamsWithModel(model, {
-      cdnUrl: config.servers.cdn.url,
-      serverUrl: `https://localhost:${config.servers.app.port}`,
-    }),
+  const overrideFunction = overrideQueryParamsWithModel(model, {
+    cdnUrl: config.servers.cdn.url,
+    serverUrl: `https://localhost:${config.servers.app.port}`,
+  });
+
+  const startUrl = mapValues<URLsConfig, string | undefined>(
+    model.urls,
+    overrideFunction,
   );
+
+  const normalizedUrl = normalizeStartUrlOption(startUrl);
 
   const devEnvironment = await DevEnvironment.create({
     webpackConfigs: [clientConfig, serverConfig, webWorkerConfig],
@@ -101,7 +107,7 @@ const start: cliCommand = async function (argv, config, model) {
     appServerPort: config.servers.app.port,
     appName: config.name,
     serverFilePath: require.resolve('yoshi-flow-editor/build/server/server.js'),
-    startUrl,
+    startUrl: normalizedUrl,
     enableClientHotUpdates: Boolean(config.hmr),
     createEjsTemplates: config.experimentalBuildHtml,
     yoshiServer: config.yoshiServer,
