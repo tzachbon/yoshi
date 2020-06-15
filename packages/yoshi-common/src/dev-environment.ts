@@ -394,6 +394,7 @@ export default class DevEnvironment {
     compileTypeScriptFiles = false,
     yoshiServer = false,
     inspectArg,
+    emitDeclarationOnly = false,
   }: {
     webpackConfigs: [
       webpack.Configuration?, // Main client config
@@ -417,6 +418,7 @@ export default class DevEnvironment {
     yoshiServer?: boolean;
     compileTypeScriptFiles?: boolean;
     inspectArg?: string;
+    emitDeclarationOnly?: boolean;
   }): Promise<DevEnvironment> {
     const [clientConfig, serverConfig] = webpackConfigs;
 
@@ -528,7 +530,7 @@ export default class DevEnvironment {
     let tscProcess: TscProcess | undefined;
 
     if (compileTypeScriptFiles) {
-      tscProcess = new TscProcess({ cwd });
+      tscProcess = new TscProcess({ cwd, emitDeclarationOnly });
     }
 
     const devEnvironment = new DevEnvironment({
