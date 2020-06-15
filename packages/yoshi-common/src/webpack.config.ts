@@ -365,6 +365,7 @@ export function createBaseWebpackConfig({
   umdNamedDefine = false,
   transpileCarmiOutput = false,
   forceDefinePluginBrowserEnvVar = false,
+  disableEmitSourceMaps = false,
 }: {
   name: string;
   configName:
@@ -413,6 +414,7 @@ export function createBaseWebpackConfig({
   umdNamedDefine?: boolean;
   transpileCarmiOutput?: boolean;
   forceDefinePluginBrowserEnvVar?: boolean;
+  disableEmitSourceMaps?: boolean;
 }): webpack.Configuration {
   const join = (...dirs: Array<string>) => path.join(cwd, ...dirs);
 
@@ -852,15 +854,16 @@ export function createBaseWebpackConfig({
         : []),
     ],
 
-    devtool: useCustomSourceMapPlugin
-      ? false
-      : target !== 'node'
-      ? inTeamCity || forceEmitSourceMaps
-        ? 'source-map'
-        : !isProduction
-        ? 'cheap-module-eval-source-map'
-        : false
-      : 'inline-source-map',
+    devtool:
+      disableEmitSourceMaps || useCustomSourceMapPlugin
+        ? false
+        : target !== 'node'
+        ? inTeamCity || forceEmitSourceMaps
+          ? 'source-map'
+          : !isProduction
+          ? 'cheap-module-eval-source-map'
+          : false
+        : 'inline-source-map',
 
     module: {
       // Makes missing exports an error instead of warning
