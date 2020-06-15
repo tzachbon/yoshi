@@ -325,6 +325,7 @@ export function createSiteAssetsWebpackConfig(
     target,
     transpileCarmiOutput,
     disableEmitSourceMaps = false,
+    forceMinimizeServer = false,
   }: {
     isDev?: boolean;
     forceEmitSourceMaps?: boolean;
@@ -333,6 +334,7 @@ export function createSiteAssetsWebpackConfig(
     target: 'web' | 'node';
     transpileCarmiOutput?: boolean;
     disableEmitSourceMaps?: boolean;
+    forceMinimizeServer?: boolean;
   },
 ): webpack.Configuration {
   const entry = pkg.config.entry || defaultEntry;
@@ -351,7 +353,7 @@ export function createSiteAssetsWebpackConfig(
     // We don't have any server externals for `site assets` bundle
     // So with empty object, we'll be sure that no default externals value will be applied
     serverExternals: target === 'node' ? {} : undefined,
-    forceMinimizeServer: target === 'node',
+    forceMinimizeServer,
     disableEmitSourceMaps,
     exportAsLibraryName: pkg.config.exports,
     enhancedTpaStyle: pkg.config.enhancedTpaStyle,

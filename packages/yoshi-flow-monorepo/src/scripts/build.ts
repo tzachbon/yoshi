@@ -170,6 +170,7 @@ const build: cliCommand = async function (argv, rootConfig, { apps, libs }) {
           isAnalyze,
           forceEmitSourceMaps,
           forceEmitStats,
+          forceMinimizeServer: true,
           disableEmitSourceMaps: true,
         },
       );
