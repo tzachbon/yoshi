@@ -42,6 +42,11 @@ module.exports = {
     'editor-flow/testing',
     'editor-flow/platform-apps-support',
   ],
+  'library-flow': [
+    'library-flow/overview',
+    'library-flow/configuration',
+    'library-flow/migration-guide',
+  ],
   'yoshi-server': [
     'yoshi-server/getting-started',
     'yoshi-server/consuming-data-from-the-server',
