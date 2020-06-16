@@ -132,9 +132,9 @@ function createServerEntries(context: string, cwd: string = process.cwd()) {
     'yoshi-common/build/templates/serverless/serverless.js';
   entries['routes/_api_'] = yoshiServerEntry;
 
-  if (isDevelopment) {
-    entries['routes/_launchEditor_'] = 'yoshi-server/build/routes/launchEditor';
-  }
+  // if (isDevelopment) {
+  //   entries['routes/_launchEditor_'] = 'yoshi-server/build/routes/launchEditor';
+  // }
 
   return entries;
 }

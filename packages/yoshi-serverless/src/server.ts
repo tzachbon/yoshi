@@ -112,7 +112,16 @@ export default class Server {
 
           const result = await chunk.call(fnThis);
           if (result) {
-            const webResponse: WebResponse = { body: result, status: 200 };
+            const webResponse: WebResponse = {
+              body: result,
+              status: 200,
+              headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Request-Method': '*',
+                'Access-Control-Allow-Headers':
+                  'origin, x-requested-with, content-type, accept, x-wix-scheduler-instance, authorization',
+              },
+            };
             return new FullHttpResponse(webResponse);
           }
         },

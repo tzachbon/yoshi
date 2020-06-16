@@ -6,7 +6,7 @@ import {
   DSL,
   RequestPayload,
 } from 'yoshi-server/types';
-import { createHeaders } from '@wix/headers';
+// import { createHeaders } from '@wix/headers';
 import { joinUrls, showToast } from './utils';
 
 type Options = {
@@ -22,7 +22,8 @@ export interface HttpClient {
 
 // https://github.com/developit/unfetch/issues/46
 const fetch = unfetch;
-const serverlessScope = process.env.YOSHI_SERVERLESS_SCOPE;
+const serverlessScope =
+  'http://localhost:7777/serverless/yoshi-serverless-poc-0-0-0'; // process.env.YOSHI_SERVERLESS_SCOPE;
 
 const defaultBaseUrl = serverlessScope
   ? serverlessScope
@@ -40,7 +41,7 @@ export default class implements HttpClient {
   ): (...args: Args) => Promise<UnpackPromise<Result>> {
     return async (...args: Args) => {
       const url = joinUrls(this.baseUrl, '/_api_');
-      const wixHeaders = createHeaders();
+      // const wixHeaders = createHeaders();
       const { fileName, functionName } = method;
       const body: RequestPayload = { fileName, functionName, args };
 
@@ -50,7 +51,7 @@ export default class implements HttpClient {
         headers: {
           'Content-Type': 'application/json',
           // WixHeaders has ? for each key. Here, keys which are undefined will be filtered automatically
-          ...(wixHeaders as Record<string, string>),
+          // ...(wixHeaders as Record<string, string>),
           ...options?.headers,
         },
         body: JSON.stringify(body),
