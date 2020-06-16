@@ -15,10 +15,13 @@ import {
   isSingleEntry,
   inTeamCity,
   isProduction as isProductionQuery,
+  inMasterTeamCity,
 } from 'yoshi-helpers/build/queries';
 import { STATICS_DIR, SERVER_ENTRY, SRC_DIR } from 'yoshi-config/build/paths';
 import ManifestPlugin from 'yoshi-common/build/manifest-webpack-plugin';
 import { isObject } from 'lodash';
+import SentryWebpackPlugin from '@sentry/webpack-plugin';
+import { getProjectArtifactVersion } from 'yoshi-helpers/utils';
 import { PackageGraphNode } from './load-package-graph';
 import { isThunderboltElementModule, isThunderboltAppModule } from './utils';
 
@@ -112,6 +115,17 @@ export function createClientWebpackConfig(
 
   if (isThunderboltElementModule(pkg)) {
     clientConfig.optimization!.runtimeChunk = false;
+  }
+
+  if (isThunderboltAppModule(pkg)) {
+    if (inMasterTeamCity()) {
+      clientConfig.plugins!.push(
+        new SentryWebpackPlugin({
+          include: path.join(pkg.location, STATICS_DIR),
+          release: getProjectArtifactVersion(),
+        }),
+      );
+    }
   }
 
   clientConfig.entry = isSingleEntry(entry) ? { app: entry as string } : entry;

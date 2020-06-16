@@ -24,6 +24,7 @@
     "@types/webpack": "4.41.13"
   },
   "dependencies": {
+    "@sentry/webpack-plugin": "^1.11.1",
     "arg": "^4.1.1",
     "chalk": "^2.4.2",
     "execa": "^3.3.0",
