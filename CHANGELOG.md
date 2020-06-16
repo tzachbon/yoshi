@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.99.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-monorepo`, `yoshi-helpers`
+  - [#2567](https://github.com/wix/yoshi/pull/2567) Upload source maps to sentry ([@ronami](https://github.com/ronami))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-app`
+  - [#2581](https://github.com/wix/yoshi/pull/2581) Yoshi serverless: fix publish step ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.98.0 (2020-06-16)
 
 #### :rocket: New Feature
