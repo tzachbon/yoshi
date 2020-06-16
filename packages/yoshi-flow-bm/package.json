@@ -1,6 +1,6 @@
 {
   "name": "yoshi-flow-bm",
-  "version": "4.98.0",
+  "version": "4.99.0",
   "bin": {
     "yoshi-bm": "./build/bin/yoshi-bm.js"
   },
@@ -21,11 +21,11 @@
     "react-dev-utils": "9.1.0",
     "uuid": "7.0.3",
     "webpack": "4.43.0",
-    "yoshi-common": "4.97.0",
+    "yoshi-common": "4.99.0",
     "yoshi-config": "4.89.0",
     "yoshi-flow-bm-runtime": "4.85.0",
-    "yoshi-flow-legacy": "4.98.0",
-    "yoshi-helpers": "4.94.0"
+    "yoshi-flow-legacy": "4.99.0",
+    "yoshi-helpers": "4.99.0"
   },
   "devDependencies": {
     "@types/cosmiconfig": "6.0.0",
