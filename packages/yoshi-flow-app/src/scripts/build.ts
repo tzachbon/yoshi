@@ -93,8 +93,6 @@ const build: cliCommand = async function (argv, config) {
       copyDocker.default(config),
       copyServerless.default(config),
     ]);
-
-    await publishServerless(config);
   }
 
   const clientDebugConfig = createClientWebpackConfig(config, {
@@ -133,6 +131,9 @@ const build: cliCommand = async function (argv, config) {
 
   const [, clientOptimizedStats, serverStats] = stats;
 
+  if (inTeamCity()) {
+    await publishServerless(config);
+  }
   printBuildResult({ webpackStats: [clientOptimizedStats, serverStats] });
   printBundleSizeSuggestion();
 };
