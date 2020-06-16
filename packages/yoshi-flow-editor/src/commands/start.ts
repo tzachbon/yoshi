@@ -21,6 +21,7 @@ import {
   webWorkerExternals,
 } from '../buildEditorEntires';
 import { URLsConfig } from '../model';
+import getDevEnvironmentLogger from './dev-environment-logger';
 
 const start: cliCommand = async function (argv, config, model) {
   const args = arg(
@@ -103,6 +104,7 @@ const start: cliCommand = async function (argv, config, model) {
   const devEnvironment = await DevEnvironment.create({
     webpackConfigs: [clientConfig, serverConfig, webWorkerConfig],
     https: config.servers.cdn.ssl,
+    logger: getDevEnvironmentLogger(model, startUrl),
     webpackDevServerPort: config.servers.cdn.port,
     appServerPort: config.servers.app.port,
     appName: config.name,

@@ -22037,7 +22037,7 @@ react-custom-scroll@^3.2.1:
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/react-custom-scroll/-/react-custom-scroll-3.2.2.tgz#c22dab0c3eab0138cb8d8afd1565c835feb01b6a"
   integrity sha1-wi2rDD6rATjLjYr9FWXINf6wG2o=
 
-react-dev-utils@7.0.5:
+react-dev-utils@7.0.5, react-dev-utils@^7.0.5:
   version "7.0.5"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/react-dev-utils/-/react-dev-utils-7.0.5.tgz#cb95375d01ae71ca27b3c7616006ef7a77d14e8e"
   integrity sha1-y5U3XQGuccons8dhYAbvenfRTo4=
@@ -25102,6 +25102,14 @@ supports-color@^7.0.0, supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
+supports-hyperlinks@^2.0.0:
+  version "2.1.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/supports-hyperlinks/-/supports-hyperlinks-2.1.0.tgz#f663df252af5f37c5d49bbd7eeefa9e0b9e59e47"
+  integrity sha1-9mPfJSr183xdSbvX7u+p4Lnlnkc=
+  dependencies:
+    has-flag "^4.0.0"
+    supports-color "^7.0.0"
+
 surge-github-autorelease@^1.0.23:
   version "1.0.44"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/surge-github-autorelease/-/surge-github-autorelease-1.0.44.tgz#214ca55b05de8b208a386bed2ef938ced6c55908"
@@ -25340,6 +25348,14 @@ term-size@^2.1.0:
   version "2.2.0"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/term-size/-/term-size-2.2.0.tgz#1f16adedfe9bdc18800e1776821734086fcc6753"
   integrity sha1-Hxat7f6b3BiADhd2ghc0CG/MZ1M=
+
+terminal-link@^2.1.1:
+  version "2.1.1"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/terminal-link/-/terminal-link-2.1.1.tgz#14a64a27ab3c0df933ea546fba55f2d078edc994"
+  integrity sha1-FKZKJ6s8Dfkz6lRvulXy0HjtyZQ=
+  dependencies:
+    ansi-escapes "^4.2.1"
+    supports-hyperlinks "^2.0.0"
 
 terminate@^2.1.0:
   version "2.1.2"

@@ -5,8 +5,10 @@ import { State, ProcessState, ProcessType } from './dev-environment';
 import { getUrl, getDevServerUrl } from './utils/suricate';
 
 const isInteractive = process.stdout.isTTY;
+const isDebug = process.env.DEBUG;
+const isProfiling = process.env.PROFILE;
 
-const logSuricateUrls = (type: ProcessType, appName: string) => {
+export const logSuricateUrls = (type: ProcessType, appName: string) => {
   switch (type) {
     case 'AppServer':
       console.log(
@@ -60,7 +62,7 @@ const logUrls = ({
   console.log();
 };
 
-const getProcessName = (type: ProcessType) =>
+export const getProcessName = (type: ProcessType) =>
   chalk.greenBright(`[${type.toUpperCase()}]`);
 
 const logProcessState = (
@@ -88,13 +90,13 @@ const logProcessState = (
   }
 };
 
-const hasErrorsOrWarnings = (state: State): boolean => {
+export const hasErrorsOrWarnings = (state: State): boolean => {
   return Object.values(state).some((processState) =>
     ['errors', 'warnings'].includes(processState?.status as string),
   );
 };
 
-const logStateErrorsOrWarnings = (state: State) => {
+export const logStateErrorsOrWarnings = (state: State) => {
   const { DevServer, TypeScript, Storybook } = state;
 
   if (TypeScript && TypeScript.status === 'errors') {
@@ -127,14 +129,24 @@ const logStateErrorsOrWarnings = (state: State) => {
   }
 };
 
-const isAllCompiled = (state: State): boolean => {
+export const shouldClearConsole = () => {
+  return isInteractive && !isDebug && !isProfiling;
+};
+
+export const isAllCompiled = (state: State): boolean => {
   return Object.keys(state).every((stateName) => {
     const processState = state[stateName as ProcessType];
     return processState?.status === 'success';
   });
 };
 
-export default ({
+export type DevEnvironmentLogger = (opts: {
+  state: State;
+  appName: string;
+  suricate: boolean;
+}) => void;
+
+const logger: DevEnvironmentLogger = ({
   state,
   appName,
   suricate,
@@ -143,7 +155,7 @@ export default ({
   appName: string;
   suricate: boolean;
 }) => {
-  if (isInteractive && !process.env.DEBUG && !process.env.PROFILE) {
+  if (shouldClearConsole()) {
     clearConsole();
   }
 
@@ -172,3 +184,5 @@ export default ({
   );
   console.log();
 };
+
+export default logger;

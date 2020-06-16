@@ -16,7 +16,9 @@ import {
   getUrl as getTunnelUrl,
   getDevServerSocketPath,
 } from './utils/suricate';
-import devEnvironmentLogger from './dev-environment-logger';
+import devEnvironmentLogger, {
+  DevEnvironmentLogger,
+} from './dev-environment-logger';
 import { formatTypescriptError } from './typescript/formatter';
 import TscProcess, { TscProcessEvent } from './typescript/tsc-process';
 import runBabel from './typescript/run-babel';
@@ -361,7 +363,11 @@ export default class DevEnvironment {
     if (serverProcess) {
       await serverProcess.initialize();
 
-      const serverUrls = prepareUrls('http', host, serverProcess.port);
+      const serverUrls = prepareUrls(
+        webpackDevServer?.https ? 'https' : 'http',
+        host,
+        serverProcess.port,
+      );
 
       this.store.setState({
         AppServer: {
@@ -386,6 +392,7 @@ export default class DevEnvironment {
     appServerPort,
     enableClientHotUpdates,
     cwd = process.cwd(),
+    logger = devEnvironmentLogger,
     createEjsTemplates = false,
     appName,
     startUrl,
@@ -409,6 +416,7 @@ export default class DevEnvironment {
     webpackDevServerPort: number;
     appServerPort: number;
     enableClientHotUpdates: boolean;
+    logger?: DevEnvironmentLogger;
     cwd?: string;
     createEjsTemplates?: boolean;
     appName: string;
@@ -559,10 +567,7 @@ export default class DevEnvironment {
     }
 
     devEnvironment.store.subscribe(
-      debounce(
-        (state: State) => devEnvironmentLogger({ state, appName, suricate }),
-        300,
-      ),
+      debounce((state: State) => logger({ state, appName, suricate }), 300),
     );
 
     return devEnvironment;
