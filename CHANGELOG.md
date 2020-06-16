@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.97.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-common`
+  - [#2574](https://github.com/wix/yoshi/pull/2574) Be able to run `PROFILE=true` on yoshi start ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-common`, `yoshi-flow-app`, `yoshi-server-client`, `yoshi-server-tools`
+  - [#2549](https://github.com/wix/yoshi/pull/2549) Yoshi Serverless: Add a publish serverless step ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-flow-legacy`
+  - [#2570](https://github.com/wix/yoshi/pull/2570) Use custom certificate when provided in legacy cdn ([@amiryonatan](https://github.com/amiryonatan))
+
+#### :bug: Bug Fix
+
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2573](https://github.com/wix/yoshi/pull/2573) Fix a bug where https://github.com/wix/yoshi/pull/2563 didn't work as intended ([@ronami](https://github.com/ronami))
+
 ## 4.96.0 (2020-06-15)
 
 #### :rocket: New Feature
