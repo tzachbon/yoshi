@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.98.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-server-tools`
+  - [#2580](https://github.com/wix/yoshi/pull/2580) Yoshi Serverless: add logs to publish step ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.97.0 (2020-06-16)
 
 #### :rocket: New Feature
