@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.100.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-serverless`
+  - [#2579](https://github.com/wix/yoshi/pull/2579) Yoshi Serverless: bundle serverless file ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.99.0 (2020-06-16)
 
 #### :rocket: New Feature
