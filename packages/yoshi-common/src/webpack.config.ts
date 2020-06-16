@@ -149,8 +149,7 @@ function getProgressBarInfo(
   const progressReporter =
     isCi || process.env.PROGRESS_BAR === 'false' ? 'basic' : 'fancy';
 
-  const profileReporter =
-    isProduction && process.env.PROFILE === 'true' ? ['profile'] : [];
+  const profileReporter = process.env.PROFILE === 'true' ? ['profile'] : [];
 
   const reporters = [progressReporter, ...profileReporter];
 

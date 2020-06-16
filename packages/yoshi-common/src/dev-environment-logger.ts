@@ -143,7 +143,7 @@ export default ({
   appName: string;
   suricate: boolean;
 }) => {
-  if (isInteractive && !process.env.DEBUG) {
+  if (isInteractive && !process.env.DEBUG && !process.env.PROFILE) {
     clearConsole();
   }
 
