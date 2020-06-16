@@ -120,6 +120,16 @@ module.exports = async ({
 };
 
 function sslCredentials(keyPath, certificatePath, passphrase) {
+  const customCertPath = process.env.CUSTOM_CERT_PATH;
+  const customCertKeyPath = process.env.CUSTOM_CERT_KEY_PATH;
+
+  if (customCertPath && customCertKeyPath) {
+    return {
+      cert: fs.readFileSync(customCertPath, 'utf8'),
+      key: fs.readFileSync(customCertKeyPath, 'utf8'),
+    };
+  }
+
   const privateKey = fs.readFileSync(path.join(__dirname, keyPath), 'utf8');
   const certificate = fs.readFileSync(
     path.resolve(__dirname, certificatePath),
