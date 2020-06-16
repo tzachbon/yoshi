@@ -293,7 +293,7 @@ export function createWebWorkerServerWebpackConfig(
     isHot,
     isMonorepo: true,
     createWorkerManifest: false,
-    forceDefinePluginBrowserEnvVar: true,
+    overrideDefinePluginBrowserEnvVar: false,
     ...defaultOptions,
   });
 
