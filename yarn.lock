@@ -23949,6 +23949,11 @@ simple-fmt@~0.1.0:
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/simple-fmt/-/simple-fmt-0.1.0.tgz#191bf566a59e6530482cb25ab53b4a8dc85c3a6b"
   integrity sha1-GRv1ZqWeZTBILLJatTtKjchcOms=
 
+simple-git@^2.6.0:
+  version "2.6.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/simple-git/-/simple-git-2.6.0.tgz#04b554d1038e6036af2ae4d67a30bc5fd75f4fcd"
+  integrity sha1-BLVU0QOOYDavKuTWejC8X9dfT80=
+
 simple-html-tokenizer@^0.1.1:
   version "0.1.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/simple-html-tokenizer/-/simple-html-tokenizer-0.1.1.tgz#05c2eec579ffffe145a030ac26cfea61b980fabe"

@@ -772,6 +772,13 @@ export function createBaseWebpackConfig({
               'process.env.ARTIFACT_ID': JSON.stringify(getProjectArtifactId()),
             }
           : {}),
+        ...(useYoshiServer && process.env.EXPERIMENTAL_YOSHI_SERVERLESS
+          ? {
+              'process.env.YOSHI_SERVERLESS_SCOPE': JSON.stringify(
+                getServerlessScope(),
+              ),
+            }
+          : {}),
         'process.env.PACKAGE_NAME': JSON.stringify(stripOrganization(name)),
         'process.env.browser': JSON.stringify(
           forceDefinePluginBrowserEnvVar || target !== 'node',

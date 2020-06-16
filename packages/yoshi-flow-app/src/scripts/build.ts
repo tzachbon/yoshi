@@ -14,6 +14,7 @@ import {
 import { inTeamCity, isWebWorkerBundle } from 'yoshi-helpers/build/queries';
 import fs from 'fs-extra';
 import * as telemetry from 'yoshi-common/build/telemetry';
+import publishServerless from 'yoshi-server-tools/build/serverless-publish';
 import {
   createClientWebpackConfig,
   createServerWebpackConfig,
@@ -92,6 +93,8 @@ const build: cliCommand = async function (argv, config) {
       copyDocker.default(config),
       copyServerless.default(config),
     ]);
+
+    await publishServerless(config);
   }
 
   const clientDebugConfig = createClientWebpackConfig(config, {
