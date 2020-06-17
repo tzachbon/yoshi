@@ -1,11 +1,13 @@
 # Changelog
 
-## 4.103.0 (2020-06-17)
+## 4.103.1 (2020-06-17)
 
 #### :rocket: New Feature
 
 - `yoshi-flow-editor-runtime`
   - [#2587](https://github.com/wix/yoshi/pull/2587) Allow pass `Wix SDK` instance to SDK Provider and prevent loading original SDK ([@yavorsky](https://github.com/yavorsky))
+- `yoshi-flow-bm`
+  - [#2585](https://github.com/wix/yoshi/pull/2585) Add `appDefId` config option ([@amitdahan](https://github.com/amitdahan))
 
 ## 4.102.0 (2020-06-17)
 
