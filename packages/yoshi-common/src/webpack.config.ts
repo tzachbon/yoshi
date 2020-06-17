@@ -466,8 +466,6 @@ export function createBaseWebpackConfig({
     },
   };
 
-  const serverlessScope = SERVERLESS_SCOPE_BUILD_DIR(getServerlessScope());
-
   const config: webpack.Configuration = {
     context: join(SRC_DIR),
 
@@ -505,7 +503,7 @@ export function createBaseWebpackConfig({
         ? {
             path: join(
               process.env.EXPERIMENTAL_YOSHI_SERVERLESS
-                ? serverlessScope
+                ? SERVERLESS_SCOPE_BUILD_DIR(getServerlessScope())
                 : BUILD_DIR,
             ),
             filename: '[name].js',
