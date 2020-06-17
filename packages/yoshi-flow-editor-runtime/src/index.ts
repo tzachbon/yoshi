@@ -10,6 +10,8 @@ export * from './react/PublicData/PublicDataRenderProp';
 export * from './react/PublicData/usePublicData';
 
 export * from './react/SDK/SDKContext';
+export * from './react/SDK/WixSDKProvider';
+export * from './react/SDK/EditorSDKProvider';
 export * from './react/SDK/SDKRenderProp';
 export * from './react/SDK/useSDK';
 
