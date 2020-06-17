@@ -15,19 +15,28 @@ declare global {
   }
 }
 
+interface IProps {
+  Wix?: IWixStatic;
+}
+
 interface IState {
   value: IWixSDKContext;
 }
 
-export class WixSDKProvider extends React.Component<{}, IState> {
+export class WixSDKProvider extends React.Component<IProps, IState> {
   state: IState = {
     value: defaultWixSDKContext,
   };
 
   componentDidMount() {
-    const editorSdkScriptSrc = DEFAULT_WIX_SDK_SRC;
+    // This Provider can be used in tests or any other environment, where window.Wix was already loaded.
+    // To prevent refetching it or pass mocked Wix SDK we allow to pass it via props.
+    if (this.props.Wix) {
+      this.setState({ value: { Wix: this.props.Wix } });
+      return;
+    }
 
-    this.loadSDK(editorSdkScriptSrc).then(() => {
+    this.loadSDK(DEFAULT_WIX_SDK_SRC).then(() => {
       const Wix = window.Wix;
 
       this.setState({ value: { Wix } });
