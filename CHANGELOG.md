@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.103.0 (2020-06-17)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-editor-runtime`
+  - [#2587](https://github.com/wix/yoshi/pull/2587) Allow pass `Wix SDK` instance to SDK Provider and prevent loading original SDK ([@yavorsky](https://github.com/yavorsky))
+
 ## 4.102.0 (2020-06-17)
 
 #### :building_construction: Templates
