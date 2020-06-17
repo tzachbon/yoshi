@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.103.2 (2020-06-17)
+
+#### :bug: Bug Fix
+
+- `yoshi-helpers`
+  - [#2589](https://github.com/wix/yoshi/pull/2589) Yoshi Serverless - fix a bug with serverless scope ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.103.1 (2020-06-17)
 
 #### :rocket: New Feature
