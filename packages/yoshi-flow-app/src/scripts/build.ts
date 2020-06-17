@@ -80,7 +80,6 @@ const build: cliCommand = async function (argv, config) {
     const petriSpecs = await import('yoshi-common/build/sync-petri-specs');
     const wixMavenStatics = await import('yoshi-common/build/maven-statics');
     const copyDocker = await import('yoshi-common/build/copy-docker');
-    const copyServerless = await import('yoshi-common/build/copy-serverless');
 
     await Promise.all([
       petriSpecs.default({
@@ -91,7 +90,6 @@ const build: cliCommand = async function (argv, config) {
         staticsDir: config.clientFilesPath,
       }),
       copyDocker.default(config),
-      copyServerless.default(config),
     ]);
   }
 
