@@ -1,0 +1,7 @@
+{
+  "name": "web-worker-dynamic-imports-ts",
+  "private": true,
+  "jest": {
+    "preset": "jest-yoshi-preset"
+  }
+}

@@ -78,6 +78,7 @@ const validConfig: RequiredRecursively<InitialConfig> = {
     ),
     resolveAlias: {},
     externals: multipleValidOptions(['React'], { react: 'React' }),
+    splitChunks: multipleValidOptions({}, false) as any,
   },
   server: {
     externals: multipleValidOptions(['React'], /react/, { react: 'React' }),

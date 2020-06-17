@@ -287,6 +287,10 @@ export function createWebWorkerWebpackConfig(
   workerConfig.resolve!.alias = pkg.config.webWorkerResolveAlias;
   workerConfig.externals = pkg.config.webWorkerExternals;
 
+  if (pkg.config.webWorkerSplitChunks) {
+    workerConfig.optimization!.splitChunks = pkg.config.webWorkerSplitChunks;
+  }
+
   return workerConfig;
 }
 
