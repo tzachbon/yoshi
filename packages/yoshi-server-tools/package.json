@@ -17,6 +17,6 @@
     "fs-extra": "^8.1.0",
     "simple-git": "^2.6.0",
     "yoshi-config": "4.101.0",
-    "yoshi-helpers": "4.93.0"
+    "yoshi-helpers": "4.101.0"
   }
 }
