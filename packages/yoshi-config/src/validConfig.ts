@@ -34,9 +34,9 @@ const validConfig: RequiredRecursively<InitialConfig> = {
       port: 4000,
     },
   },
-  resolveAlias: {
+  resolveAlias: multipleValidOptions({
     hello: 'world',
-  },
+  }),
   externals: multipleValidOptions(['React'], { react: 'React' }),
   specs: {
     browser: 'test/**/*.spec.js',
@@ -76,7 +76,7 @@ const validConfig: RequiredRecursively<InitialConfig> = {
         app: 'index.js',
       },
     ),
-    resolveAlias: {},
+    resolveAlias: multipleValidOptions({ hello: 'world' }),
     externals: multipleValidOptions(['React'], { react: 'React' }),
     splitChunks: multipleValidOptions({}, false) as any,
   },
