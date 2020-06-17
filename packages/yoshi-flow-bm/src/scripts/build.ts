@@ -74,6 +74,10 @@ const build: CliCommand = async function (argv, config) {
   renderModule(model);
   renderModuleConfig(model);
 
+  if (model.config.emitLegacyWrappers) {
+    renderLegacyWrappers(model);
+  }
+
   await copyTemplates();
 
   if (inTeamCity()) {
