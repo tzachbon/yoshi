@@ -4980,10 +4980,10 @@
     http-status-codes "1.4.0"
     long "4.0.0"
 
-"@wix/wix-experiments-react@4.0.33":
-  version "4.0.33"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-experiments-react/-/@wix/wix-experiments-react-4.0.33.tgz#9567c413a48b879fb11b1da140e63a43a7917fa2"
-  integrity sha1-lWfEE6SLh5+xGx2hQOY6Q6eRf6I=
+"@wix/wix-experiments-react@4.0.51":
+  version "4.0.51"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-experiments-react/-/@wix/wix-experiments-react-4.0.51.tgz#cb325b686c449ede2f7ba09a9e15705ac2ed2b8f"
+  integrity sha1-yzJbaGxEnt4ve6CanhVwWsLtK48=
   dependencies:
     "@wix/wix-experiments" "^3.0.442"
 

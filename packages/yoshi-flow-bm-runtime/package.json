@@ -15,7 +15,7 @@
     "@wix/fedops-logger": "5.12.3",
     "@wix/wix-axios-config": "2.0.2268",
     "@wix/wix-experiments": "3.0.442",
-    "@wix/wix-experiments-react": "4.0.33",
+    "@wix/wix-experiments-react": "4.0.51",
     "axios": "0.19.2",
     "react-module-container": "1.0.2263"
   },
