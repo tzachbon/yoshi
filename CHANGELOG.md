@@ -1,5 +1,30 @@
 # Changelog
 
+## 4.101.0 (2020-06-17)
+
+#### :rocket: New Feature
+
+- `yoshi-helpers`
+  - [#2584](https://github.com/wix/yoshi/pull/2584) Yoshi Serverless: fix version to work with PR CI ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-config`, `yoshi-flow-app`, `yoshi-flow-monorepo`
+  - [#2554](https://github.com/wix/yoshi/pull/2554) Support configuring Webpack's splitChunks for webworkers ([@ronami](https://github.com/ronami))
+- `yoshi-common`, `yoshi-flow-editor`
+  - [#2571](https://github.com/wix/yoshi/pull/2571) Add an Editor flow logger ([@yavorsky](https://github.com/yavorsky))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2577](https://github.com/wix/yoshi/pull/2577) Avoid creating changes that are just a reordering of the references ([@ob1](https://github.com/ob1))
+
+#### :memo: Documentation
+
+- [#2576](https://github.com/wix/yoshi/pull/2576) Document `moduleConfigurationId` in bm flow ([@amitdahan](https://github.com/amitdahan))
+
+#### :house: Internal
+
+- `yoshi-common`, `yoshi-flow-app`
+  - [#2583](https://github.com/wix/yoshi/pull/2583) Yoshi Serverless: no need to copy templates ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.100.0 (2020-06-16)
 
 #### :rocket: New Feature
