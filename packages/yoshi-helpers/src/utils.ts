@@ -196,7 +196,7 @@ export const getServerlessScope = () => {
   return (
     getProjectArtifactId() +
     '-' +
-    (process.env.ARTIFACT_VERSION?.replace(/\./g, '-') || '0-0-0')
+    (getProjectArtifactVersion().replace(/\./g, '-') || '0-0-0')
   );
 };
 
