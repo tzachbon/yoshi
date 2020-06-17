@@ -103,6 +103,7 @@ The following configurations are available by creating a `.module.json` file:
 ```json
 {
   "moduleId": "my-module",
+  "moduleConfigurationId": "my-parent-module",
   "moduleBundleName": "my-entry",
   "routeNamespace": "my-route",
   "topology": {
@@ -119,6 +120,11 @@ The following configurations are available by creating a `.module.json` file:
 
 Use this to override your `moduleId`.
 Defaults to your `artifactId` (taken from `pom.xml`).
+
+#### `moduleConfigurationId`
+
+Use this to indicate your `moduleConfigurationId`.
+Read more [here](https://github.com/wix-private/business-manager/blob/master/business-manager-api/docs/business-manager-module.md#setmoduleconfigurationid).
 
 #### `moduleBundleName`
 
