@@ -1,6 +1,6 @@
 {
   "name": "yoshi-flow-editor",
-  "version": "4.103.0",
+  "version": "4.103.1",
   "description": "Yoshi Editor-Platform Flow",
   "main": "index.js",
   "bin": {
@@ -32,7 +32,7 @@
     "velocity": "^0.7.2",
     "yoshi-common": "4.102.0",
     "yoshi-config": "4.101.0",
-    "yoshi-flow-editor-runtime": "4.103.0",
+    "yoshi-flow-editor-runtime": "4.103.1",
     "yoshi-flow-legacy": "4.102.0",
     "yoshi-helpers": "4.101.0"
   },
