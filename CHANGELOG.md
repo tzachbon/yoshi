@@ -1,5 +1,26 @@
 # Changelog
 
+## 4.102.0 (2020-06-17)
+
+#### :building_construction: Templates
+
+- `babel-preset-yoshi`, `create-yoshi-app`, `yoshi-flow-editor`
+  - [#2586](https://github.com/wix/yoshi/pull/2586) Upgrade link to polyfill v3 ([@sidoruk-sv](https://github.com/sidoruk-sv))
+
+#### :bug: Bug Fix
+
+- `yoshi-server-tools`
+  - [#2588](https://github.com/wix/yoshi/pull/2588) Yoshi Server - fix hard coded version ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-flow-bm-runtime`
+  - [#2538](https://github.com/wix/yoshi/pull/2538) Fix extra renders caused by wrapComponent ([@amitdahan](https://github.com/amitdahan))
+- `babel-preset-yoshi`
+  - [#2582](https://github.com/wix/yoshi/pull/2582) Support optional chaining and nullish coalescing in development ([@ranyitz](https://github.com/ranyitz))
+
+#### :house: Internal
+
+- `yoshi-flow-bm-runtime`
+  - [#2575](https://github.com/wix/yoshi/pull/2575) Simplify experiments using `scope` prop in flow-bm ([@amitdahan](https://github.com/amitdahan))
+
 ## 4.101.0 (2020-06-17)
 
 #### :rocket: New Feature
