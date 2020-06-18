@@ -49,7 +49,7 @@ createModule({
   ], // ${JSON.stringify(methods)},
   ${
     moduleConfigurationId
-      ? `moduleConfigurationId: '${moduleConfigurationId}'`
+      ? `moduleConfigurationId: '${moduleConfigurationId}',`
       : ''
   }
   ${moduleInitPath ? `moduleInit: require('${moduleInitPath}').default,` : ''}
