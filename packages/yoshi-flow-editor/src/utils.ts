@@ -3,18 +3,42 @@ import { URL } from 'url';
 import urlJoin from 'url-join';
 import { BROWSER_LIB_URL } from '@wix/add-sentry/lib/constants';
 import { SentryConfig } from 'yoshi-flow-editor-runtime/build/constants';
-import { FlowEditorModel, ComponentModel, URLsConfig } from './model';
+import { FlowEditorModel, ComponentModel } from './model';
 
 export const joinDirs = (...dirs: Array<string>) =>
   path.join(process.cwd(), ...dirs);
 
-export const normalizeStartUrlOption = (urls: URLsConfig): Array<string> => {
+const urlOriginToSupportedOverridesMap: Record<string, Array<string>> = {
+  viewerUrl: [
+    'tpaWidgetUrlOverride',
+    'widgetsUrlOverride',
+    'tpaSettingsUrlOverride',
+    'viewerPlatformOverrides',
+    'overridePlatformBaseUrls',
+  ],
+  editorUrl: [
+    'tpaWidgetUrlOverride',
+    'widgetsUrlOverride',
+    'tpaSettingsUrlOverride',
+    'viewerPlatformOverrides',
+    'editorScriptUrlOverride',
+    'overridePlatformBaseUrls',
+  ],
+  appBuilderUrl: ['viewerPlatformOverrides'],
+};
+
+export const normalizeStartUrlOption = (
+  urls: Record<string, string | undefined>,
+): Array<string> => {
   const result: Array<string> = [];
   if (urls.viewerUrl) {
     result.push(urls.viewerUrl);
   }
   if (urls.editorUrl) {
     result.push(urls.editorUrl);
+  }
+  if (urls.appBuilderUrl) {
+    result.push(urls.appBuilderUrl);
   }
   return result;
 };
@@ -57,42 +81,65 @@ const withComponents = (components: Array<ComponentModel>) => {
   };
 };
 
+const isOverrideSupportedForOrigin = (
+  origin: string,
+  override: string,
+): boolean => {
+  return (
+    urlOriginToSupportedOverridesMap[origin] &&
+    urlOriginToSupportedOverridesMap[origin].includes(override)
+  );
+};
+
 export const overrideQueryParamsWithModel = (
   model: FlowEditorModel,
   { cdnUrl, serverUrl }: { cdnUrl: string; serverUrl: string },
-) => (url: string): string => {
+) => (url: string | null | undefined, origin: string): string | undefined => {
+  if (!url) {
+    return undefined;
+  }
   const urlWithParams = new URL(url);
 
   const componentsWithUrl = withComponents(model.components);
   const viewerComponentsWithFormatter = componentsWithUrl(cdnUrl);
   const editorComponentsWithFormatter = componentsWithUrl(serverUrl);
 
-  urlWithParams.searchParams.set(
-    'tpaWidgetUrlOverride',
-    editorComponentsWithFormatter(tpaUrlFormatterForType('editor')),
-  );
-  urlWithParams.searchParams.set(
-    'tpaSettingsUrlOverride',
-    editorComponentsWithFormatter(tpaUrlFormatterForType('settings')),
-  );
-  urlWithParams.searchParams.set(
-    'widgetsUrlOverride',
-    viewerComponentsWithFormatter(widgetUrlFormatter),
-  );
-  urlWithParams.searchParams.set(
-    'viewerPlatformOverrides',
-    viewerScriptUrlFormatter(model, cdnUrl),
-  );
+  isOverrideSupportedForOrigin(origin, 'tpaWidgetUrlOverride') &&
+    urlWithParams.searchParams.set(
+      'tpaWidgetUrlOverride',
+      editorComponentsWithFormatter(tpaUrlFormatterForType('editor')),
+    );
 
-  urlWithParams.searchParams.set(
-    'editorScriptUrlOverride',
-    editorScriptUrlFormatter(model, cdnUrl),
-  );
+  isOverrideSupportedForOrigin(origin, 'tpaSettingsUrlOverride') &&
+    urlWithParams.searchParams.set(
+      'tpaSettingsUrlOverride',
+      editorComponentsWithFormatter(tpaUrlFormatterForType('settings')),
+    );
 
-  urlWithParams.searchParams.set(
-    'overridePlatformBaseUrls',
-    staticsBaseUrlFormatter(model, cdnUrl),
-  );
+  isOverrideSupportedForOrigin(origin, 'widgetsUrlOverride') &&
+    urlWithParams.searchParams.set(
+      'widgetsUrlOverride',
+      viewerComponentsWithFormatter(widgetUrlFormatter),
+    );
+
+  isOverrideSupportedForOrigin(origin, 'viewerPlatformOverrides') &&
+    urlWithParams.searchParams.set(
+      'viewerPlatformOverrides',
+      viewerScriptUrlFormatter(model, cdnUrl),
+    );
+
+  if (isOverrideSupportedForOrigin(origin, 'editorScriptUrlOverride')) {
+    urlWithParams.searchParams.set(
+      'editorScriptUrlOverride',
+      editorScriptUrlFormatter(model, cdnUrl),
+    );
+  }
+
+  isOverrideSupportedForOrigin(origin, 'overridePlatformBaseUrls') &&
+    urlWithParams.searchParams.set(
+      'overridePlatformBaseUrls',
+      staticsBaseUrlFormatter(model, cdnUrl),
+    );
 
   // We want to have raw url for debug purposes.
   // TODO: Remove before releasing stable version.
@@ -106,4 +153,8 @@ export const generateSentryScript = (sentry: SentryConfig) => {
   -1<a.f.indexOf("capture")||a.f&&-1<a.f.indexOf("showReportDialog"))&&f&&k(h);m.data.push(a)};m.data=[];c[e]=c[e]||{};c[e].onLoad=function(a){h.push(a);f&&!y||k(h)};c[e].forceLoad=function(){y=!0;f&&setTimeout(function(){k(h)})};"init addBreadcrumb captureMessage captureException captureEvent configureScope withScope showReportDialog".split(" ").forEach(function(a){c[e][a]=function(){m({f:a,a:arguments})}});var r=c[n];c[n]=function(a,e,d,b,f){m({e:[].slice.call(arguments)});r&&r.apply(c,arguments)};
   var t=c[p];c[p]=function(a){m({p:a.reason});t&&t.apply(c,arguments)};f||setTimeout(function(){k(h)})})(window,document,"script","onerror","onunhandledrejection","Sentry","${sentry.id}","${BROWSER_LIB_URL}",{"dsn":"${sentry.DSN}"});
   </script>\n`;
+};
+
+export const normalizeProjectName = (projectName: string) => {
+  return projectName.replace('@wix/', '');
 };

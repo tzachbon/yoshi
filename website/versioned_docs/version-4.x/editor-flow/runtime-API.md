@@ -223,7 +223,11 @@ A javascript library to allow realtime monitoring, following the 'fedops' method
 
 After you initialize the app via `create-yoshi-app`, integrated it with lifecycle and pushed to the github, a [grafana](https://grafana.wixpress.com/login) dashboard will be created automatically for your app.
 
-All boards for each component will be configured also.
+Boards for each component will be configured also.
+
+**`appLoadStarted` and `appLoaded` events will be logged automatically by the Editor Flow.**
+Moreover, both client-side rendering and server-side rendering logs for Widget are covered. So for most cases you don't need to handle fedops logs by yourself at all.
+
 
 #### `fedopsLogger`
 
@@ -234,16 +238,19 @@ For more info relared to fedopsLogger API, please [follow this link](https://git
 _controller.ts_
 
 ```ts
+// appLoadStarted and appLoaded already covered by the editor flow 😌
 export default ({ flowAPI }) => {
-  flowAPI.appLoadStarted();
-
-  const { appDefinitionId } = appParams;
+  const handleSubmitSomething = () => {
+    flowAPI.fedopsLogger.interactionStarted(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
+    // process the action...
+    flowAPI.fedopsLogger.interactionEnded(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
+  };
 
   return {
     pageReady() {
-      if (flowAPI.isSSR()) {
-        flowAPI.fedopsLogger.appLoaded();
-      }
+      setProps({
+        handleSubmitSomething,
+      });
     }
   };
 };

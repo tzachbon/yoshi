@@ -1,4 +1,8 @@
 import { IWidgetControllerConfig } from '@wix/native-components-infra/dist/src/types/types';
+import { fedOpsLoggerFactory } from '@wix/native-components-infra/dist/test/mocks/fedopsLoggerFactoryMock';
+import { PubSubMock } from '@wix/native-components-infra/dist/test/mocks/pubSubMock';
+import { StorageMock } from '@wix/native-components-infra/dist/test/mocks/storageMock';
+
 import { merge } from 'lodash';
 
 export default (
@@ -11,32 +15,10 @@ export default (
       warmupData: jest.fn(),
       $w: jest.fn() as any,
       platformAPIs: {
-        pubSub: {
-          publish: jest.fn(),
-          subscribe: jest.fn(),
-          unsubscribe: jest.fn(),
-        },
+        fedOpsLoggerFactory,
+        pubSub: new PubSubMock(),
         getCsrfToken: jest.fn(),
-        storage: {
-          session: {
-            getItem: jest.fn(),
-            setItem: jest.fn(),
-            removeItem: jest.fn(),
-            clear: jest.fn(),
-          },
-          local: {
-            getItem: jest.fn(),
-            setItem: jest.fn(),
-            removeItem: jest.fn(),
-            clear: jest.fn(),
-          },
-          memory: {
-            getItem: jest.fn(),
-            setItem: jest.fn(),
-            removeItem: jest.fn(),
-            clear: jest.fn(),
-          },
-        },
+        storage: new StorageMock(),
       },
       config: {
         publicData: {

@@ -1,0 +1,7 @@
+{
+  "name": "web-worker-split-chunks-ts",
+  "private": true,
+  "jest": {
+    "preset": "jest-yoshi-preset"
+  }
+}

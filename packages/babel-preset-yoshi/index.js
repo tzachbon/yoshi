@@ -39,8 +39,16 @@ module.exports = function (api, opts = {}) {
           modules,
           // Display targets to compile for.
           debug: options.debug,
-          // Always use destructuring b/c of import/export support.
-          include: ['transform-destructuring', ...options.include],
+          include: [
+            // Always use destructuring b/c of import/export support.
+            'transform-destructuring',
+            // On development we don't transpile this syntax becuase it's actually supported on latest browsers
+            // Webpack 4 still doesn't know how to parse it https://github.com/webpack/webpack/issues/10227#issuecomment-642734920
+            // This will make sure it will always be supplied (even on development)
+            'proposal-nullish-coalescing-operator',
+            'proposal-optional-chaining',
+            ...options.include,
+          ],
           exclude: options.exclude,
           // We don't need to be fully spec compatible, bundle size is more important.
           loose: true,
@@ -81,7 +89,7 @@ module.exports = function (api, opts = {}) {
         // Add helpers for generators and async/await.
         requireDefault('@babel/plugin-transform-runtime'),
         {
-          // 2 options blow are usually handled by pollyfil.io.
+          // 2 options blow are usually handled by polyfill.io.
           helpers: false,
           regenerator: true,
         },

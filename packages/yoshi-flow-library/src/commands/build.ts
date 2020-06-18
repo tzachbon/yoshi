@@ -80,8 +80,13 @@ const build: cliCommand = async function (argv, config, pkgJson) {
   const cwd = process.cwd();
 
   try {
-    // builds the ES directory
-    const tscProcess = new TscProcess({ cwd });
+    // In case of a node libaray we don't want to emit the ESM directory
+    const emitDeclarationOnly = config.target === 'node';
+
+    const tscProcess = new TscProcess({
+      cwd,
+      emitDeclarationOnly,
+    });
 
     await tscProcess.build();
 

@@ -161,5 +161,9 @@ export function createWebWorkerWebpackConfig(
   workerConfig.resolve!.alias = config.resolveAlias;
   workerConfig.externals = config.webWorkerExternals;
 
+  if (config.webWorkerSplitChunks) {
+    workerConfig.optimization!.splitChunks = config.webWorkerSplitChunks;
+  }
+
   return workerConfig;
 }

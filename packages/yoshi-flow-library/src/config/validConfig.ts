@@ -2,6 +2,7 @@ import { multipleValidOptions } from 'jest-validate';
 import { InitialConfig, RequiredRecursively } from './types';
 
 const validConfig: RequiredRecursively<InitialConfig> = {
+  target: 'node',
   bundle: multipleValidOptions(
     {
       library: multipleValidOptions('app-name', ['app-name'], {

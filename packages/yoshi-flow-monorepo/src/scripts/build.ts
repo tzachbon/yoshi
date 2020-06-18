@@ -28,7 +28,7 @@ import {
   createSiteAssetsWebpackConfig,
 } from '../webpack.config';
 import buildPkgs from '../build';
-import { isSiteAssetsModule } from '../utils';
+import { isSiteAssetsModule, isThunderboltAppModule } from '../utils';
 
 const inTeamCity = checkInTeamCity();
 
@@ -170,6 +170,8 @@ const build: cliCommand = async function (argv, rootConfig, { apps, libs }) {
           isAnalyze,
           forceEmitSourceMaps,
           forceEmitStats,
+          forceMinimizeServer: true,
+          disableEmitSourceMaps: true,
         },
       );
 
@@ -258,7 +260,7 @@ const build: cliCommand = async function (argv, rootConfig, { apps, libs }) {
         libs,
         apps,
         {
-          isDev: true,
+          isDev: !isThunderboltAppModule(pkg),
         },
       );
     }

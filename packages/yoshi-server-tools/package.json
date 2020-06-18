@@ -1,6 +1,6 @@
 {
   "name": "yoshi-server-tools",
-  "version": "4.89.0",
+  "version": "4.103.3",
   "keywords": [
     "yoshi",
     "server"
@@ -14,6 +14,9 @@
   "dependencies": {
     "@babel/parser": "7.9.6",
     "@babel/traverse": "7.9.6",
-    "yoshi-config": "4.89.0"
+    "fs-extra": "^8.1.0",
+    "simple-git": "^2.6.0",
+    "yoshi-config": "4.103.3",
+    "yoshi-helpers": "4.103.3"
   }
 }

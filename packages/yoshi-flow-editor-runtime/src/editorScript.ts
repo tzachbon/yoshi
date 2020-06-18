@@ -28,6 +28,8 @@ export const editorReadyWrapper = (
       platformOptions,
       flowAPI,
     );
+
+    flowAPI.fedopsLogger.appLoaded();
   } catch (error) {
     flowAPI.reportError(error);
     throw error;

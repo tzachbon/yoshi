@@ -19,6 +19,7 @@ export interface ExtendedPromptObject<T extends string>
     context: C,
   ) => Promise<Array<Choice>>;
   repeatUntil?: (answers: Answers<string>) => boolean;
+  warn?: string;
 }
 
 // Currently `prompts` package evaluates all values with function type 👿.

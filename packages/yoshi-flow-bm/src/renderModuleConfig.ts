@@ -6,7 +6,7 @@ import { MODULE_CONFIG_PATH } from './constants';
 
 export default ({
   pages,
-  config: { moduleId, moduleConfigurationId, topology },
+  config: { moduleId, moduleConfigurationId, appDefId, topology },
 }: FlowBMModel) => {
   const artifactId = `com.wixpress.${getProjectArtifactId()}`;
   const pageComponents = pages.map(({ componentId, componentName, route }) => ({
@@ -17,6 +17,7 @@ export default ({
 
   const template = {
     moduleId: moduleConfigurationId ?? moduleId,
+    appDefId,
     mainPageComponentId: pageComponents.reduce((prev, { route, ...rest }) =>
       route.split('/').length > prev.route.split('/').length
         ? prev

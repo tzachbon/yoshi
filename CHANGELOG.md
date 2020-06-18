@@ -1,5 +1,217 @@
 # Changelog
 
+## 4.103.4 (2020-06-18)
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-bm`
+  - [#2600](https://github.com/wix/yoshi/pull/2600) Fix a bug with `moduleConfigurationId` (missing coma) in flow-bm ([@amitdahan](https://github.com/amitdahan))
+
+#### Committers: 1
+
+- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
+
+## 4.103.3 (2020-06-18)
+
+#### :nail_care: Polish
+
+- `yoshi-config`
+  - [#2593](https://github.com/wix/yoshi/pull/2593) Remove `resolveAlias` warnings that come from `jest-validate` ([@ronami](https://github.com/ronami))
+- `yoshi-flow-monorepo`
+  - [#2590](https://github.com/wix/yoshi/pull/2590) Only minify server worker for Thunderbolt App ([@ronami](https://github.com/ronami))
+
+#### :house: Internal
+
+- `yoshi-common`
+  - [#2591](https://github.com/wix/yoshi/pull/2591) Yoshi Serverless - use `serverlessscope` only when needed ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.103.2 (2020-06-17)
+
+#### :bug: Bug Fix
+
+- `yoshi-helpers`
+  - [#2589](https://github.com/wix/yoshi/pull/2589) Yoshi Serverless - fix a bug with serverless scope ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.103.1 (2020-06-17)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-editor-runtime`
+  - [#2587](https://github.com/wix/yoshi/pull/2587) Allow pass `Wix SDK` instance to SDK Provider and prevent loading original SDK ([@yavorsky](https://github.com/yavorsky))
+- `yoshi-flow-bm`
+  - [#2585](https://github.com/wix/yoshi/pull/2585) Add `appDefId` config option ([@amitdahan](https://github.com/amitdahan))
+
+## 4.102.0 (2020-06-17)
+
+#### :building_construction: Templates
+
+- `babel-preset-yoshi`, `create-yoshi-app`, `yoshi-flow-editor`
+  - [#2586](https://github.com/wix/yoshi/pull/2586) Upgrade link to polyfill v3 ([@sidoruk-sv](https://github.com/sidoruk-sv))
+
+#### :bug: Bug Fix
+
+- `yoshi-server-tools`
+  - [#2588](https://github.com/wix/yoshi/pull/2588) Yoshi Server - fix hard coded version ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-flow-bm-runtime`
+  - [#2538](https://github.com/wix/yoshi/pull/2538) Fix extra renders caused by wrapComponent ([@amitdahan](https://github.com/amitdahan))
+- `babel-preset-yoshi`
+  - [#2582](https://github.com/wix/yoshi/pull/2582) Support optional chaining and nullish coalescing in development ([@ranyitz](https://github.com/ranyitz))
+
+#### :house: Internal
+
+- `yoshi-flow-bm-runtime`
+  - [#2575](https://github.com/wix/yoshi/pull/2575) Simplify experiments using `scope` prop in flow-bm ([@amitdahan](https://github.com/amitdahan))
+
+## 4.101.0 (2020-06-17)
+
+#### :rocket: New Feature
+
+- `yoshi-helpers`
+  - [#2584](https://github.com/wix/yoshi/pull/2584) Yoshi Serverless: fix version to work with PR CI ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-config`, `yoshi-flow-app`, `yoshi-flow-monorepo`
+  - [#2554](https://github.com/wix/yoshi/pull/2554) Support configuring Webpack's splitChunks for webworkers ([@ronami](https://github.com/ronami))
+- `yoshi-common`, `yoshi-flow-editor`
+  - [#2571](https://github.com/wix/yoshi/pull/2571) Add an Editor flow logger ([@yavorsky](https://github.com/yavorsky))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2577](https://github.com/wix/yoshi/pull/2577) Avoid creating changes that are just a reordering of the references ([@ob1](https://github.com/ob1))
+
+#### :memo: Documentation
+
+- [#2576](https://github.com/wix/yoshi/pull/2576) Document `moduleConfigurationId` in bm flow ([@amitdahan](https://github.com/amitdahan))
+
+#### :house: Internal
+
+- `yoshi-common`, `yoshi-flow-app`
+  - [#2583](https://github.com/wix/yoshi/pull/2583) Yoshi Serverless: no need to copy templates ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.100.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-serverless`
+  - [#2579](https://github.com/wix/yoshi/pull/2579) Yoshi Serverless: bundle serverless file ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.99.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-monorepo`, `yoshi-helpers`
+  - [#2567](https://github.com/wix/yoshi/pull/2567) Upload source maps to sentry ([@ronami](https://github.com/ronami))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-app`
+  - [#2581](https://github.com/wix/yoshi/pull/2581) Yoshi serverless: fix publish step ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.98.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-server-tools`
+  - [#2580](https://github.com/wix/yoshi/pull/2580) Yoshi Serverless: add logs to publish step ([@yanivefraim](https://github.com/yanivefraim))
+
+## 4.97.0 (2020-06-16)
+
+#### :rocket: New Feature
+
+- `yoshi-common`
+  - [#2574](https://github.com/wix/yoshi/pull/2574) Be able to run `PROFILE=true` on yoshi start ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-common`, `yoshi-flow-app`, `yoshi-server-client`, `yoshi-server-tools`
+  - [#2549](https://github.com/wix/yoshi/pull/2549) Yoshi Serverless: Add a publish serverless step ([@yanivefraim](https://github.com/yanivefraim))
+- `yoshi-flow-legacy`
+  - [#2570](https://github.com/wix/yoshi/pull/2570) Use custom certificate when provided in legacy cdn ([@amiryonatan](https://github.com/amiryonatan))
+
+#### :bug: Bug Fix
+
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2573](https://github.com/wix/yoshi/pull/2573) Fix a bug where https://github.com/wix/yoshi/pull/2563 didn't work as intended ([@ronami](https://github.com/ronami))
+
+## 4.96.0 (2020-06-15)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-flow-library`
+  - [#2566](https://github.com/wix/yoshi/pull/2566) [Library Flow]: Add target for case of a node library ([@ranyitz](https://github.com/ranyitz))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-monorepo`
+  - [#2572](https://github.com/wix/yoshi/pull/2572) Do not minify site-assets node during start ([@ranyitz](https://github.com/ranyitz))
+
+#### :memo: Documentation
+
+- [#2565](https://github.com/wix/yoshi/pull/2565) Migration guide for Library flow from the Legacy flow ([@ranyitz](https://github.com/ranyitz))
+
+## 4.95.0 (2020-06-15)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-editor`
+  - [#2511](https://github.com/wix/yoshi/pull/2511) Added support for `appBuilderUrl` ([@tzachiazo1](https://github.com/tzachiazo1))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2569](https://github.com/wix/yoshi/pull/2569) Minify site-assets node compilation bundle ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2568](https://github.com/wix/yoshi/pull/2568) Remove sourcemaps from site-assets node bundle ([@ranyitz](https://github.com/ranyitz))
+
+## 4.94.0 (2020-06-14)
+
+#### :rocket: New Feature
+
+- `create-yoshi-app`, `yoshi-flow-editor`
+  - [#2557](https://github.com/wix/yoshi/pull/2557) New CLI Command for editor flow: add ([@yavorsky](https://github.com/yavorsky))
+- `yoshi-common`
+  - [#2553](https://github.com/wix/yoshi/pull/2553) Improve debugging guide and added debug mode - initial version ([@ranyitz](https://github.com/ranyitz))
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`
+  - [#2555](https://github.com/wix/yoshi/pull/2555) Make library flow template deploy a tar.gz file to parastorage ([@amitdahan](https://github.com/amitdahan))
+
+#### :bug: Bug Fix
+
+- `yoshi-common`, `yoshi-flow-monorepo`
+  - [#2563](https://github.com/wix/yoshi/pull/2563) Force webworker server to use process.env.browser with false ([@ronami](https://github.com/ronami))
+
+#### :memo: Documentation
+
+- [#2559](https://github.com/wix/yoshi/pull/2559) Add comment about Bundle Stats Board ([@splintor](https://github.com/splintor))
+
+#### :house: Internal
+
+- [#2556](https://github.com/wix/yoshi/pull/2556) Screencast scripts and simple screencast created. ([@daliusd](https://github.com/daliusd))
+
+## 4.93.1 (2020-06-11)
+
+#### :bug: Bug Fix
+
+- `yoshi-common`
+  - [#2551](https://github.com/wix/yoshi/pull/2551) Simplify the way we perform requests to the BI ([@ranyitz](https://github.com/ranyitz))
+- `yoshi-flow-bm`
+  - [#2545](https://github.com/wix/yoshi/pull/2545) Fix missing JSON.stringify for sentry and fedops in flow-bm ([@Gongreg](https://github.com/Gongreg))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2546](https://github.com/wix/yoshi/pull/2546) Minify server worker in monorepo flow ([@ronami](https://github.com/ronami))
+
+## 4.93.0 (2020-06-10)
+
+#### :rocket: New Feature
+
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`
+  - [#2541](https://github.com/wix/yoshi/pull/2541) Automatic `fedops` logging for Editor Flow projects ([@yavorsky](https://github.com/yavorsky))
+
+#### :bug: Bug Fix
+
+- `yoshi-helpers`
+  - [#2547](https://github.com/wix/yoshi/pull/2547) Yoshi serverless: fix scope name ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.92.1 (2020-06-10)
 
 #### :bug: Bug Fix
@@ -34,11 +246,6 @@
 #### :memo: Documentation
 
 - [#2536](https://github.com/wix/yoshi/pull/2536) Document env vars related to debugging ([@daliusd](https://github.com/daliusd))
-
-#### Committers: 2
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Dalius Dobravolskas ([@daliusd](https://github.com/daliusd))
 
 ## 4.90.1 (2020-06-09)
 
@@ -147,14 +354,6 @@
 
 - `jest-yoshi-preset`, `yoshi-flow-legacy`, `yoshi-flow-library`
   - [#2510](https://github.com/wix/yoshi/pull/2510) Replace jest-teamcity-reporter with jest-teamcity ([@ohana54](https://github.com/ohana54))
-
-#### Committers: 5
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Artem Yavorsky ([@yavorsky](https://github.com/yavorsky))
-- Ran Yitzhaki ([@ranyitz](https://github.com/ranyitz))
-- Tomer Ohana ([@ohana54](https://github.com/ohana54))
-- [@wix-renovate](https://github.com/wix-renovate)
 
 ## 4.85.0 (2020-06-04)
 
@@ -384,22 +583,12 @@
 - `create-yoshi-app`
   - [#2426](https://github.com/wix/yoshi/pull/2426) Fix dev.js script to support template loops ([@yavorsky](https://github.com/yavorsky))
 
-#### Committers: 3
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Artem Yavorsky ([@yavorsky](https://github.com/yavorsky))
-- barak igal ([@barak007](https://github.com/barak007))
-
 ## 4.77.1 (2020-05-17)
 
 #### :bug: Bug Fix
 
 - `yoshi-common`
   - [#2421](https://github.com/wix/yoshi/pull/2421) Library Flow: fix typescript and react babel bug ([@ranyitz](https://github.com/ranyitz))
-
-#### Committers: 1
-
-- Ran Yitzhaki ([@ranyitz](https://github.com/ranyitz))
 
 ## 4.77.0 (2020-05-17)
 
@@ -685,12 +874,6 @@
   - [#2279](https://github.com/wix/yoshi/pull/2279) Customize module topology through `.module.json` ([@amitdahan](https://github.com/amitdahan))
 - `yoshi-server-client`
   - [#2251](https://github.com/wix/yoshi/pull/2251) Yoshi Server Client: use `wix-headers` ([@yanivefraim](https://github.com/yanivefraim))
-
-#### Committers: 3
-
-- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
-- Yaniv Efraim ([@yanivefraim](https://github.com/yanivefraim))
-- [@wix-renovate](https://github.com/wix-renovate)
 
 ## 4.65.0 (2020-04-30)
 

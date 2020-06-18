@@ -13,6 +13,7 @@
     "test": "yoshi-flow-editor test && npm run sled",
     "sled": "sled-test-runner remote -v -l",
     "lint": "yoshi-flow-editor lint",
+    "add": "yoshi-flow-editor add",
     "posttest": "npm run lint"
   },
   "husky": {
@@ -26,7 +27,6 @@
   "devDependencies": {
     "@testing-library/react": "^9.3.0",
     "@wix/santa-site-renderer-testkit": "^1.59.0",
-    "@wix/fedops-logger": "5.12.0",
     "@types/i18next": "^8.4.5",
     "@types/jest": "^24.0.0",
     "@types/node": "^8.0.0",

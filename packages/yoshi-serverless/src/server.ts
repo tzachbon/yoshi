@@ -88,13 +88,7 @@ export default class Server {
   };
 
   private createRoutes(): Array<Route> {
-    const routesBuildDir = path.resolve(
-      __dirname,
-      '..',
-      '..',
-      '..',
-      ROUTES_BUILD_DIR,
-    );
+    const routesBuildDir = path.resolve(__dirname, ROUTES_BUILD_DIR);
 
     const serverChunks = globby.sync('**/*.js', {
       cwd: routesBuildDir,
@@ -102,7 +96,8 @@ export default class Server {
     });
 
     return serverChunks.map((absolutePath) => {
-      const chunk = importFresh(absolutePath) as RouteFunction<any>;
+      // @ts-ignore
+      const chunk = __non_webpack_require__(absolutePath) as RouteFunction<any>;
       const route = buildRoute(absolutePath);
       return {
         route,

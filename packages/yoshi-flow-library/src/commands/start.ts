@@ -61,6 +61,9 @@ const start: cliCommand = async function (argv, config) {
     webpackConfigs.push(clientConfig);
   }
 
+  // In case of a node libaray we don't want to emit the ESM directory
+  const emitDeclarationOnly = config.target === 'node';
+
   const devEnvironment = await DevEnvironment.create({
     webpackConfigs: webpackConfigs as [webpack.Configuration?],
     // @ts-ignore - we won't need this port if we won't have clientConfig
@@ -69,6 +72,7 @@ const start: cliCommand = async function (argv, config) {
     appName: config.pkgJson.name!,
     enableClientHotUpdates: false,
     compileTypeScriptFiles: true,
+    emitDeclarationOnly,
     storybook: config.storybook,
   });
 

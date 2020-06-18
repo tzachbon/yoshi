@@ -3,7 +3,10 @@ import {
   withStyles,
   withSentryErrorBoundary,
 } from '@wix/native-components-infra';
-import { IHostProps } from '@wix/native-components-infra/dist/src/types/types';
+import {
+  ISantaProps,
+  IHostProps,
+} from '@wix/native-components-infra/dist/src/types/types';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
 import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
 import { createInstances } from './createInstances';
@@ -18,10 +21,27 @@ declare global {
   }
 }
 // TODO - improve this type or bring from controller wrapper
-interface IFrameworkProps {
+interface IFlowProps {
   __publicData__: Record<string, any>;
   experiments: any;
+  onAppLoaded?: () => void;
   cssBaseUrl?: string;
+}
+
+interface IAppLoadedHandlerProps {
+  onAppLoaded?: () => void;
+  host: IHostProps;
+}
+
+class AppLoadedHandler extends React.Component<IAppLoadedHandlerProps> {
+  componentDidMount() {
+    if (this.props.onAppLoaded) {
+      this.props.host.registerToComponentDidLayout(this.props.onAppLoaded);
+    }
+  }
+  render() {
+    return this.props.children;
+  }
 }
 
 // This widget is going to be called inside entry-point wrappers
@@ -40,18 +60,19 @@ const getWidgetWrapper = (
     isEditor?: boolean;
   },
 ) => {
-  const Widget = (props: IHostProps & IFrameworkProps & IControllerContext) => {
+  const Widget = (props: ISantaProps & IFlowProps & IControllerContext) => {
+    const { __publicData__, onAppLoaded, ...widgetProps } = props;
     return (
-      <div>
-        <PublicDataProvider data={props.__publicData__} sdk={{ Wix }}>
+      <AppLoadedHandler onAppLoaded={onAppLoaded} host={props.host}>
+        <PublicDataProvider data={__publicData__} sdk={{ Wix }}>
           <ControllerProvider data={props}>
             <UserComponent
               {...createInstances({ experiments: props.experiments })}
-              {...props}
+              {...widgetProps}
             />
           </ControllerProvider>
         </PublicDataProvider>
-      </div>
+      </AppLoadedHandler>
     );
   };
   const cssPath = isEditor

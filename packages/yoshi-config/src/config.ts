@@ -41,10 +41,12 @@ type WebpackExternals = ExternalsElement | Array<ExternalsElement>;
 
 type WebpackResolveAlias = { [key: string]: string };
 
+type WebpackSplitChunks = Options.SplitChunksOptions | false;
+
 export type InitialConfig = {
   extends?: string;
   separateCss?: boolean | 'prod';
-  splitChunks?: Options.SplitChunksOptions | false;
+  splitChunks?: WebpackSplitChunks;
   cssModules?: boolean;
   tpaStyle?: boolean;
   enhancedTpaStyle?: boolean;
@@ -84,6 +86,7 @@ export type InitialConfig = {
     entry?: WebpackEntry;
     externals?: WebpackExternals;
     resolveAlias?: WebpackResolveAlias;
+    splitChunks?: WebpackSplitChunks;
   };
   webWorkerServer?: {
     entry?: WebpackEntry;
@@ -139,6 +142,7 @@ export type Config = {
   webWorkerEntry?: WebpackEntry;
   webWorkerResolveAlias?: WebpackResolveAlias;
   webWorkerExternals?: WebpackExternals;
+  webWorkerSplitChunks?: WebpackSplitChunks;
   webWorkerServerEntry?: WebpackEntry;
   suricate: boolean;
   experimentalStorybook: boolean;

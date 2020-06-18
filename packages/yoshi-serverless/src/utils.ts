@@ -3,13 +3,7 @@ import SockJS from 'sockjs-client';
 import pathToRegexp from 'path-to-regexp';
 import { ROUTES_BUILD_DIR } from 'yoshi-config/build/paths';
 
-const routesBuildDir = path.resolve(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  ROUTES_BUILD_DIR,
-);
+const routesBuildDir = path.resolve(__dirname, ROUTES_BUILD_DIR);
 
 export function relativeFilePath(from: string, to: string) {
   return path.relative(from, to.replace(/\.[^/.]+$/, ''));
