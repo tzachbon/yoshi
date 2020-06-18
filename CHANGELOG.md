@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.103.3 (2020-06-18)
+
+#### :nail_care: Polish
+
+- `yoshi-config`
+  - [#2593](https://github.com/wix/yoshi/pull/2593) Remove `resolveAlias` warnings that come from `jest-validate` ([@ronami](https://github.com/ronami))
+- `yoshi-flow-monorepo`
+  - [#2590](https://github.com/wix/yoshi/pull/2590) Only minify server worker for Thunderbolt App ([@ronami](https://github.com/ronami))
+
+#### :house: Internal
+
+- `yoshi-common`
+  - [#2591](https://github.com/wix/yoshi/pull/2591) Yoshi Serverless - use `serverlessscope` only when needed ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.103.2 (2020-06-17)
 
 #### :bug: Bug Fix
