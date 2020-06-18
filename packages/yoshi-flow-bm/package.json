@@ -1,6 +1,6 @@
 {
   "name": "yoshi-flow-bm",
-  "version": "4.103.3",
+  "version": "4.103.4",
   "bin": {
     "yoshi-bm": "./build/bin/yoshi-bm.js"
   },
