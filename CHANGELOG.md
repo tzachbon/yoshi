@@ -1,5 +1,16 @@
 # Changelog
 
+## 4.103.4 (2020-06-18)
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-bm`
+  - [#2600](https://github.com/wix/yoshi/pull/2600) Fix a bug with `moduleConfigurationId` (missing coma) in flow-bm ([@amitdahan](https://github.com/amitdahan))
+
+#### Committers: 1
+
+- Amit Dahan ([@amitdahan](https://github.com/amitdahan))
+
 ## 4.103.3 (2020-06-18)
 
 #### :nail_care: Polish
