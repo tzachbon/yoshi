@@ -1,6 +1,6 @@
 {
   "name": "yoshi-stylable-dependencies",
-  "version": "4.89.0",
+  "version": "4.94.0",
   "description": "A set of stylable dependencies",
   "keywords": [
     "yoshi"
@@ -8,11 +8,11 @@
   "author": "Ran Yitzhaki",
   "license": "ISC",
   "dependencies": {
-    "@stylable/core": "3.6.2",
-    "@stylable/jest": "3.6.2",
-    "@stylable/module-utils": "3.6.2",
-    "@stylable/node": "3.6.2",
+    "@stylable/core": "3.6.3",
+    "@stylable/jest": "3.6.3",
+    "@stylable/module-utils": "3.6.3",
+    "@stylable/node": "3.6.3",
     "@stylable/runtime": "3.6.2",
-    "@stylable/webpack-plugin": "3.6.2"
+    "@stylable/webpack-plugin": "3.6.3"
   }
 }

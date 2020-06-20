@@ -16,7 +16,17 @@ export default async function verifyTypeScriptReferences({
         .map(([depName]) => {
           return path.relative(pkg.location, graph.get(depName)!.location);
         })
+        .sort()
         .map((relativePath) => ({ path: relativePath }));
+
+      const originalReferencesSorted = [
+        ...(tsconfig.references || []),
+      ].sort((a, b) => (a.path > b.path ? 1 : -1));
+
+      // Only update `tsconfig` and show a message if an update is needed
+      if (isEqual(references, originalReferencesSorted)) {
+        return;
+      }
 
       const clonedTsconfig = { ...tsconfig, references };
       // Don't write empty references
@@ -24,18 +34,15 @@ export default async function verifyTypeScriptReferences({
         delete clonedTsconfig.references;
       }
 
-      // Only update `tsconfig` and show a message if an update is needed
-      if (!isEqual(clonedTsconfig, tsconfig)) {
-        console.log(
-          chalk.bold(
-            `Changes have been made to the references of ${chalk.cyan(
-              path.relative(process.cwd(), tsconfigPath),
-            )}.`,
-          ),
-        );
+      console.log(
+        chalk.bold(
+          `Changes have been made to the references of ${chalk.cyan(
+            path.relative(process.cwd(), tsconfigPath),
+          )}.`,
+        ),
+      );
 
-        writeJson(tsconfigPath, clonedTsconfig);
-      }
+      writeJson(tsconfigPath, clonedTsconfig);
     }),
   );
 

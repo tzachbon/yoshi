@@ -6,8 +6,8 @@ import {
   experiments as experimentsConfig,
 } from '../../../.application.json';
 import getControllerConfigMock from '../../../__tests__/helpers/controllerConfig.mock';
+import getFlowAPIMock from '../../../__tests__/helpers/flowAPI.mock';
 import mockExperiments from '../../../__tests__/helpers/experiments.mock';
-import getFedopsLoggerMock from '../../../__tests__/helpers/fedops.mock';
 import createAppController from './controller';
 
 describe('createController', () => {
@@ -18,38 +18,28 @@ describe('createController', () => {
     mockExperiments(experimentsConfig.scope, experiments.all());
     const setPropsSpy = jest.fn();
     const language = 'en';
+    const appDefinitionId = 'APP_DEF_ID';
     const controllerConfig: IWidgetControllerConfig = getControllerConfigMock({
       setProps: setPropsSpy,
       appParams: {
         instance: '1',
         instanceId: '1',
-        appDefinitionId: 'APP_DEF_ID',
+        appDefinitionId,
         baseUrls: {
           staticsBaseUrl: 'http://some-static-url.com',
         },
       },
     });
 
+    const flowAPI = getFlowAPIMock({
+      experimentsConfig,
+      controllerConfig,
+      widgetId: 'someWidget',
+      appDefinitionId,
+    });
+
     const controller = await createAppController({
-      flowAPI: {
-        fedopsLogger: getFedopsLoggerMock(),
-        widgetId: 'WIDGET_ID',
-        controllerConfig,
-        inEditor: false,
-        getSiteLanguage() {
-          return 'en';
-        },
-        isSSR() {
-          return true;
-        },
-        isMobile() {
-          return false;
-        },
-        reportError: jest.fn(),
-        getExperiments() {
-          return Promise.resolve(experiments);
-        },
-      },
+      flowAPI,
       controllerConfig,
     });
 

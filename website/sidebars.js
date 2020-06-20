@@ -17,6 +17,7 @@ module.exports = {
     {
       Development: [
         'development/bundle-analyze',
+        'development/environment-variables',
         'development/debugging',
         'development/hmr',
         'development/momentjs-optimization',
@@ -40,6 +41,11 @@ module.exports = {
     'editor-flow/local-development',
     'editor-flow/testing',
     'editor-flow/platform-apps-support',
+  ],
+  'library-flow': [
+    'library-flow/overview',
+    'library-flow/configuration',
+    'library-flow/migration-guide',
   ],
   'yoshi-server': [
     'yoshi-server/getting-started',

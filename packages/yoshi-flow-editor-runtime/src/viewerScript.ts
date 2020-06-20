@@ -18,6 +18,14 @@ import { ViewerScriptFlowAPI, ControllerFlowAPI } from './FlowAPI';
 let viewerScriptFlowAPI: ViewerScriptFlowAPI;
 let appData: any = {};
 
+let isCSRLoaded = false;
+const onCSRLoaded = (flowAPI: ControllerFlowAPI) => () => {
+  if (!isCSRLoaded) {
+    flowAPI.fedopsLogger.appLoaded();
+    isCSRLoaded = true;
+  }
+};
+
 type ControllerDescriptor = {
   id: string | null;
   method: Function;
@@ -111,19 +119,27 @@ function ooiControllerWrapper(
       return {
         ...userController,
         pageReady: async (...args: Array<any>) => {
-          // TODO: export by property (methods, state) so we won't have conflicting props
+          // we are going to get rid of current setProps call and override original one with wrapper, where we can populate user's call with flow's fields.
           setProps({
             __publicData__: controllerConfig.config.publicData,
             // Set initial state
             state: context.state,
             // Set methods
             methods: userController.methods,
+            onAppLoaded: onCSRLoaded(flowAPI),
           });
+          let userPageReadyResult;
 
           // Optional `pageReady`
           if (userController.pageReady) {
-            return userController.pageReady(...args);
+            userPageReadyResult = await userController.pageReady(...args);
           }
+
+          if (flowAPI.isSSR()) {
+            flowAPI.fedopsLogger.appLoaded();
+          }
+
+          return userPageReadyResult;
         },
         exports: userController.corvid,
       };

@@ -22,11 +22,15 @@ export interface HttpClient {
 
 // https://github.com/developit/unfetch/issues/46
 const fetch = unfetch;
+const serverlessScope = process.env.YOSHI_SERVERLESS_SCOPE;
 
+const defaultBaseUrl = serverlessScope
+  ? serverlessScope
+  : `/_api/${process.env.PACKAGE_NAME}`;
 export default class implements HttpClient {
   private baseUrl: string;
 
-  constructor({ baseUrl = `/_api/${process.env.PACKAGE_NAME}` }: Options = {}) {
+  constructor({ baseUrl = defaultBaseUrl }: Options = {}) {
     this.baseUrl = baseUrl;
   }
 

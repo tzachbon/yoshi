@@ -56,6 +56,10 @@
         },
         {
           "type": "doc",
+          "id": "version-4.x/development/environment-variables"
+        },
+        {
+          "type": "doc",
           "id": "version-4.x/development/debugging"
         },
         {
@@ -123,6 +127,20 @@
     {
       "type": "doc",
       "id": "version-4.x/editor-flow/platform-apps-support"
+    }
+  ],
+  "version-4.x/library-flow": [
+    {
+      "type": "doc",
+      "id": "version-4.x/library-flow/overview"
+    },
+    {
+      "type": "doc",
+      "id": "version-4.x/library-flow/configuration"
+    },
+    {
+      "type": "doc",
+      "id": "version-4.x/library-flow/migration-guide"
     }
   ],
   "version-4.x/yoshi-server": [

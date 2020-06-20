@@ -9,6 +9,8 @@ type WebpackExternals = ExternalsElement | Array<ExternalsElement>;
 // Webpack types doesn't expose this
 type Library = string | Array<string> | { [key: string]: string };
 
+type LibraryTarget = 'node' | 'web';
+
 export type InitialBundleConfig = {
   library?: Library;
   entry?: WebpackEntry;
@@ -18,6 +20,7 @@ export type InitialBundleConfig = {
 };
 
 export type InitialConfig = {
+  target: LibraryTarget;
   bundle: InitialBundleConfig | boolean;
   storybook?: boolean;
 };
@@ -31,6 +34,7 @@ export type Config = {
   jestConfig: unknown;
   bundleConfig: BundleConfig | null;
   storybook: boolean;
+  target: LibraryTarget;
 };
 
 export type RequiredRecursively<T> = Exclude<

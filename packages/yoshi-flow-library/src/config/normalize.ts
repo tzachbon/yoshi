@@ -39,6 +39,7 @@ export default (initialConfig: InitialConfig, pkgJson: PackageJson): Config => {
   const config: Config = {
     pkgJson,
     jestConfig: jest,
+    target: initialConfig.target ?? 'web',
     bundleConfig,
     storybook: initialConfig.storybook ?? false,
   };

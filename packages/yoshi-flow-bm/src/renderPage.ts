@@ -31,8 +31,16 @@ export default wrapComponent(Component, [
         )}),\n`
       : ''
   }
-  ${addSentry ? `createSentryProvider(${model.config.sentryDsn}),` : ''}
-  ${addFedops ? `createFedopsProvider(${page.componentId}),` : ''}
+  ${
+    addSentry
+      ? `createSentryProvider(${JSON.stringify(model.config.sentryDsn)}),`
+      : ''
+  }
+  ${
+    addFedops
+      ? `createFedopsProvider(${JSON.stringify(page.componentId)}),`
+      : ''
+  }
 ]);
   `;
 };

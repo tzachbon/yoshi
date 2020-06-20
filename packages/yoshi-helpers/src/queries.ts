@@ -29,6 +29,10 @@ export const inTeamCity = () => {
   return !!(process.env.BUILD_NUMBER || process.env.TEAMCITY_VERSION);
 };
 
+export const inMasterTeamCity = () => {
+  return inTeamCity() && process.env.agentType !== 'pullrequest';
+};
+
 export const inPRTeamCity = () => {
   return inTeamCity() && process.env.agentType === 'pullrequest';
 };

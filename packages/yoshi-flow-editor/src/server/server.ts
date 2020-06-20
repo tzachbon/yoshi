@@ -80,15 +80,7 @@ app.use('/settings/:widgetName', (req, res) => {
 
 // Launch the server
 server.start().then(
-  () => {
-    const baseUrl = server.getUrl();
-    console.info(`Fake server is running on port ${baseUrl}`);
-    console.info(`
-Apps are available:
-  Editor app: ${baseUrl}/editor/:widgetName
-  Settings app: ${baseUrl}/settings/:widgetName
-    `);
-  },
+  () => {},
   (err) => {
     console.error(
       `Fake server failed to start on port ${process.env.PORT}: ${err.message}`,

@@ -23,6 +23,7 @@ import {
   EDITOR_APP_FILENAME,
   URLS_CONFIG,
 } from './constants';
+import { normalizeProjectName } from './utils';
 
 export interface FlowEditorModel {
   appName: string | null;
@@ -40,6 +41,7 @@ export interface FlowEditorModel {
 export interface URLsConfig {
   viewerUrl?: string | null;
   editorUrl?: string | null;
+  appBuilderUrl?: string | null;
 }
 
 export interface ComponentModel {
@@ -233,7 +235,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     // dev center app name from .application.json
     appName: appConfig.appName || null,
     // package name from package.json
-    projectName: config.name,
+    projectName: normalizeProjectName(config.name),
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,
@@ -244,6 +246,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     urls: {
       viewerUrl: (urlsConfig && urlsConfig.viewerUrl) || null,
       editorUrl: (urlsConfig && urlsConfig.editorUrl) || null,
+      appBuilderUrl: (urlsConfig && urlsConfig.appBuilderUrl) || null,
     },
   };
 

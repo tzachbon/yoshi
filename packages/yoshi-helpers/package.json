@@ -1,6 +1,6 @@
 {
   "name": "yoshi-helpers",
-  "version": "4.92.0",
+  "version": "4.103.3",
   "keywords": [
     "helpers",
     "yoshi",
@@ -23,7 +23,7 @@
     "semver": "5.7.1",
     "server-destroy": "1.0.1",
     "xmldoc": "1.1.2",
-    "yoshi-config": "4.89.0"
+    "yoshi-config": "4.103.3"
   },
   "devDependencies": {
     "@types/detect-port": "1.3.0",
@@ -35,7 +35,7 @@
     "@types/server-destroy": "1.0.0",
     "@types/webpack": "4.41.13",
     "@types/xmldoc": "1.1.4",
-    "type-fest": "0.15.0",
+    "type-fest": "0.15.1",
     "typescript": "3.7.5"
   }
 }

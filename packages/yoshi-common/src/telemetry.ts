@@ -1,9 +1,12 @@
+import querystring from 'querystring';
 import semver from 'semver';
 import biLoggerClient, { BiLoggerFactory } from 'wix-bi-logger-client';
 import initSchemaLogger, { getLoggerConf } from 'bi-logger-yoshi';
 import { isTypescriptProject } from 'yoshi-helpers/build/queries';
 import isCI from 'is-ci';
-import { requestHttps } from './utils/helpers';
+import fetch from 'node-fetch';
+
+const debug = require('debug')('yoshi:telemetry');
 
 // Create BI factory
 const biLoggerFactory = biLoggerClient.factory() as BiLoggerFactory<
@@ -18,8 +21,13 @@ biLoggerFactory.addPublisher(async (eventParams: any, context: any) => {
   }
 
   try {
-    await requestHttps(`frog.wix.com/${context.endpoint}`, eventParams);
+    const url = `https://frog.wix.com/${
+      context.endpoint
+    }?${querystring.stringify(eventParams)}`;
+    debug(`reporting ${url}`);
+    await fetch(url);
   } catch (error) {
+    debug(error);
     // Swallow errors
   }
 });

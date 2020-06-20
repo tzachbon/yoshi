@@ -17,13 +17,13 @@ export interface TemplateDefinition {
   availableLanguages: Array<Language>;
 }
 
-export default class TemplateModel {
+export default class TemplateModel<F = Record<string, any>> {
   readonly projectName: string;
   readonly authorName: string;
   readonly authorEmail: string;
   readonly templateDefinition: TemplateDefinition;
   readonly language: Language;
-  flowData: Record<string, any> | null;
+  flowData: F | null;
   sentryData: SentryData | null;
 
   constructor({
@@ -56,7 +56,7 @@ export default class TemplateModel {
     return `${this.templateDefinition.name}-${this.language}`;
   }
 
-  getFlowData() {
+  getFlowData(): F | null {
     return this.flowData;
   }
 
@@ -64,7 +64,7 @@ export default class TemplateModel {
     return this.sentryData;
   }
 
-  setFlowData<F>(flowData: F) {
+  setFlowData(flowData: F) {
     this.flowData = flowData;
   }
 

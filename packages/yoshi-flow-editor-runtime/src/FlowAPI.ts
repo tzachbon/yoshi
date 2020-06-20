@@ -76,7 +76,20 @@ export class ControllerFlowAPI extends FlowAPI {
         this.sentryMonitor,
       );
     }
+
+    this.appLoadStarted();
   }
+
+  private appLoadStarted = () => {
+    const { appLoadStarted } = this.fedopsLogger;
+    appLoadStarted.call(this.fedopsLogger);
+    this.fedopsLogger.appLoadStarted = (...args) => {
+      console.warn(
+        "🥺 Seems like you're trying to call `fedopsLogger.appLoadStarted` and `fedopsLogger.appLoaded` in your controller.\nWe are already logging load events for SSR and CSR environments, so you can remove these calls from your project.",
+      );
+      appLoadStarted.call(this.fedopsLogger, ...args);
+    };
+  };
 
   getSiteLanguage = (fallbackLanguage: string = 'en') => {
     return getSiteLanguage(this.controllerConfig.wixCodeApi, fallbackLanguage);
@@ -134,7 +147,20 @@ export class EditorScriptFlowAPI extends FlowAPI {
       typeof fedopsLogger === 'function'
         ? fedopsLogger(artifactId)
         : fedopsLogger;
+
+    this.appLoadStarted();
   }
+
+  private appLoadStarted = () => {
+    const { appLoadStarted } = this.fedopsLogger;
+    appLoadStarted.call(this.fedopsLogger);
+    this.fedopsLogger.appLoadStarted = (...args) => {
+      console.warn(
+        "🥺 Seems like you're trying to call `fedopsLogger.appLoadStarted` and `fedopsLogger.appLoaded` in `editor.app.ts`.\nWe are already logging load events, so you can remove these calls from your project.",
+      );
+      appLoadStarted.call(this.fedopsLogger, ...args);
+    };
+  };
 }
 
 export class ViewerScriptFlowAPI extends FlowAPI {

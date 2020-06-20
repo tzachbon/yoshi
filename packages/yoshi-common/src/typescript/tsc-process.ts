@@ -41,18 +41,22 @@ export class TypeError extends Error {
 
 export default class TscProcess extends EventEmitter {
   copyFiles: boolean;
+  emitDeclarationOnly: boolean;
   cwd: string;
 
   constructor({
     copyFiles = true,
     cwd = process.cwd(),
+    emitDeclarationOnly = false,
   }: {
     copyFiles?: boolean;
     cwd?: string;
+    emitDeclarationOnly?: boolean;
   }) {
     super();
     this.copyFiles = copyFiles;
     this.cwd = cwd;
+    this.emitDeclarationOnly = emitDeclarationOnly;
   }
 
   build() {
@@ -71,8 +75,12 @@ export default class TscProcess extends EventEmitter {
 
     const tscBin = require.resolve('typescript/bin/tsc');
 
+    const tscOptions = this.emitDeclarationOnly
+      ? ['--emitDeclarationOnly']
+      : [];
+
     return new Promise((resolve, reject) => {
-      return execa('node', [tscBin])
+      return execa('node', [tscBin].concat(tscOptions))
         .then(resolve)
         .catch(({ stdout }) => {
           const lines = stdout.split('\n');
@@ -101,7 +109,14 @@ export default class TscProcess extends EventEmitter {
 
     const tscBin = require.resolve('typescript/bin/tsc');
 
-    const tscWorker = spawn('node', [tscBin, '--watch', '--pretty', 'false']);
+    const tscOptions = this.emitDeclarationOnly
+      ? ['--emitDeclarationOnly']
+      : [];
+
+    const tscWorker = spawn(
+      'node',
+      [tscBin, '--watch', '--pretty', 'false'].concat(tscOptions),
+    );
 
     process.on('exit', () => tscWorker.kill('SIGTERM'));
 

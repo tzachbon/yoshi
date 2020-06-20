@@ -149,8 +149,7 @@ function getProgressBarInfo(
   const progressReporter =
     isCi || process.env.PROGRESS_BAR === 'false' ? 'basic' : 'fancy';
 
-  const profileReporter =
-    isProduction && process.env.PROFILE === 'true' ? ['profile'] : [];
+  const profileReporter = process.env.PROFILE === 'true' ? ['profile'] : [];
 
   const reporters = [progressReporter, ...profileReporter];
 
@@ -364,6 +363,8 @@ export function createBaseWebpackConfig({
   serverExternals,
   umdNamedDefine = false,
   transpileCarmiOutput = false,
+  disableEmitSourceMaps = false,
+  overrideDefinePluginBrowserEnvVar,
 }: {
   name: string;
   configName:
@@ -411,6 +412,8 @@ export function createBaseWebpackConfig({
   serverExternals?: ExternalsElement | Array<ExternalsElement>;
   umdNamedDefine?: boolean;
   transpileCarmiOutput?: boolean;
+  overrideDefinePluginBrowserEnvVar?: boolean;
+  disableEmitSourceMaps?: boolean;
 }): webpack.Configuration {
   const join = (...dirs: Array<string>) => path.join(cwd, ...dirs);
 
@@ -463,8 +466,6 @@ export function createBaseWebpackConfig({
     },
   };
 
-  const serverlessScope = SERVERLESS_SCOPE_BUILD_DIR(getServerlessScope());
-
   const config: webpack.Configuration = {
     context: join(SRC_DIR),
 
@@ -502,7 +503,7 @@ export function createBaseWebpackConfig({
         ? {
             path: join(
               process.env.EXPERIMENTAL_YOSHI_SERVERLESS
-                ? serverlessScope
+                ? SERVERLESS_SCOPE_BUILD_DIR(getServerlessScope())
                 : BUILD_DIR,
             ),
             filename: '[name].js',
@@ -768,8 +769,19 @@ export function createBaseWebpackConfig({
               'process.env.ARTIFACT_ID': JSON.stringify(getProjectArtifactId()),
             }
           : {}),
+        ...(useYoshiServer && process.env.EXPERIMENTAL_YOSHI_SERVERLESS
+          ? {
+              'process.env.YOSHI_SERVERLESS_SCOPE': JSON.stringify(
+                getServerlessScope(),
+              ),
+            }
+          : {}),
         'process.env.PACKAGE_NAME': JSON.stringify(stripOrganization(name)),
-        'process.env.browser': JSON.stringify(target !== 'node'),
+        'process.env.browser': JSON.stringify(
+          typeof overrideDefinePluginBrowserEnvVar !== 'undefined'
+            ? overrideDefinePluginBrowserEnvVar
+            : target !== 'node',
+        ),
       }),
 
       ...(target === 'node'
@@ -839,7 +851,7 @@ export function createBaseWebpackConfig({
           : []
         : []),
 
-      ...(process.env.DEBUG !== 'true' && useProgressBar
+      ...(!process.env.DEBUG && useProgressBar
         ? [
             new WebpackBar(
               getProgressBarInfo(configName, isDev, isMonorepo, name, target),
@@ -848,15 +860,16 @@ export function createBaseWebpackConfig({
         : []),
     ],
 
-    devtool: useCustomSourceMapPlugin
-      ? false
-      : target !== 'node'
-      ? inTeamCity || forceEmitSourceMaps
-        ? 'source-map'
-        : !isProduction
-        ? 'cheap-module-eval-source-map'
-        : false
-      : 'inline-source-map',
+    devtool:
+      disableEmitSourceMaps || useCustomSourceMapPlugin
+        ? false
+        : target !== 'node'
+        ? inTeamCity || forceEmitSourceMaps
+          ? 'source-map'
+          : !isProduction
+          ? 'cheap-module-eval-source-map'
+          : false
+        : 'inline-source-map',
 
     module: {
       // Makes missing exports an error instead of warning

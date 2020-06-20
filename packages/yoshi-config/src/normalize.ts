@@ -82,6 +82,7 @@ export default (initialConfig: InitialConfig, pkgJson: PackageJson): Config => {
     webWorkerEntry: initialConfig.webWorker?.entry,
     webWorkerResolveAlias: initialConfig.webWorker?.resolveAlias,
     webWorkerExternals: initialConfig.webWorker?.externals,
+    webWorkerSplitChunks: initialConfig.webWorker?.splitChunks,
     serverExternals: initialConfig.server?.externals,
     webWorkerServerEntry: initialConfig.webWorkerServer?.entry,
 

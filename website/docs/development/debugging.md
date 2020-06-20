@@ -4,37 +4,84 @@ title: Debugging
 sidebar_label: Debugging
 ---
 
-This guide will help you get started with debugging. There are multiple things you can debug and you need a different configuration for each one:
+## Debug client side code
 
-1. **Debug your client code** - No configuration needed, just open devtools on your browser.
-2. **Debug your server code** - `yoshi start --debug`
-3. **Debug your tests** - `yoshi test --debug`
+Run the following command and open devtools on your browser.
 
-When debugging your server/tests you'll need to configure the debugger, depend on your preferred way to debug.
+```
+yoshi start
+```
 
-## Environment variables
+You can run the following command in case you want to debug your production bundle:
 
-### PROGRESS_BAR
+```
+yoshi start --production
+```
 
-When you want to disable the progress bar you can add `PROGRESS_BAR=false` before you run command. E.g. `PROGRESS_BAR=false yoshi build`.
+## Debug server side code
 
-### DEBUG
+Run the following command and yoshi will run your development app server with a [node inspector](https://nodejs.org/en/docs/guides/debugging-getting-started/#enable-inspector)
 
-If you want to debug things during start without it cleaning the screen every time you can use `DEBUG=true yoshi start`. Using DEBUG will not show progress bar as well.
+```
+yoshi start --debug
+```
 
-## Enable Inspector
+Using the following command the server process won't start until a debugger will be attached.
 
-When started with the `--debug` option, Yoshi will allow to attach NodeJS debugger to the relevant child process with the default host and port.
-You can configure the default port by: `--debug=XXXX`
+```
+yoshi start --debug-brk
+```
 
-### Break before the code starts
+Make sure to configure one of the [inspector clients](#inspector-clients) and you'll debug in no time.
 
-When started with the `--debug-brk` option, Yoshi will allow to attach NodeJS debugger and the relevant child process won't start until debugger will be attached.
-You can configure the default port by: `--debug-brk=XXXX`.
+> You can configure the default inspector port by: `--debug=XXXX` / `--debug-brk=XXXX` (default: 9229)
 
-### [Inspector Clients](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients)
+## Debug tests code
 
-Several commercial and open source tools can connect to Node's Inspector and there for can debug Yoshi tasks. Basic info on these follows:
+Same as for `yoshi start` but for the test runner (`jest`/`mocha`) instead of the app server process.
+
+```
+yoshi test --debug
+```
+
+or
+
+```
+yoshi test --debug-brk
+```
+
+Make sure to configure one of the [inspector clients](#inspector-clients) and you'll debug in no time.
+
+> You can configure the default inspector port by: `--debug=XXXX` / `--debug-brk=XXXX` (default: 9229)
+
+### Debugging Puppeteer E2E tests
+
+Set `devtools: true` in `jest-yoshi.config`
+
+#### Watch mode
+
+- Run `yoshi test --watch` to run in watch mode
+- Press `d` in the watch menu to activate debug mode
+
+> You don't need to configure `devtools: true` in this mode
+
+#### Add breakpoint in the browser from your test
+
+- In order to add a breakpoint that stops in the browser, add `await debugBrowser();` to your test.
+
+## Debug Yoshi's code
+
+We're using the [debug](https://github.com/visionmedia/debug) package to output verbose logs that would help to debug yoshi internal processes.
+
+Use `DEBUG=yoshi:*` before running a command to opt into the verbose debugging mode.
+
+```
+DEBUG=yoshi:* yoshi build
+```
+
+## Inspector clients
+
+In order to debug, you need to attach node's inspector to one of the [Inspector Clients](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients). Here are guides for the populer clients in Wix:
 
 #### [Chrome DevTools](https://github.com/ChromeDevTools/devtools-frontend) [55+](https://nodejs.org/en/docs/guides/debugging-getting-started/#chrome-devtools-55)
 
@@ -65,18 +112,3 @@ Several commercial and open source tools can connect to Node's Inspector and the
 - In order to manually tell WebStorm the debugging port, create another configuration, use type 'Attach to Node.js/Chrome'
   ![WebStorm > Attach to Node.js/Chrome](https://user-images.githubusercontent.com/11733036/79953463-8deeac00-8484-11ea-9f0c-d0ac06946bac.png)
 - Press debug in order to start the remote debugger configuration then start (without debugging) the 'Node.js' configuration
-
-## Debugging Puppeteer E2E tests
-
-### Debugging in watch mode
-
-- Run `yoshi test --watch` to run in watch mode
-- Press `d` in the watch menu to activate debug mode
-
-### Debugging by default configuration
-
-- Set `devtools: true` in `jest-yoshi.config`
-
-### Adding breakpoints in the browser
-
-- In order to add a breakpoint to browser, add `await debugBrowser();` to your test.
