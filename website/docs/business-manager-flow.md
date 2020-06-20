@@ -111,7 +111,8 @@ The following configurations are available by creating a `.module.json` file:
     "someArtifactsUrl": {
       "artifactId": "com.wixpress.some-artifact"
     }
-  }
+  },
+  "experimentsScopes": ["some-petri-scope"]
 }
 ```
 
@@ -163,6 +164,25 @@ Defaults to:
     "artifactId": "<YOUR_ARTIFACT_ID>"
   }
 }
+```
+
+#### `experimentsScopes`
+
+Accepts an array of Petri scopes, which will initialize an `ExperimentsProvider` above your pages & exported-components.
+Consumption example:
+
+```typescript jsx
+import { useExperiments } from "yoshi-flow-bm-runtime";
+
+export default () => {
+  const { experiments } = useExperiments();
+
+  return (
+    <div
+      style={{ backgroundColor: experiments.enabled("spec") ? "red" : "blue" }}
+    />
+  );
+};
 ```
 
 ### Page-level Configuration
