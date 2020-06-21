@@ -7,3 +7,11 @@ export interface ModuleInitOptions {
 }
 
 export type ModuleInitFn = (this: any, options: ModuleInitOptions) => void;
+
+export interface MethodOptions {}
+
+export type MethodFn = (
+  this: any,
+  options: MethodOptions,
+  ...args: Array<any>
+) => void;

@@ -9,7 +9,7 @@ import { ModuleRegistry, ReactLoadableComponent } from 'react-module-container';
 import { ComponentType } from 'react';
 import { BrowserClient } from '@sentry/browser';
 import { IBMModuleParams } from './hooks/ModuleProvider';
-import { ModuleInitFn } from './types';
+import { MethodFn, ModuleInitFn } from './types';
 
 interface ModuleOptions {
   moduleId: string;
@@ -25,7 +25,7 @@ interface ModuleOptions {
   }>;
   methods: Array<{
     methodId: string;
-    loadMethod(): (...args: Array<any>) => any;
+    loadMethod(): MethodFn;
   }>;
   moduleInit?: ModuleInitFn;
   sentryDsn?: string;

@@ -66,10 +66,13 @@ Exposing methods from your Business-Manager module is done by creating files in 
 
 ```typescript
 // src/methods/some-method.ts
+import { MethodFn } from "yoshi-flow-bm-runtime";
 
-export default () => {
+const method: MethodFn = ({ module, moduleParams }, ...args) => {
   // Do plenty of things
 };
+
+export default method;
 ```
 
 ## Initial Setup
