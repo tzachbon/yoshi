@@ -29,7 +29,7 @@
     "cosmiconfig": "5.2.1",
     "execa": "4.0.2",
     "fs-extra": "8.1.0",
-    "globby": "11.0.0",
+    "globby": "11.0.1",
     "jest": "24.9.0",
     "jest-teamcity": "^1.7.0",
     "jest-validate": "24.9.0",
