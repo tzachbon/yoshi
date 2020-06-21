@@ -1224,6 +1224,16 @@ export function createBaseWebpackConfig({
                 return callback();
               }
 
+              // Everything in Yoshi Serverless (but ambassador deps) should be bundled
+              if (useYoshiServer && process.env.EXPERIMENTAL_YOSHI_SERVERLESS) {
+                // Ambassador RPC modules should be externals
+                const ambassadorRegex = /@wix\/ambassador-.+\/rpc/;
+                if (ambassadorRegex.test(res)) {
+                  return callback(undefined, `commonjs ${request}`);
+                }
+                return callback();
+              }
+
               // Anything else that is within `node_modules` is externalized.
               if (res.match(/node_modules/)) {
                 return callback(undefined, `commonjs ${request}`);
