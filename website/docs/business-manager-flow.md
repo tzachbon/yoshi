@@ -240,11 +240,13 @@ Sets the method's `methodId`. Defaults to `<MODULE_ID>.methods.<FILE_NAME>`.
 Create a file `src/moduleInit.{ts,js}`, for example:
 
 ```typescript
-export default () => {
-  configModule("<YOUR_MODULE_ID>", "<SOME_MODULE>", {
-    /* ... */
-  });
+import { ModuleInitFn } from "yoshi-flow-bm-runtime";
+
+const moduleInit: ModuleInitFn = ({ module, moduleParams }) => {
+  // ...
 };
+
+export default moduleInit;
 ```
 
 More info [here](https://github.com/wix-private/business-manager/blob/master/business-manager-api/docs/business-manager-module.md#init).

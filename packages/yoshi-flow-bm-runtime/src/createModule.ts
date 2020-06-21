@@ -9,6 +9,7 @@ import { ModuleRegistry, ReactLoadableComponent } from 'react-module-container';
 import { ComponentType } from 'react';
 import { BrowserClient } from '@sentry/browser';
 import { IBMModuleParams } from './hooks/ModuleProvider';
+import { ModuleInitFn } from './types';
 
 interface ModuleOptions {
   moduleId: string;
@@ -26,11 +27,7 @@ interface ModuleOptions {
     methodId: string;
     loadMethod(): (...args: Array<any>) => any;
   }>;
-  moduleInit?: (
-    this: any,
-    _module: BusinessManagerModule,
-    _moduleParams: IBMModuleParams,
-  ) => void;
+  moduleInit?: ModuleInitFn;
   sentryDsn?: string;
 }
 
@@ -92,7 +89,7 @@ export default function createModule({
 
     init(moduleParams: IBMModuleParams) {
       if (moduleInit) {
-        moduleInit.call(this, this, moduleParams);
+        moduleInit.call(this, { module: this, moduleParams });
       }
     }
   }
