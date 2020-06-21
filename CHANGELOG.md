@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.104.0 (2020-06-21)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-server-tools`
+  - [#2605](https://github.com/wix/yoshi/pull/2605) Yoshi serverless: ambassador externals ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.103.4 (2020-06-18)
 
 #### :bug: Bug Fix
