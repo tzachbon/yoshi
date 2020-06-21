@@ -34,7 +34,7 @@
     "jest-yoshi-preset": "^4.1.0",
     "lint-staged": "^10.0.7",
     "puppeteer": "^1.1.0",
-    "typescript": "~3.7.5",
+    "typescript": "~3.9.0",
     "velocity": "~0.7.0",
     "wix-eventually": "^2.3.0",
     "yoshi-flow-editor": "latest",

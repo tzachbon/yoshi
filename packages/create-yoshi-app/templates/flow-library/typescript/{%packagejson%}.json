@@ -38,7 +38,7 @@
     "yoshi-flow-library": "^4.0.0",
     "jest-yoshi-preset": "^4.48.0",
     "ts-jest": "^24.0.2",
-    "typescript": "~3.8.0",
+    "typescript": "~3.9.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^8.0.0"
   },
