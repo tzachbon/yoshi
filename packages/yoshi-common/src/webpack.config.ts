@@ -29,6 +29,7 @@ import {
   toIdentifier,
   getProjectArtifactId,
   getServerlessScope,
+  getServerlessBase,
 } from 'yoshi-helpers/utils';
 import TerserPlugin from 'terser-webpack-plugin';
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
@@ -771,8 +772,8 @@ export function createBaseWebpackConfig({
           : {}),
         ...(useYoshiServer && process.env.EXPERIMENTAL_YOSHI_SERVERLESS
           ? {
-              'process.env.YOSHI_SERVERLESS_SCOPE': JSON.stringify(
-                getServerlessScope(),
+              'process.env.YOSHI_SERVERLESS_BASE': JSON.stringify(
+                getServerlessBase(getServerlessScope()),
               ),
             }
           : {}),

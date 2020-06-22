@@ -5,8 +5,9 @@ import chalk from 'chalk';
 import waitPort from 'wait-port';
 import execa from 'execa';
 import fs from 'fs-extra';
+import { serverlessPort, stripOrganization } from 'yoshi-helpers/build/utils';
 import { getDevelopmentEnvVars } from 'yoshi-helpers/build/bootstrap-utils';
-import { stripOrganization } from 'yoshi-helpers/build/utils';
+
 import { SERVER_LOG_FILE } from 'yoshi-config/build/paths';
 import SocketServer from './socket-server';
 import { createSocket as createTunnelSocket } from './utils/suricate';
@@ -91,6 +92,7 @@ export class ServerProcess {
         .map((arg) => arg.replace('debug', 'inspect')),
       env: {
         ...process.env,
+        SERVERLESS_PORT: serverlessPort,
         PORT: `${this.port}`,
         ...bootstrapEnvironmentParams,
         ...this.env,

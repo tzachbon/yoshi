@@ -63,6 +63,12 @@
       }
     },
     {
+      "files": ["packages/yoshi-common/src/templates/**/*"],
+      "rules": {
+        "import/no-extraneous-dependencies": 0
+      }
+    },
+    {
       "files": ["packages/yoshi-flow-legacy/test/**/*"],
       "env": {
         "mocha": true

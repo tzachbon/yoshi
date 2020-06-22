@@ -5,7 +5,7 @@ import fs from 'fs-extra';
 import globby from 'globby';
 import importFresh from 'import-fresh';
 import project from 'yoshi-config';
-import { FullHttpResponse, WebResponse, WebRequest } from '@wix/serverless-api';
+import { WebRequest } from '@wix/serverless-api';
 import { ROUTES_BUILD_DIR, BUILD_DIR } from 'yoshi-config/build/paths';
 import { RouteFunction, InitServerFunction } from './types';
 import { pathMatch, connectToYoshiServerHMR, buildRoute } from './utils';
@@ -64,7 +64,7 @@ export default class Server {
     }
   };
 
-  public handle = async (req: WebRequest): Promise<WebResponse> => {
+  public handle = async (req: WebRequest): Promise<any> => {
     try {
       const { pathname } = parseUrl(req.path as string, true);
 
@@ -112,8 +112,7 @@ export default class Server {
 
           const result = await chunk.call(fnThis);
           if (result) {
-            const webResponse: WebResponse = { body: result, status: 200 };
-            return new FullHttpResponse(webResponse);
+            return result;
           }
         },
       };

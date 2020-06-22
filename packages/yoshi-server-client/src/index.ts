@@ -22,16 +22,25 @@ export interface HttpClient {
 
 // https://github.com/developit/unfetch/issues/46
 const fetch = unfetch;
-const serverlessScope = process.env.YOSHI_SERVERLESS_SCOPE;
+const serverlessBase = process.env.YOSHI_SERVERLESS_BASE;
 
-const defaultBaseUrl = serverlessScope
-  ? serverlessScope
+const defaultBaseUrl = serverlessBase
+  ? serverlessBase
   : `/_api/${process.env.PACKAGE_NAME}`;
+
 export default class implements HttpClient {
   private baseUrl: string;
 
   constructor({ baseUrl = defaultBaseUrl }: Options = {}) {
     this.baseUrl = baseUrl;
+  }
+
+  private getWixHeaders() {
+    const wixHeaders = createHeaders();
+    if (process.env.NODE_ENV === 'development') {
+      delete wixHeaders['x-xsrf-token'];
+    }
+    return wixHeaders as Record<string, string>;
   }
 
   request<Result extends FunctionResult, Args extends FunctionArgs>(
@@ -40,7 +49,6 @@ export default class implements HttpClient {
   ): (...args: Args) => Promise<UnpackPromise<Result>> {
     return async (...args: Args) => {
       const url = joinUrls(this.baseUrl, '/_api_');
-      const wixHeaders = createHeaders();
       const { fileName, functionName } = method;
       const body: RequestPayload = { fileName, functionName, args };
 
@@ -50,7 +58,7 @@ export default class implements HttpClient {
         headers: {
           'Content-Type': 'application/json',
           // WixHeaders has ? for each key. Here, keys which are undefined will be filtered automatically
-          ...(wixHeaders as Record<string, string>),
+          ...this.getWixHeaders(),
           ...options?.headers,
         },
         body: JSON.stringify(body),

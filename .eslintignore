@@ -10,4 +10,3 @@ tmp
 packages/eslint-config-yoshi/__tests__/rules
 packages/create-yoshi-app/templates/business-manager-module/javascript/src/config.js
 packages/tslint-config-yoshi/__tests__/rules
-packages/yoshi-common/src/templates

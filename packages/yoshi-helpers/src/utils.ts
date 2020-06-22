@@ -200,6 +200,15 @@ export const getServerlessScope = () => {
   );
 };
 
+export const serverlessPort = '7777';
+
+export const getServerlessBase = (scope: string) => {
+  if (process.env.NODE_ENV === 'development') {
+    return `http://localhost:${serverlessPort}/serverless/${scope}`;
+  }
+  return `/_serverless/${scope}`;
+};
+
 export const getProjectArtifactVersion = () => {
   return process.env.ARTIFACT_VERSION
     ? // Dev CI
