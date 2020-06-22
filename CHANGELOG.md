@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.106.0 (2020-06-22)
+
+#### :rocket: New Feature
+
+- `yoshi-serverless`
+  - [#2614](https://github.com/wix/yoshi/pull/2614) Yoshi serverless types ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.105.0 (2020-06-22)
 
 #### :rocket: New Feature
