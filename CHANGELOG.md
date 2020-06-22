@@ -1,5 +1,21 @@
 # Changelog
 
+## 4.105.0 (2020-06-22)
+
+#### :rocket: New Feature
+
+- `yoshi-common`, `yoshi-helpers`, `yoshi-server-client`, `yoshi-serverless`
+  - [#2608](https://github.com/wix/yoshi/pull/2608) Yoshi Serverless: fix local work ([@yanivefraim](https://github.com/yanivefraim))
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2598](https://github.com/wix/yoshi/pull/2598) Implement automatic translations solution for Editor flow ([@yavorsky](https://github.com/yavorsky))
+- `yoshi-flow-library`
+  - [#2548](https://github.com/wix/yoshi/pull/2548) Add Storybook integration in flow-library ([@daliusd](https://github.com/daliusd))
+
+#### :house: Internal
+
+- `yoshi-helpers`
+  - [#2592](https://github.com/wix/yoshi/pull/2592) Internal: fix typing problem ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.104.2 (2020-06-22)
 
 #### :house: Internal
