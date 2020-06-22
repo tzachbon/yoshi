@@ -113,8 +113,18 @@
       ]
     },
     {
-      "type": "doc",
-      "id": "version-4.x/editor-flow/runtime-API"
+      "type": "category",
+      "label": "Runtime API",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.x/editor-flow/runtime-api/yoshi-flow-editor-runtime"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.x/editor-flow/runtime-api/flow-api"
+        }
+      ]
     },
     {
       "type": "doc",
