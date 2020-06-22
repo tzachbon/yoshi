@@ -37,7 +37,12 @@ module.exports = {
         'editor-flow/structure-api/component',
       ],
     },
-    'editor-flow/runtime-API',
+    {
+      'Runtime API': [
+        'editor-flow/runtime-api/yoshi-flow-editor-runtime',
+        'editor-flow/runtime-api/flow-api',
+      ],
+    },
     'editor-flow/local-development',
     'editor-flow/testing',
     'editor-flow/platform-apps-support',

@@ -1,20 +1,18 @@
 import React from 'react';
 import {
-  I18nextProvider,
-  translate,
-  InjectedTranslateProps,
-} from 'react-i18next';
-import {
   ExperimentsProvider,
   withExperiments,
   InjectedExperimentsProps,
 } from '@wix/wix-experiments-react';
 import { ExperimentsBag } from '@wix/wix-experiments';
 import { TPAComponentsProvider } from 'wix-ui-tpa/TPAComponentsConfig';
-import { BILoggerProvider } from 'yoshi-flow-editor-runtime';
+import {
+  BILoggerProvider,
+  translate,
+  InjectedTranslateProps,
+} from 'yoshi-flow-editor-runtime';
 import { Button } from 'wix-ui-tpa/Button';
 import webBiLogger from '@wix/web-bi-logger';
-import i18n from '../../../config/i18n';
 import initSchemaLogger from '../../../config/bi';
 import styles from './Widget.st.css';
 
@@ -34,15 +32,13 @@ type WidgetProps = InjectedExperimentsProps &
 
 export default class extends React.Component<WidgetWrapperProps> {
   render() {
-    const { appName, experiments, language, translations, mobile } = this.props;
+    const { appName, experiments, mobile } = this.props;
 
     return (
       <BILoggerProvider logger={biLogger}>
         <ExperimentsProvider options={{ experiments }}>
           <TPAComponentsProvider value={{ mobile }}>
-            <I18nextProvider i18n={i18n({ language, translations })}>
-              <Widget appName={appName} />
-            </I18nextProvider>
+            <Widget appName={appName} />
           </TPAComponentsProvider>
         </ExperimentsProvider>
       </BILoggerProvider>

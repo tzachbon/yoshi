@@ -1,118 +1,13 @@
 ---
-id: runtime-API
-title: Runtime API
-sidebar_label: Runtime API
+id: flow-api
+title: flowAPI
+sidebar_label: flowAPI
 ---
-
-Yoshi Editor Flow provides runtime helpers for developing OOI apps.
-It happens on 2 different layers:
-
-- providing runtime helpers via `yoshi-flow-editor-runtime`.
-- extending platform API's with additional utils specified for each environment (viewer script, editor script)
-
-# `yoshi-flow-editor-rutime`
-
-It exports various Higher Order Components (HOCs) and methods to reduce boilerplate on client's side and organize the app structure in a better way.
-
-## `WixSDK`
-
-WixSDK is a HOC that loads [IStaticWix](https://github.com/wix-private/fed-infra/blob/master/js-sdk-wrapper/src/types.ts) object.
-
-It renders a `children` function with `sdk` argument:
-
-`sdk`: `{ Wix: IWixStatic | null }`
-
-```tsx
-import { WixSDK } from "yoshi-flow-editor-runtime";
-
-export default () => (
-  <WixSDK>
-    {
-      (sdk) => <SomeComp Wix={sdk.Wix} /> // IStaticWix | null
-    }
-  </WixSDK>
-);
-```
-
-`sdk.Wix` will be `null` if `WixSDK` is being used in Widget part and rendered in Viewer mode, so make sure you are checking if it's not `null` to use it.
-
-#### Props
-
-**isEditor** - should be passed for Settings part. It triggers a `WixSDK`, so it will use strict types for `sdk.Wix` and it won't be _optional_.
-
-_Settings.ts_
-
-```tsx
-import { WixSDK } from "yoshi-flow-editor-runtime";
-
-export default () => (
-  <WixSDK isEditor>
-    {
-      (sdk) => <SomeComp Wix={sdk.Wix} /> // IStaticWix
-    }
-  </WixSDK>
-);
-```
-
-## `BILogger`
-
-Currently it consists of `BILoggerProvider` and `BILogger` components.
-
-`BILoggerProvider` should be rendered in the root of you component and receive a `biLogger` prop.
-
-`BILogger` is a consumer. It will render a `children` function with `biLogger` passed to provider.
-
-You still need to create and configure `biLogger` instance, so it's just an attempt to remove some boilerplate from your side.
-
-To configure biLogger instance, you have to follow [fed-handbook BI section steps](https://github.com/wix-private/fed-handbook/blob/master/BI.md#overview).
-
-By loading schema logger you've initialized and registered, you should use different loggers according to runtime environment:
-
-- Settings panel: `iframeAppBiLoggerFactory` imported from `@wix/iframe-app-bi-logger` package
-- Widget: `@wix/web-bi-logger` package
-
-_Settings.ts_
-
-```tsx
-import { WixSDK, BILogger, BILoggerProvider } from "yoshi-flow-editor-runtime";
-import { iframeAppBiLoggerFactory } from "@wix/iframe-app-bi-logger";
-import initSchemaLogger from "your-schema-logger-package";
-
-const biLogger = initSchemaLogger(iframeAppBiLoggerFactory);
-
-// Root component
-export default () => (
-  <BILoggerProvider logger={biLogger}>
-    // Settings content...
-    <ColorPicker />
-  </BILoggerProvider>
-);
-
-// Somewhere deeper in the component
-const ColorPicker = () => (
-  <BiLogger>
-    {(biLogger) => (
-      <ColorPickerColorSpace
-        onChange={() => {
-          logger.logColorChange();
-        }}
-      />
-    )}
-  </BiLogger>
-);
-```
-
-# Extended platform API's
-
-To reduce boilerplate for platform entities (viewer controller, editor script), we are providing additional utilities.
-The main goal is to preserve platform API's and make it more convenient for day-to-day use-cases.
-
-## `flowAPI`
 
 To extend platform API's editor flow passes an additional value to platform methods.
 This value is an object called `flowAPI`. It's already configured for:
 
-- app level. `flowAPI` will be passed for `initAppForPage` and editor script methods from `editor.app.ts`. (`editorReady`, `getManifest`, etc)
+- **app level**. `flowAPI` will be passed for `initAppForPage` and editor script methods from `editor.app.ts`. (`editorReady`, `getManifest`, etc)
 - **component level:** `flowAPI` will be a field for user's `controller.ts`.
 
 In this section we'll go through instances and helpers `flowAPI` provides. In practice, `flowAPI` is not a single instance. Its shape will vary according to consumer's environment:
@@ -160,7 +55,7 @@ It will be logged under `Viewer:Worker` environment.
 ![sentry-search](https://user-images.githubusercontent.com/11733036/84033045-f0eac280-a9a0-11ea-80dc-2770e60af399.png)
 ![sentry-error-row](https://user-images.githubusercontent.com/11733036/84033054-f3e5b300-a9a0-11ea-82f3-5c45f8667aed.png)
 
-#### `sentryMonitor`
+### `sentryMonitor`
 
 _Available for `viewer.app.ts`, `editor.app.ts` and `controller`._
 
@@ -180,7 +75,7 @@ export default ({ flowAPI }) => {
 };
 ```
 
-#### `reportError`
+### `reportError`
 
 _Available for `viewer.app.ts`, `editor.app.ts` and `controller`._
 
@@ -217,7 +112,7 @@ export const editorReady: EditorReadyFn = async (
 };
 ```
 
-### Fedops
+## Fedops
 
 _Available for `editor.app.ts` and `controller`._
 
@@ -230,7 +125,8 @@ Boards for each component will be configured also.
 **`appLoadStarted` and `appLoaded` events will be logged automatically by the Editor Flow.**
 Moreover, both client-side rendering and server-side rendering logs for Widget are covered. So for most cases you don't need to handle fedops logs by yourself at all.
 
-#### `fedopsLogger`
+
+### `fedopsLogger`
 
 Provides a `Fedops BaseLogger` initialized for current environment. Logs from `editor.app.ts` will be available for editor script board, `controller` - for component's board.
 
@@ -242,9 +138,7 @@ _controller.ts_
 // appLoadStarted and appLoaded already covered by the editor flow 😌
 export default ({ flowAPI }) => {
   const handleSubmitSomething = () => {
-    flowAPI.fedopsLogger.interactionStarted(
-      SUBMIT_SOMETHING_FEDOPS_INTERACTION
-    );
+    flowAPI.fedopsLogger.interactionStarted(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
     // process the action...
     flowAPI.fedopsLogger.interactionEnded(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
   };
@@ -254,26 +148,36 @@ export default ({ flowAPI }) => {
       setProps({
         handleSubmitSomething,
       });
-    },
+    }
   };
 };
 ```
 
-### isSSR
+## Translations
+> Note, Since translations feature is common for Widget but not a controller, in most cases you won't need these calls.
+For Widget you just need to use `translations` HOC. For more info, check [structure-api docs](../structure-api/application.md#locales).
 
+### getTranslations
 _Available for the `controller`._
 
-A helper that returns `true` if current rendering environment is a server-side-rendering. Returns `false` in case of client-side-rendering.
-[Read more about SSR and CRS](https://bo.wix.com/wix-docs/client/viewer-platform---ooi/about/get-started/guidelines#viewer-platform---ooi_about_get-started_guidelines_overview) for viewer platform.
+Returns a pending `Promise` which will be resolved with translations for the current site's language.
 
-### isMobile
+_Since we want to start fetching translations as soon as possible, this call won't create a new network call.
+It will just return a promise for an already created call by the editor flow._
 
-_Available for the `controller`._
+```ts
+export default async function({ flowAPI }) => {
+  return {
+    pageReady() {
+      const translations = await flowAPI.getTranslations();
 
-A helper that returns `true` if window's form factor is a mobile.
+      console.log(translations['app.widget.hello']);
+    }
+  };
+}
+```
 
 ### getSiteLanguage
-
 _Available for the `controller`._
 
 If multilingual is enabled, returns current language for it. If not, returns a site language. Will use a fallback language if nothing found.
@@ -292,6 +196,19 @@ export default async function({ flowAPI }) => {
   };
 }
 ```
+
+## isSSR
+
+_Available for the `controller`._
+
+A helper that returns `true` if current rendering environment is a server-side-rendering. Returns `false` in case of client-side-rendering.
+[Read more about SSR and CRS](https://bo.wix.com/wix-docs/client/viewer-platform---ooi/about/get-started/guidelines#viewer-platform---ooi_about_get-started_guidelines_overview) for viewer platform.
+
+## isMobile
+
+_Available for the `controller`._
+
+A helper that returns `true` if window's form factor is a mobile.
 
 ### getExperiments
 

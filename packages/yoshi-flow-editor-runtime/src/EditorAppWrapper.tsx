@@ -10,7 +10,11 @@ import {
   IWixSDKEditorEnvironmentContext,
 } from './react/SDK/SDKContext';
 import { WixSDKProvider } from './react/SDK/WixSDKProvider';
-import { SentryConfig, ExperimentsConfig } from './constants';
+import {
+  SentryConfig,
+  ExperimentsConfig,
+  TranslationsConfig,
+} from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 
 declare global {
@@ -23,6 +27,7 @@ interface IEditorAppCreatorProps {
   UserComponent: typeof React.Component;
   userController: CreateControllerFn;
   customInitAppForPage: InitAppForPageFn;
+  translationsConfig: TranslationsConfig;
   name: string;
   sentry: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
@@ -43,6 +48,7 @@ const createEditorAppForWixSDK = ({
   name,
   sentry,
   experimentsConfig,
+  translationsConfig,
   sdk,
 }: IEditorAppWithWixSDKCreatorProps) => {
   const WithComponent = WidgetWrapper(UserComponent, {
@@ -54,7 +60,7 @@ const createEditorAppForWixSDK = ({
 
   return ViewerScriptWrapper(WithComponent, {
     viewerScript: {
-      createControllers: createControllers(userController),
+      createControllers: createControllers(userController, translationsConfig),
       initAppForPage: initAppForPageWrapper(
         customInitAppForPage,
         sentry,
@@ -112,10 +118,10 @@ export default (props: IEditorAppWrapperProps) => {
     <Suspense fallback={<div>Loading...</div>}>
       <WixSDKProvider>
         <WixSDK>
-          {sdk => {
+          {(sdk) => {
             if (!props.sentry) {
               return (
-                <ErrorBoundary handleException={error => console.log(error)}>
+                <ErrorBoundary handleException={(error) => console.log(error)}>
                   <EditorAppWithCreator sdk={sdk} {...props} />
                 </ErrorBoundary>
               );
@@ -126,7 +132,7 @@ export default (props: IEditorAppWrapperProps) => {
               : null;
 
             if (Wix) {
-              window.Sentry.configureScope(scope => {
+              window.Sentry.configureScope((scope) => {
                 scope.setTag('msid', Wix.Utils.getInstanceValue('metaSiteId'));
                 scope.setTag('environment', 'Editor');
                 scope.setUser({

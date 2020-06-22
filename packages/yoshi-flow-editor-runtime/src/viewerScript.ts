@@ -11,6 +11,7 @@ import {
   WidgetType,
   OOI_WIDGET_COMPONENT_TYPE,
   ExperimentsConfig,
+  TranslationsConfig,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 import { ViewerScriptFlowAPI, ControllerFlowAPI } from './FlowAPI';
@@ -29,6 +30,7 @@ const onCSRLoaded = (flowAPI: ControllerFlowAPI) => () => {
 type ControllerDescriptor = {
   id: string | null;
   method: Function;
+  translationsConfig: TranslationsConfig | null;
   widgetType: WidgetType;
   controllerFileName: string | null;
   appName: string | null;
@@ -49,6 +51,7 @@ const defaultControllerWrapper = (
     viewerScriptFlowAPI,
     appDefinitionId: controllerConfig.appParams.appDefinitionId,
     widgetId: controllerDescriptor.id,
+    translationsConfig: controllerDescriptor.translationsConfig,
     controllerConfig,
   });
   return controllerDescriptor.method({
@@ -93,18 +96,20 @@ function ooiControllerWrapper(
   const flowAPI = new ControllerFlowAPI({
     viewerScriptFlowAPI,
     appDefinitionId,
+    translationsConfig: controllerDescriptor.translationsConfig,
     widgetId: controllerDescriptor.id,
     controllerConfig,
   });
 
   const userControllerPromise = controllerDescriptor.method.call(context, {
-    controllerConfig,
+    controllerConfig: flowAPI.controllerConfig,
     flowAPI,
     appData,
   });
 
-  const wrappedController = Promise.resolve(userControllerPromise)
-    .catch((error) => {
+  const wrappedController = Promise.all([
+    flowAPI._translationsPromise,
+    Promise.resolve(userControllerPromise).catch((error) => {
       if (!flowAPI.inEditor) {
         // Currently platform doesn't log errors happened in worker. We want to fix it here.
         console.error(
@@ -113,37 +118,51 @@ function ooiControllerWrapper(
         );
         flowAPI.reportError(error);
       }
-      throw error;
-    })
-    .then((userController: any) => {
-      return {
-        ...userController,
-        pageReady: async (...args: Array<any>) => {
-          // we are going to get rid of current setProps call and override original one with wrapper, where we can populate user's call with flow's fields.
-          setProps({
-            __publicData__: controllerConfig.config.publicData,
-            // Set initial state
-            state: context.state,
-            // Set methods
-            methods: userController.methods,
-            onAppLoaded: onCSRLoaded(flowAPI),
-          });
-          let userPageReadyResult;
+      return { _controllerError: error };
+    }),
+  ]).then(([translations, userController]) => {
+    delete flowAPI._translationsPromise;
 
-          // Optional `pageReady`
-          if (userController.pageReady) {
-            userPageReadyResult = await userController.pageReady(...args);
-          }
+    return {
+      ...userController,
+      pageReady: async (...args: Array<any>) => {
+        // we are going to get rid of current setProps call and override original one with wrapper, where we can populate user's call with flow's fields.
+        setProps({
+          __publicData__: controllerConfig.config.publicData,
+          _language: flowAPI.getSiteLanguage(),
+          _translations: translations,
+          _enabledHOCs: {
+            translations:
+              controllerDescriptor.translationsConfig &&
+              !controllerDescriptor.translationsConfig.disabled,
+          },
+          // Set initial state
+          state: context.state,
+          // Set methods
+          methods: userController.methods,
+          onAppLoaded: onCSRLoaded(flowAPI),
+        });
+        let userPageReadyResult;
 
-          if (flowAPI.isSSR()) {
-            flowAPI.fedopsLogger.appLoaded();
-          }
+        if (userController._controllerError) {
+          throw userController._controllerError;
+        }
 
-          return userPageReadyResult;
-        },
-        exports: userController.corvid,
-      };
-    });
+        // Optional `pageReady`
+        if (userController.pageReady) {
+          // TODO: handle errors from pageReady
+          userPageReadyResult = await userController.pageReady(...args);
+        }
+
+        if (flowAPI.isSSR()) {
+          flowAPI.fedopsLogger.appLoaded();
+        }
+
+        return userPageReadyResult;
+      },
+      exports: userController.corvid,
+    };
+  });
 
   return wrappedController;
 }
@@ -170,11 +189,15 @@ const getDescriptorForConfig = (
   );
 };
 
-export const createControllers = (createController: CreateControllerFn) => {
+export const createControllers = (
+  createController: CreateControllerFn,
+  translationsConfig: TranslationsConfig | null = null,
+) => {
   return createControllersWithDescriptors([
     {
       method: createController,
       id: null,
+      translationsConfig,
       widgetType: OOI_WIDGET_COMPONENT_TYPE,
       controllerFileName: null,
       componentName: null,
@@ -213,6 +236,7 @@ export const initAppForPageWrapper = (
   experimentsConfig: ExperimentsConfig | null,
   inEditor: boolean = false,
   appName: string | null = null,
+  // translationsConfig: TranslationsConfig | null = null,
 ): IInitAppForPage => async (
   initParams: IAppData,
   apis: IPlatformAPI,

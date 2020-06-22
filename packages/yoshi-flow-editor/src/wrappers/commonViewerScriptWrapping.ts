@@ -43,6 +43,7 @@ const viewerScriptWrapper = (
     controllersMeta,
     appName: model.appName,
     experimentsConfig: model.experimentsConfig,
+    translationsConfig: model.translationsConfig,
     viewerEntryFileName: model.viewerEntryFileName,
   });
 

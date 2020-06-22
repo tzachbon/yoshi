@@ -11,10 +11,15 @@ import {
   initExperimentsGetter,
   initEmptyExperimentsGetter,
 } from './fetchExperiments';
-import { ExperimentsConfig, SentryConfig } from './constants';
+import {
+  ExperimentsConfig,
+  SentryConfig,
+  TranslationsConfig,
+} from './constants';
 import { getSiteLanguage, isSSR, isMobile } from './helpers';
 import { ReportError } from './types';
 import { buildSentryOptions, getArtifact } from './utils';
+import { getSiteTranslations } from './i18next';
 
 class FlowAPI {
   getExperiments: () => Promise<Experiments>;
@@ -46,16 +51,21 @@ export class ControllerFlowAPI extends FlowAPI {
   fedopsLogger: BaseLogger<string>;
   inEditor: boolean;
   widgetId: string;
+  translationsConfig: TranslationsConfig | null;
+
+  _translationsPromise: Promise<Record<string, string>>;
 
   constructor({
     viewerScriptFlowAPI,
     controllerConfig,
+    translationsConfig,
     appDefinitionId,
     widgetId,
   }: {
     viewerScriptFlowAPI: ViewerScriptFlowAPI;
     controllerConfig: IWidgetControllerConfig;
     appDefinitionId: string;
+    translationsConfig: TranslationsConfig | null;
     widgetId: string | null;
   }) {
     super({ experimentsConfig: null });
@@ -64,6 +74,7 @@ export class ControllerFlowAPI extends FlowAPI {
     this.getExperiments = viewerScriptFlowAPI.getExperiments;
     this.sentryMonitor = viewerScriptFlowAPI.sentryMonitor;
     this.inEditor = viewerScriptFlowAPI.inEditor;
+    this.translationsConfig = translationsConfig;
     this.fedopsLogger = controllerConfig.platformAPIs.fedOpsLoggerFactory!.getLoggerForWidget(
       {
         appId: appDefinitionId,
@@ -78,6 +89,12 @@ export class ControllerFlowAPI extends FlowAPI {
     }
 
     this.appLoadStarted();
+
+    const language = this.getSiteLanguage(translationsConfig?.default);
+
+    this._translationsPromise = translationsConfig
+      ? getSiteTranslations(language)
+      : Promise.resolve({});
   }
 
   private appLoadStarted = () => {
@@ -89,6 +106,10 @@ export class ControllerFlowAPI extends FlowAPI {
       );
       appLoadStarted.call(this.fedopsLogger, ...args);
     };
+  };
+
+  getTranslations = async () => {
+    return this._translationsPromise;
   };
 
   getSiteLanguage = (fallbackLanguage: string = 'en') => {
@@ -120,6 +141,7 @@ export class EditorScriptFlowAPI extends FlowAPI {
     artifactId: string;
   }) {
     super({ experimentsConfig });
+
     if (sentry) {
       const sentryOptions = buildSentryOptions(
         sentry.DSN,

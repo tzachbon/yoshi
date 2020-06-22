@@ -23,11 +23,14 @@ exports[`EditorAppEntry template generates correct template for editor app entry
 
     var experimentsConfig = null;
 
+    var translationsConfig = null;
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
       sentry: sentryConfig,
       experimentsConfig: experimentsConfig,
+      translationsConfig: translationsConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });
@@ -53,11 +56,14 @@ exports[`EditorAppEntry template generates correct template for editor app entry
 
     var experimentsConfig = null;
 
+    var translationsConfig = {\\"default\\":\\"en\\"};
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
       sentry: sentryConfig,
       experimentsConfig: experimentsConfig,
+      translationsConfig: translationsConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });

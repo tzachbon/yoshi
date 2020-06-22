@@ -5,6 +5,7 @@ describe('EditorAppEntry template', () => {
     const generatedEditorAppEntryContent = editorAppEntryContent({
       editorAppWrapperPath: 'some/editor-app-wrapper',
       componentName: 'MyWidget',
+      translationsConfig: null,
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
       viewerEntryFileName: 'some/viwer.app.ts',
@@ -27,6 +28,9 @@ describe('EditorAppEntry template', () => {
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
       viewerEntryFileName: null,
+      translationsConfig: {
+        default: 'en',
+      },
       sentryConfig: null,
       experimentsConfig: null,
     });

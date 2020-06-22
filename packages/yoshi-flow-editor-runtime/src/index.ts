@@ -21,3 +21,15 @@ export * from './react/BILogger/useBILogger';
 export * from './react/ErrorBoundary';
 export * from './types';
 export { getEditorParams, isEditor } from './utils';
+
+export {
+  InjectedTranslateProps,
+  InjectedI18nProps,
+  ReactI18NextOptions,
+  reactI18nextModule,
+  I18n,
+  translate,
+  Trans,
+  TranslationFunction,
+} from 'react-i18next';
+export { I18nextProvider } from './i18next/I18nextProvider';

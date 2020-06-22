@@ -1,6 +1,7 @@
 import {
   SentryConfig,
   ExperimentsConfig,
+  TranslationsConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 import { viewerScriptOptionalImport } from './CommonViewerScriptEntry';
@@ -13,6 +14,7 @@ type Opts = Record<
   string
 > & {
   viewerEntryFileName: string | null;
+  translationsConfig: TranslationsConfig | null;
   sentryConfig: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
 };
@@ -47,11 +49,15 @@ export default t<Opts>`
       }`
         : 'null'};
 
+    var translationsConfig = ${({ translationsConfig }) =>
+      translationsConfig ? JSON.stringify(translationsConfig) : 'null'};
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
       sentry: sentryConfig,
       experimentsConfig: experimentsConfig,
+      translationsConfig: translationsConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });

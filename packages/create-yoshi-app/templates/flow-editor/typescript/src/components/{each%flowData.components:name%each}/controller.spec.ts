@@ -1,6 +1,5 @@
 import Experiments from '@wix/wix-experiments';
 import { IWidgetControllerConfig } from '@wix/native-components-infra/dist/src/types/types';
-import translations from '../../assets/locales/messages_en.json';
 import {
   appName,
   experiments as experimentsConfig,
@@ -17,7 +16,6 @@ describe('createController', () => {
     });
     mockExperiments(experimentsConfig.scope, experiments.all());
     const setPropsSpy = jest.fn();
-    const language = 'en';
     const appDefinitionId = 'APP_DEF_ID';
     const controllerConfig: IWidgetControllerConfig = getControllerConfigMock({
       setProps: setPropsSpy,
@@ -47,10 +45,8 @@ describe('createController', () => {
 
     expect(setPropsSpy).toBeCalledWith({
       appName,
-      language,
       experiments: experiments.all(),
       mobile: false,
-      translations,
     });
   });
 });

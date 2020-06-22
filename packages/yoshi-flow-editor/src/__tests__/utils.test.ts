@@ -17,6 +17,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
         sentry: null,
+        translationsConfig: {},
         urls: {
           viewerUrl: 'https://google.com',
           editorUrl: 'https://google.com',
@@ -52,6 +53,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: '@wix/app',
         artifactId: '7891',
         urls: {},
+        translationsConfig: {},
         experimentsConfig: {
           scope: 'test-scope',
         },
@@ -96,6 +98,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: '@wix/app',
         artifactId: '7891',
         urls: {},
+        translationsConfig: null,
         editorEntryFileName: null,
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
@@ -131,6 +134,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: 'some-project',
         artifactId: '7891',
         urls: {},
+        translationsConfig: {},
         editorEntryFileName: null,
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
@@ -169,6 +173,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: 'some-project',
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
+        translationsConfig: {},
         experimentsConfig: {
           scope: 'test-scope',
         },

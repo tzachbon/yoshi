@@ -17,7 +17,9 @@ exports[`CommonViewerScriptEntry template generates correct template w/o control
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\");
+  var translationsConfig = {\\"default\\":\\"en\\"};
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([]);
 "
 `;
@@ -39,9 +41,12 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\");
+  var translationsConfig = null;
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
+          translationsConfig: null,
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -65,9 +70,12 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\");
+  var translationsConfig = {\\"default\\":\\"en\\"};
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someApp\\",
           componentName: \\"SomeComp\\",
@@ -93,14 +101,18 @@ import controller1 from 'project/src/components/todo/controller.ts';
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\");
+  var translationsConfig = {\\"default\\":\\"en\\"};
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"STUDIO_WIDGET\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
           id: \\"CONTROLLER_ID\\" }, { method: controller1,
           widgetType: \\"STUDIO_WIDGET\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -126,14 +138,18 @@ import controller1 from 'project/src/components/todo/controller.ts';
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\");
+  var translationsConfig = {\\"default\\":\\"en\\"};
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someapp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
           id: \\"CONTROLLER_ID\\" }, { method: controller1,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -163,9 +179,12 @@ exports[`CommonViewerScriptEntry template generates correct template with sentry
     scope: 'test-scope'
   };
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\");
+  var translationsConfig = {\\"default\\":\\"en\\"};
+
+  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, \\"someApp\\", translationsConfig);
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
+          translationsConfig: {\\"default\\":\\"en\\"},
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someApp\\",
           componentName: \\"SomeWidget\\",

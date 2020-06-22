@@ -8,6 +8,9 @@
     "teamName": "{%sentryData.teamName%}",
     "webPage": "https://sentry.wixpress.com/sentry/{%sentryData.projectName%}"
   },
+  "translations": {
+    "default": "en"
+  },
   "experiments": {
     "scope": "test"
   }

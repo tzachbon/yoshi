@@ -24,6 +24,7 @@ const componentWrapper = (
       const generateWidgetEntryContent = editorEntryTemplate({
         editorAppWrapperPath,
         componentName: component.name,
+        translationsConfig: model.translationsConfig,
         componentFileName: component.widgetFileName,
         controllerFileName: component.viewerControllerFileName,
         viewerEntryFileName: model.viewerEntryFileName,

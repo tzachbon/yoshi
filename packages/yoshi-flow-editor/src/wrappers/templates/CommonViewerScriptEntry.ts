@@ -2,6 +2,7 @@ import {
   WidgetType,
   ExperimentsConfig,
   SentryConfig,
+  TranslationsConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
@@ -17,6 +18,7 @@ type Opts = {
   viewerScriptWrapperPath: string;
   viewerEntryFileName: string | null;
   sentryConfig: SentryConfig | null;
+  translationsConfig: TranslationsConfig | null;
   experimentsConfig: ExperimentsConfig | null;
   appName: string | null;
   controllersMeta: Array<TemplateControllerConfig>;
@@ -58,13 +60,15 @@ const getControllerScriptId = (controller: TemplateControllerConfig) => {
 
 const controllerConfigs = t<{
   controllersMeta: Array<TemplateControllerConfig>;
+  translationsConfig: TranslationsConfig | null;
   appName: string | null;
-}>`${({ controllersMeta, appName }) =>
+}>`${({ controllersMeta, translationsConfig, appName }) =>
   controllersMeta
     .map(
       (controller, i) =>
         `{ method: ${getControllerVariableName(i)},
           widgetType: "${controller.widgetType}",
+          translationsConfig: ${JSON.stringify(translationsConfig)},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
           componentName: "${controller.componentName}",
@@ -97,15 +101,20 @@ export default t<Opts>`
   }`
       : 'null'};
 
+  var translationsConfig = ${({ translationsConfig }) =>
+    translationsConfig ? JSON.stringify(translationsConfig) : 'null'};
+
   export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, ${({
     appName,
-  }) => (appName ? `"${appName}"` : 'null')});
+  }) => (appName ? `"${appName}"` : 'null')}, translationsConfig);
   export const createControllers = createControllersWithDescriptors([${({
     controllersMeta,
     appName,
+    translationsConfig,
   }) =>
     controllerConfigs({
       controllersMeta,
       appName,
+      translationsConfig,
     })}]);
 `;

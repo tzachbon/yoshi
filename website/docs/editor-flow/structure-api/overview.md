@@ -15,6 +15,8 @@ my-app
     ├── editor.app.ts
     ├── assets
     │   └── locales
+    │        ├── messages_en.json
+    │        └── messages_uk.json
     └── components
         └── MyComponent
             ├── .component.json

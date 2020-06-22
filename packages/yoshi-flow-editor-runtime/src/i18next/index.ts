@@ -2,16 +2,26 @@ import memoize from 'lodash/memoize';
 import i18next from 'i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
 // bundle in fallback language
-import messagesEn from '../assets/locales/messages_en.json';
+// import messagesEn from '../assets/locales/messages_en.json';
 
 declare let __webpack_public_path__: string;
 const DEFAULT_LANGUAGE = 'en';
+
+// const messagesEn =
+//   require(`${__webpack_public_path__}assets/locales/messages_en.json`) || {};
+let fallbackTranslations = {};
+
+try {
+  fallbackTranslations = require('assets/locales/messages_en.json');
+} catch (e) {
+  console.error(e);
+}
 
 export function getSiteTranslations(
   language: string,
 ): Promise<Record<string, string>> {
   if (language === DEFAULT_LANGUAGE) {
-    return Promise.resolve(messagesEn);
+    return Promise.resolve(fallbackTranslations);
   }
 
   // locales are `fetch`ed and not `import`ed because
@@ -24,7 +34,7 @@ export function getSiteTranslations(
   ).then((r) => {
     if (!r.ok) {
       console.error(`Can't load locale: ${language}`);
-      return Promise.resolve(messagesEn);
+      return Promise.resolve(fallbackTranslations);
     }
 
     return r.json();

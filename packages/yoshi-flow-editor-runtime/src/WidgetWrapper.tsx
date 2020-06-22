@@ -7,9 +7,10 @@ import {
   ISantaProps,
   IHostProps,
 } from '@wix/native-components-infra/dist/src/types/types';
+import { I18nextProvider } from 'react-i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
+import i18n from './i18next';
 import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
-import { createInstances } from './createInstances';
 import { ControllerProvider } from './react/Controller/ControllerProvider';
 import { IControllerContext } from './react/Controller/ControllerContext';
 import { SentryConfig } from './constants';
@@ -23,7 +24,11 @@ declare global {
 // TODO - improve this type or bring from controller wrapper
 interface IFlowProps {
   __publicData__: Record<string, any>;
-  experiments: any;
+  _language: any;
+  _translations: any;
+  _enabledHOCs: {
+    translations: boolean;
+  };
   onAppLoaded?: () => void;
   cssBaseUrl?: string;
 }
@@ -61,15 +66,32 @@ const getWidgetWrapper = (
   },
 ) => {
   const Widget = (props: ISantaProps & IFlowProps & IControllerContext) => {
-    const { __publicData__, onAppLoaded, ...widgetProps } = props;
+    const {
+      __publicData__,
+      _language,
+      _translations,
+      _enabledHOCs,
+      onAppLoaded,
+      ...widgetProps
+    } = props;
+
+    // TODO: Make a better approach for enabled hocs to not copy children for each variation
     return (
       <AppLoadedHandler onAppLoaded={onAppLoaded} host={props.host}>
         <PublicDataProvider data={__publicData__} sdk={{ Wix }}>
           <ControllerProvider data={props}>
-            <UserComponent
-              {...createInstances({ experiments: props.experiments })}
-              {...widgetProps}
-            />
+            {_enabledHOCs.translations ? (
+              <I18nextProvider
+                i18n={i18n({
+                  language: _language,
+                  translations: _translations,
+                })}
+              >
+                <UserComponent {...widgetProps} />
+              </I18nextProvider>
+            ) : (
+              <UserComponent {...widgetProps} />
+            )}
           </ControllerProvider>
         </PublicDataProvider>
       </AppLoadedHandler>

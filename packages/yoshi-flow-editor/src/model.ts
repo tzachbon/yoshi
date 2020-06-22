@@ -9,6 +9,7 @@ import {
   WidgetType,
   SentryConfig,
   ExperimentsConfig,
+  TranslationsConfig,
   OOI_WIDGET_COMPONENT_TYPE,
   PLATFORM_WIDGET_COMPONENT_TYPE,
 } from 'yoshi-flow-editor-runtime/build/constants';
@@ -33,6 +34,7 @@ export interface FlowEditorModel {
   viewerEntryFileName: string | null;
   editorEntryFileName: string | null;
   experimentsConfig: ExperimentsConfig | null;
+  translationsConfig: TranslationsConfig | null;
   components: Array<ComponentModel>;
   sentry: SentryConfig | null;
   urls: URLsConfig;
@@ -59,6 +61,7 @@ export interface AppConfig {
   experiments: ExperimentsConfig | null;
   appDefinitionId: string;
   appName?: string;
+  translations?: TranslationsConfig | null;
   sentry?: SentryConfig;
 }
 export interface ComponentConfig {
@@ -239,6 +242,10 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,
+    translationsConfig: appConfig.translations ?? {
+      disabled: false,
+      default: 'en',
+    },
     editorEntryFileName,
     artifactId,
     viewerEntryFileName,

@@ -24,6 +24,9 @@ export default ({
       inEditor: false,
       platformServices: aDefaultPlatformServices(),
     }),
+    translationsConfig: {
+      default: 'en',
+    },
     controllerConfig,
     appDefinitionId,
     widgetId,

@@ -10,6 +10,7 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      translationsConfig: null,
       appName: 'someapp',
       controllersMeta: [
         {
@@ -35,6 +36,9 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someApp',
+      translationsConfig: {
+        default: 'en',
+      },
       controllersMeta: [
         {
           controllerFileName: 'project/src/components/button/controller.ts',
@@ -58,6 +62,9 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someapp',
+      translationsConfig: {
+        default: 'en',
+      },
       controllersMeta: [
         {
           controllerFileName: 'project/src/components/todo/controller.ts',
@@ -89,6 +96,9 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someapp',
+      translationsConfig: {
+        default: 'en',
+      },
       controllersMeta: [
         {
           controllerFileName: 'project/src/components/todo/controller.ts',
@@ -119,6 +129,9 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      translationsConfig: {
+        default: 'en',
+      },
       appName: 'someApp',
       controllersMeta: [],
       experimentsConfig: {
@@ -132,6 +145,9 @@ describe('CommonViewerScriptEntry template', () => {
 
   it('generates correct template with sentry', () => {
     const generateControllerEntryContent = commonViewerScriptEntry({
+      translationsConfig: {
+        default: 'en',
+      },
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: {

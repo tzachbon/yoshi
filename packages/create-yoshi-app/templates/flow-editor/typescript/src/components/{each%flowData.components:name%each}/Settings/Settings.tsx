@@ -1,19 +1,19 @@
 import React from 'react';
 import { IWixStatic } from '@wix/native-components-infra/dist/src/types/wix-sdk';
-import {
-  I18nextProvider,
-  translate,
-  InjectedTranslateProps,
-} from 'react-i18next';
 import { iframeAppBiLoggerFactory } from '@wix/iframe-app-bi-logger';
 import { ExperimentsProvider } from '@wix/wix-experiments-react';
 import { get } from 'lodash';
-import { WixSDK, BILogger, BILoggerProvider } from 'yoshi-flow-editor-runtime';
+import {
+  WixSDK,
+  BILogger,
+  BILoggerProvider,
+  translate,
+  InjectedTranslateProps,
+} from 'yoshi-flow-editor-runtime';
 import { ColorPickerColorSpace, TextLabel } from '@wix/wix-base-ui';
 // Replace this line with real schema initializer
 import initSchemaLogger, { IExampleBILogger } from '../../../config/bi';
 import { experiments as experimentsConfig } from '../../../../.application.json';
-import i18n, { getLanguageWithInstance } from '../../../config/i18n';
 import './Settings.global.scss';
 
 const biLogger = initSchemaLogger(iframeAppBiLoggerFactory);
@@ -92,18 +92,7 @@ export class Settings extends React.Component<ISettingsProps> {
 export default () => (
   <ExperimentsProvider options={{ scope: experimentsConfig.scope }}>
     <BILoggerProvider logger={biLogger}>
-      <WixSDK isEditor>
-        {({ Wix }) => (
-          <I18nextProvider
-            i18n={i18n({
-              language: getLanguageWithInstance(Wix),
-              waitForReact: true,
-            })}
-          >
-            <Settings Wix={Wix} />
-          </I18nextProvider>
-        )}
-      </WixSDK>
+      <WixSDK isEditor>{({ Wix }) => <Settings Wix={Wix} />}</WixSDK>
     </BILoggerProvider>
   </ExperimentsProvider>
 );

@@ -1,8 +1,7 @@
 import React from 'react';
+import { I18nextProvider } from 'yoshi-flow-editor-runtime/test';
 import { render } from '@testing-library/react';
 import { ExperimentsProvider } from '@wix/wix-experiments-react';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../../../../__tests__/helpers/i18n.mock';
 import { Widget } from './Widget';
 
 describe('Widget', () => {
@@ -11,7 +10,7 @@ describe('Widget', () => {
 
     const { getByTestId } = render(
       <ExperimentsProvider options={{ experiments: {} }}>
-        <I18nextProvider i18n={i18n}>
+        <I18nextProvider>
           <Widget appName={appName} />
         </I18nextProvider>
       </ExperimentsProvider>,

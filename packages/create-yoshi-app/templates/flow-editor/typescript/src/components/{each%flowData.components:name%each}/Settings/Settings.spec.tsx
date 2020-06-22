@@ -1,8 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { IWixStatic } from '@wix/native-components-infra/dist/src/types/wix-sdk';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../../../../__tests__/helpers/i18n.mock';
+import { I18nextProvider } from 'yoshi-flow-editor-runtime/test';
 import { Settings } from './Settings';
 
 jest.mock('@wix/wix-base-ui', () => ({
@@ -34,7 +33,7 @@ describe('Settings', () => {
 
   it('should render a color picker component', () => {
     const { getAllByTestId } = render(
-      <I18nextProvider i18n={i18n}>
+      <I18nextProvider>
         <Settings Wix={Wix} />
       </I18nextProvider>,
     );

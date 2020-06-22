@@ -1,10 +1,14 @@
-import { SentryConfig } from 'yoshi-flow-editor-runtime/build/constants';
+import {
+  SentryConfig,
+  TranslationsConfig,
+} from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
 type Opts = Record<
   'settingsWrapperPath' | 'componentFileName' | 'baseUIPath',
   string
 > & {
+  translationsConfig: TranslationsConfig | null;
   sentry: SentryConfig | null;
 };
 
@@ -16,6 +20,9 @@ export default t<Opts>`
   import Settings from '${({ componentFileName }) => componentFileName}';
   import '${({ baseUIPath }) => baseUIPath}';
 
+  var translationsConfig = ${({ translationsConfig }) =>
+    translationsConfig ? JSON.stringify(translationsConfig) : 'null'};
+
   var sentry = ${({ sentry }) =>
     sentry
       ? `{
@@ -26,5 +33,5 @@ export default t<Opts>`
     }`
       : 'null'};
 
-  ReactDOM.render(React.createElement(SettingsWrapper(Settings, sentry), null), document.getElementById('root'));
+  ReactDOM.render(React.createElement(SettingsWrapper(Settings, sentry, translationsConfig), null), document.getElementById('root'));
 `;

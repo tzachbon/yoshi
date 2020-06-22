@@ -20,3 +20,8 @@ export type SentryConfig = {
   DSN: string;
   id: string;
 };
+
+export type TranslationsConfig = {
+  default?: string;
+  disabled?: boolean;
+};
