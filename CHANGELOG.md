@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.104.2 (2020-06-22)
+
+#### :house: Internal
+
+- [#2611](https://github.com/wix/yoshi/pull/2611) Build typescript with --force flag (no cache) ([@ranyitz](https://github.com/ranyitz))
+
 ## 4.104.1 (2020-06-22)
 
 #### :bug: Bug Fix
