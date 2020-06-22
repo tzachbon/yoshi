@@ -201,18 +201,18 @@ export const getServerlessScope = () => {
 };
 
 export const getProjectArtifactVersion = () => {
-  return (process.env.ARTIFACT_VERSION
+  return process.env.ARTIFACT_VERSION
     ? // Dev CI
       process.env.ARTIFACT_VERSION.replace('-SNAPSHOT', '')
     : // PR CI won't have a version, only SRC_MD5
-      process.env.SRC_MD5) as string;
+      process.env.SRC_MD5;
 };
 
 // Gets the CDN base path for the project at the current working dir
 export const getProjectCDNBasePath = (useUnversionedBaseUrl: boolean) => {
   const artifactName = getProjectArtifactId();
 
-  let artifactPath = '';
+  let artifactPath;
 
   if (useUnversionedBaseUrl) {
     // Not to be confused with Yoshi's `dist` directory.
@@ -226,7 +226,7 @@ export const getProjectCDNBasePath = (useUnversionedBaseUrl: boolean) => {
     // Webpack's `publicUrl` to use the first option.
     artifactPath = 'dist';
   } else {
-    artifactPath = getProjectArtifactVersion();
+    artifactPath = getProjectArtifactVersion() || '';
   }
 
   return `${staticsDomain}/${artifactName}/${artifactPath}/`;
