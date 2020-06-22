@@ -12,7 +12,7 @@
   "scripts": {
     "// local dev": "------------------------------------------------------------------------------------",
     "lint": "eslint . --ext js,ts --max-warnings 0",
-    "build": "ts-node -T scripts/build.ts",
+    "build": "ts-node -T scripts/build.ts --force",
     "watch": "ts-node -T scripts/build.ts --watch",
     "create-yoshi-app:dev": "npm run dev --prefix ./packages/create-yoshi-app",
     "website:dev": "npm start --prefix './website'",
