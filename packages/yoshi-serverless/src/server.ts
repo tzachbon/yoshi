@@ -4,8 +4,7 @@ import { parse as parseUrl } from 'url';
 import fs from 'fs-extra';
 import globby from 'globby';
 import importFresh from 'import-fresh';
-import project from 'yoshi-config';
-import { WebRequest } from '@wix/serverless-api';
+import { WebRequest, FunctionContext } from '@wix/serverless-api';
 import { ROUTES_BUILD_DIR, BUILD_DIR } from 'yoshi-config/build/paths';
 import { RouteFunction, InitServerFunction } from './types';
 import { pathMatch, connectToYoshiServerHMR, buildRoute } from './utils';
@@ -16,18 +15,18 @@ export type Route = {
 };
 
 export default class Server {
-  private context: any;
+  private context: FunctionContext;
   private config: any;
   private routes: Array<Route>;
   private initData: any;
 
-  constructor(context: any) {
+  constructor(context: FunctionContext) {
     this.context = context;
     try {
-      this.config = context.config.load(
-        // strip organization name from package name
-        project.name.slice(project.name.indexOf('/') + 1),
-      );
+      // this.config = context.config.load(
+      //   // strip organization name from package name
+      //   project.name.slice(project.name.indexOf('/') + 1),
+      // );
     } catch (e) {
       // do nothing
     }
@@ -48,7 +47,7 @@ export default class Server {
     }
   }
 
-  static async create(context: any) {
+  static async create(context: FunctionContext) {
     const server = new Server(context);
     await server.initServer();
     return server;

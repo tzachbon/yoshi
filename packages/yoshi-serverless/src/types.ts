@@ -1,5 +1,5 @@
 // import { WithAspects } from '@wix/wix-express-aspects';
-import { WebRequest } from '@wix/serverless-api';
+import { WebRequest, FunctionContext } from '@wix/serverless-api';
 import * as t from 'io-ts';
 
 // io-ts' types
@@ -18,9 +18,9 @@ export type FunctionArgs = Array<any>;
 export type FunctionResult = OptionalPromise<any>;
 
 // Server function types
-export type FunctionContext = {
+export type YoshiFunctionContext = {
   req: WebRequest; // & WithAspects;
-  context: any;
+  context: FunctionContext;
   initData: any;
   config: any;
 };
@@ -28,7 +28,7 @@ export type FunctionContext = {
 export type ServerFunction<
   Result extends FunctionResult,
   Args extends FunctionArgs
-> = (this: FunctionContext, ...args: Args) => Result;
+> = (this: YoshiFunctionContext, ...args: Args) => Result;
 
 export type DSL<Result extends FunctionResult, Args extends FunctionArgs> = {
   fileName: string;
@@ -39,7 +39,7 @@ export type DSL<Result extends FunctionResult, Args extends FunctionArgs> = {
 // Route function types
 export type RouteContext = {
   req: WebRequest; // & WithAspects;
-  context: any;
+  context: FunctionContext;
   params: { [name: string]: any | undefined };
   initData: any;
   config: any;
@@ -49,4 +49,4 @@ export type RouteFunction<Result extends FunctionResult> = (
   this: RouteContext,
 ) => Result;
 
-export type InitServerFunction = (context: any) => any;
+export type InitServerFunction = (context: FunctionContext) => any;
