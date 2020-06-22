@@ -27,7 +27,8 @@ import { WixSDK } from "yoshi-flow-editor-runtime";
 
 export default () => (
   <WixSDK>
-    {sdk => <SomeComp Wix={sdk.Wix} /> // IStaticWix | null
+    {
+      (sdk) => <SomeComp Wix={sdk.Wix} /> // IStaticWix | null
     }
   </WixSDK>
 );
@@ -46,7 +47,8 @@ import { WixSDK } from "yoshi-flow-editor-runtime";
 
 export default () => (
   <WixSDK isEditor>
-    {sdk => <SomeComp Wix={sdk.Wix} /> // IStaticWix
+    {
+      (sdk) => <SomeComp Wix={sdk.Wix} /> // IStaticWix
     }
   </WixSDK>
 );
@@ -89,7 +91,7 @@ export default () => (
 // Somewhere deeper in the component
 const ColorPicker = () => (
   <BiLogger>
-    {biLogger => (
+    {(biLogger) => (
       <ColorPickerColorSpace
         onChange={() => {
           logger.logColorChange();
@@ -228,7 +230,6 @@ Boards for each component will be configured also.
 **`appLoadStarted` and `appLoaded` events will be logged automatically by the Editor Flow.**
 Moreover, both client-side rendering and server-side rendering logs for Widget are covered. So for most cases you don't need to handle fedops logs by yourself at all.
 
-
 #### `fedopsLogger`
 
 Provides a `Fedops BaseLogger` initialized for current environment. Logs from `editor.app.ts` will be available for editor script board, `controller` - for component's board.
@@ -241,7 +242,9 @@ _controller.ts_
 // appLoadStarted and appLoaded already covered by the editor flow 😌
 export default ({ flowAPI }) => {
   const handleSubmitSomething = () => {
-    flowAPI.fedopsLogger.interactionStarted(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
+    flowAPI.fedopsLogger.interactionStarted(
+      SUBMIT_SOMETHING_FEDOPS_INTERACTION
+    );
     // process the action...
     flowAPI.fedopsLogger.interactionEnded(SUBMIT_SOMETHING_FEDOPS_INTERACTION);
   };
@@ -251,7 +254,7 @@ export default ({ flowAPI }) => {
       setProps({
         handleSubmitSomething,
       });
-    }
+    },
   };
 };
 ```

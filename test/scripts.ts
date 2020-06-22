@@ -22,6 +22,9 @@ const defaultOptions = {
 };
 
 const yoshiBin = require.resolve('../packages/yoshi/bin/yoshi-cli');
+const yoshiFlowLibraryBin = require.resolve(
+  '../packages/yoshi-flow-library/bin/yoshi-library',
+);
 
 type TestCallback = () => Promise<any>;
 
@@ -35,7 +38,8 @@ export type ProjectType =
   | 'yoshi-server-javascript'
   | 'yoshi-server-typescript'
   | 'monorepo-javascript'
-  | 'monorepo-typescript';
+  | 'monorepo-typescript'
+  | 'flow-library';
 
 type ScriptOpts = {
   args?: Array<string>;
@@ -53,25 +57,35 @@ export default class Scripts {
   private readonly yoshiPublishDir: string;
   public readonly staticsServerUrl: string;
   private readonly isMonorepo: boolean;
+  private readonly projectType: ProjectType;
+  private readonly yoshiBinToUse: string;
 
   constructor({
     testDirectory,
     isMonorepo,
+    projectType,
+    yoshiBinToUse,
   }: {
     testDirectory: string;
     isMonorepo: boolean;
+    projectType: ProjectType;
+    yoshiBinToUse: string;
   }) {
     this.verbose = !!process.env.DEBUG;
     this.testDirectory = testDirectory;
     this.serverProcessPort = 3000;
-    this.staticsServerPort = 3200;
+    this.staticsServerPort = projectType === 'flow-library' ? 3300 : 3200;
     this.storybookServerPort = 9009;
     this.serverUrl = `http://localhost:${this.serverProcessPort}`;
     this.staticsServerUrl = `http://localhost:${this.staticsServerPort}`;
     this.yoshiPublishDir = isPublish
       ? `${global.yoshiPublishDir}/node_modules`
-      : path.join(__dirname, '../packages/yoshi-flow-legacy/node_modules');
+      : projectType !== 'flow-library'
+      ? path.join(__dirname, '../packages/yoshi-flow-legacy/node_modules')
+      : path.join(__dirname, '../packages/yoshi-flow-library/node_modules');
     this.isMonorepo = isMonorepo;
+    this.projectType = projectType;
+    this.yoshiBinToUse = yoshiBinToUse;
   }
 
   static setupProjectFromTemplate({
@@ -110,12 +124,17 @@ export default class Scripts {
       fs.outputFileSync(tsConfigPath, transformedContents);
     }
 
+    let yoshiBinToUse = yoshiBin;
+    if (projectType === 'flow-library') {
+      yoshiBinToUse = yoshiFlowLibraryBin;
+    }
+
     // Add scripts to package.json template
     const scripts = {
       scripts: {
-        start: `node ${yoshiBin} start`,
-        build: `node ${yoshiBin} build`,
-        test: `node ${yoshiBin} test`,
+        start: `node ${yoshiBinToUse} start`,
+        build: `node ${yoshiBinToUse} build`,
+        test: `node ${yoshiBinToUse} test`,
       },
     };
     const packageJSONPath = path.join(featureDir, 'package.json');
@@ -158,7 +177,12 @@ export default class Scripts {
       });
     }
 
-    return new Scripts({ testDirectory: featureDir, isMonorepo });
+    return new Scripts({
+      testDirectory: featureDir,
+      isMonorepo,
+      projectType,
+      yoshiBinToUse,
+    });
   }
 
   async dev(
@@ -167,7 +191,7 @@ export default class Scripts {
   ) {
     let startProcessOutput: string = '';
 
-    const args = [yoshiBin, 'start', ...(opts.extraStartArgs || [])];
+    const args = [this.yoshiBinToUse, 'start', ...(opts.extraStartArgs || [])];
 
     const startProcess = execa('node', [...args, ...(opts.args || [])], {
       cwd: this.testDirectory,
@@ -215,7 +239,9 @@ export default class Scripts {
           );
         }),
         Promise.all([
-          waitForPort(this.serverProcessPort, { timeout: 60 * 1000 }),
+          this.projectType !== 'flow-library'
+            ? waitForPort(this.serverProcessPort, { timeout: 60 * 1000 })
+            : Promise.resolve(),
           waitForPort(this.staticsServerPort, { timeout: 60 * 1000 }),
           waitForStdout(startProcess, 'Compiled successfully!'),
           opts.waitForStorybook
@@ -237,14 +263,18 @@ export default class Scripts {
   async analyze(callback: TestCallback = async () => {}) {
     let buildProcessOutput: string = '';
 
-    const buildProcess = execa('node', [yoshiBin, 'build', '--analyze'], {
-      cwd: this.testDirectory,
-      env: {
-        ...defaultOptions,
-        ...localEnv,
-        ANALYZE_PORT: '8888',
+    const buildProcess = execa(
+      'node',
+      [this.yoshiBinToUse, 'build', '--analyze'],
+      {
+        cwd: this.testDirectory,
+        env: {
+          ...defaultOptions,
+          ...localEnv,
+          ANALYZE_PORT: '8888',
+        },
       },
-    });
+    );
 
     buildProcess.stdout &&
       buildProcess.stdout.on('data', (buffer) => {
@@ -276,14 +306,18 @@ export default class Scripts {
     let buildResult;
 
     try {
-      buildResult = await execa('node', [yoshiBin, 'build', ...args], {
-        cwd: this.testDirectory,
-        env: {
-          ...defaultOptions,
-          ...env,
+      buildResult = await execa(
+        'node',
+        [this.yoshiBinToUse, 'build', ...args],
+        {
+          cwd: this.testDirectory,
+          env: {
+            ...defaultOptions,
+            ...env,
+          },
+          all: true,
         },
-        all: true,
-      });
+      );
     } catch (e) {
       throw new Error(e.all);
     }
@@ -323,7 +357,7 @@ export default class Scripts {
     const env = mode === 'prod' ? ciEnv : localEnv;
     let res;
     try {
-      res = await execa('node', [yoshiBin, 'test'], {
+      res = await execa('node', [this.yoshiBinToUse, 'test'], {
         cwd: this.testDirectory,
         all: true,
         env: {

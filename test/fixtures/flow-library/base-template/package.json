@@ -1,0 +1,12 @@
+{
+  "name": "feature-flow-library",
+  "private": true,
+  "yoshiFlowLibrary": {
+    "bundle": {
+      "library": "component"
+    }
+  },
+  "jest": {
+    "preset": "jest-yoshi-preset"
+  }
+}

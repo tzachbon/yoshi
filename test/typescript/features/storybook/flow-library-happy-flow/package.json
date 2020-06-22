@@ -1,0 +1,13 @@
+{
+  "name": "storybook-flow-library",
+  "private": true,
+  "yoshiFlowLibrary": {
+    "bundle": {
+      "library": "component"
+    },
+    "storybook": true
+  },
+  "jest": {
+    "preset": "jest-yoshi-preset"
+  }
+}
