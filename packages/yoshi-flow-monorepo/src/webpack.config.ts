@@ -118,7 +118,7 @@ export function createClientWebpackConfig(
   }
 
   if (isThunderboltAppModule(pkg)) {
-    if (inMasterTeamCity()) {
+    if (inMasterTeamCity() && process.env.PUBLISH_SENTRY) {
       clientConfig.plugins!.push(
         new SentryWebpackPlugin({
           include: path.join(pkg.location, STATICS_DIR),
