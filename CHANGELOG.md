@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.104.1 (2020-06-22)
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-monorepo`
+  - [#2609](https://github.com/wix/yoshi/pull/2609) Emit sourcemaps for site-assets node compilation ([@ranyitz](https://github.com/ranyitz))
+
 ## 4.104.0 (2020-06-21)
 
 #### :rocket: New Feature
