@@ -93,7 +93,10 @@ const start: cliCommand = async function (argv, rootConfig, { apps, libs }) {
     // '--production': shouldRunAsProduction,
   } = args;
 
+  const inspectArg = process.argv.find((arg) => arg.includes('--debug'));
+
   let serverStartFile;
+
   try {
     serverStartFile = getServerStartFile({ serverStartFileCLI });
   } catch (e) {
@@ -188,6 +191,7 @@ const start: cliCommand = async function (argv, rootConfig, { apps, libs }) {
     startUrl: url || pkg.config.startUrl,
     cwd: pkg.location,
     createEjsTemplates: pkg.config.experimentalBuildHtml,
+    inspectArg,
   });
 
   await devEnvironment.start();
