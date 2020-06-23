@@ -4567,9 +4567,9 @@
     os-name "^2.0.1"
 
 "@wix/ambassador@^4.0.0":
-  version "4.0.344"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/ambassador/-/@wix/ambassador-4.0.344.tgz#696fc15b40ca7405641935c882b63ce900b692f7"
-  integrity sha1-aW/BW0DKdAVkGTXIgrY86QC2kvc=
+  version "4.0.345"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/ambassador/-/@wix/ambassador-4.0.345.tgz#a3285b864bfcfd80d68789c319e5a36e19c8012e"
+  integrity sha1-oyhbhkv8/YDWh4nDGeWjbhnIAS4=
   dependencies:
     "@wix/headers" "^1.6.0"
     argparse "^1.0.9"
@@ -4589,9 +4589,9 @@
     typescript "^2.9.2"
 
 "@wix/bi-logger-testkit@latest":
-  version "1.0.673"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/bi-logger-testkit/-/@wix/bi-logger-testkit-1.0.673.tgz#4649d4e7a398f05abf5ada38af8432b472717587"
-  integrity sha1-RknU56OY8Fq/Wto4r4QytHJxdYc=
+  version "1.0.674"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/bi-logger-testkit/-/@wix/bi-logger-testkit-1.0.674.tgz#c6b2decf79d017571452e8e3793b6362e1e48f21"
+  integrity sha1-xrLez3nQF1cUUujjeTtjYuHkjyE=
   dependencies:
     "@wix/wix-bi-logger-client" latest
 
@@ -4655,9 +4655,9 @@
     "@wix/wix-test-ports" "~1.0.66"
 
 "@wix/extensions@latest":
-  version "1.0.367"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/extensions/-/@wix/extensions-1.0.367.tgz#5c639b2e47b0041bac0d656d89eb7dc46e7fcb32"
-  integrity sha1-XGObLkewBBusDWVtiet9xG5/yzI=
+  version "1.0.368"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/extensions/-/@wix/extensions-1.0.368.tgz#7688e50ec0e08511f8df20a1511e392191540eec"
+  integrity sha1-dojlDsDghRH43yChUR45IZFUDuw=
 
 "@wix/fedops-logger@5.12.3":
   version "5.12.3"
@@ -4668,9 +4668,9 @@
     "@wix/web-bi-logger" "^2.0.0"
 
 "@wix/fedops-logger@^5.12.0":
-  version "5.13.5"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/fedops-logger/-/@wix/fedops-logger-5.13.5.tgz#735101f2f812d67fc563b4ba7d2a1f6143bd8aa5"
-  integrity sha1-c1EB8vgS1n/FY7S6fSofYUO9iqU=
+  version "5.14.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/fedops-logger/-/@wix/fedops-logger-5.14.0.tgz#e6b5a3524a22083f458601605559a5d716e865aa"
+  integrity sha1-5rWjUkoiCD9FhgFgVVml1xboZao=
   dependencies:
     "@wix/fedops-presets" "^1.0.33"
     "@wix/web-bi-logger" "^2.0.879"
@@ -4708,9 +4708,9 @@
     request "^2.87.0"
 
 "@wix/serverless-api@^1.0.0":
-  version "1.0.538"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/serverless-api/-/@wix/serverless-api-1.0.538.tgz#18fa4da5d3fea7f807763eb6b1768803671ee462"
-  integrity sha1-GPpNpdP+p/gHdj62sXaIA2ce5GI=
+  version "1.0.540"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/serverless-api/-/@wix/serverless-api-1.0.540.tgz#219b927b2a77eedf4ea759e37c7cca5743d20c9f"
+  integrity sha1-IZuSeyp37t9Op1njfHzKV0PSDJ8=
   dependencies:
     "@types/newrelic" "6.4.0"
     "@wix/wix-aspects" latest
@@ -4719,9 +4719,9 @@
     long "4.0.0"
 
 "@wix/web-bi-logger@^2.0.0", "@wix/web-bi-logger@^2.0.195", "@wix/web-bi-logger@^2.0.879":
-  version "2.0.895"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/web-bi-logger/-/@wix/web-bi-logger-2.0.895.tgz#2eac9134082247b97d4a91b5f017c4e8a103cb3e"
-  integrity sha1-LqyRNAgiR7l9SpG18BfE6KEDyz4=
+  version "2.0.896"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/web-bi-logger/-/@wix/web-bi-logger-2.0.896.tgz#3d8da3d1892f933df0016f3b56cb44c0513a2e83"
+  integrity sha1-PY2j0Ykvkz3wAW87VstEwFE6LoM=
   dependencies:
     "@wix/wix-bi-logger-client" latest
 
@@ -4785,9 +4785,9 @@
     csrf "^3.0.6"
 
 "@wix/wix-base-ui@^3.0.0":
-  version "3.751.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-base-ui/-/@wix/wix-base-ui-3.751.0.tgz#ada1d816e38dcc92dd02412a809e54184341599f"
-  integrity sha1-raHYFuONzJLdAkEqgJ5UGENBWZ8=
+  version "3.752.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-base-ui/-/@wix/wix-base-ui-3.752.0.tgz#40dff8e4a117bccb77dd56f96d04d3ede7d5a029"
+  integrity sha1-QN/45KEXvMt33Vb5bQTT7efVoCk=
   dependencies:
     lodash "^4.17.10"
     react-custom-scroll "^3.2.1"
@@ -4891,9 +4891,9 @@
     source-map-support "0.5.19"
 
 "@wix/wix-bootstrap-renderer@^1.0.0":
-  version "1.0.613"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-bootstrap-renderer/-/@wix/wix-bootstrap-renderer-1.0.613.tgz#e3de8bd76b73dac26a198fab8a312a3e4fc3b3ba"
-  integrity sha1-496L12tz2sJqGY+rijEqPk/Ds7o=
+  version "1.0.614"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-bootstrap-renderer/-/@wix/wix-bootstrap-renderer-1.0.614.tgz#0712c0709809262664998f55fe013422ccf47410"
+  integrity sha1-BxLAcJgJJiZkmY9V/gE0Isz0dBA=
   dependencies:
     "@wix/wix-bootstrap-api" latest
     "@wix/wix-configurable" "~1.0.0"
@@ -5077,9 +5077,9 @@
     cors "^2.8.5"
 
 "@wix/wix-experiments@^3.0.442", "@wix/wix-experiments@latest":
-  version "3.0.450"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-experiments/-/@wix/wix-experiments-3.0.450.tgz#ed35a9c6db2ddc65115a143c4f9218d217237244"
-  integrity sha1-7TWpxtst3GURWhQ8T5IY0hcjckQ=
+  version "3.0.451"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@wix/wix-experiments/-/@wix/wix-experiments-3.0.451.tgz#20138f4e4012b06d64ff54b51d0281f0f336961a"
+  integrity sha1-IBOPTkASsG1k/1S1HQKB8PM2lho=
   dependencies:
     "@wix/wix-http-testkit" latest
     "@wix/wix-testkit-base" latest
@@ -5993,9 +5993,9 @@ JSONStream@1.3.5, JSONStream@^1.0.4, JSONStream@^1.3.1, JSONStream@^1.3.4:
     through ">=2.2.7 <3"
 
 ab-translate@~1.1.0:
-  version "1.1.494"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/ab-translate/-/ab-translate-1.1.494.tgz#480152bc3b845b40a46c908e524b564b37fafbfc"
-  integrity sha1-SAFSvDuEW0CkbJCOUktWSzf6+/w=
+  version "1.1.495"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/ab-translate/-/ab-translate-1.1.495.tgz#dbbade2d0f824d7f0f0389fb26e7cb4d9ea8559d"
+  integrity sha1-27reLQ+CTX8PA4n7JufLTZ6oVZ0=
   dependencies:
     babel-preset-es2015 "^6.24.1"
     babel-runtime "^6.22.0"
@@ -7764,9 +7764,9 @@ bfj@^6.1.1:
     tryer "^1.0.1"
 
 bi-logger-yoshi@^1.0.158:
-  version "1.0.169"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/bi-logger-yoshi/-/bi-logger-yoshi-1.0.169.tgz#f081c337d16d2524450aa378fad83b9e6659aa51"
-  integrity sha1-8IHDN9FtJSRFCqN4+tg7nmZZqlE=
+  version "1.0.170"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/bi-logger-yoshi/-/bi-logger-yoshi-1.0.170.tgz#7760c1889e977eb4fc94d652143b099f4c48c972"
+  integrity sha1-d2DBiJ6XfrT8lNZSFDsJn0xIyXI=
   dependencies:
     "@wix/bi-logger-testkit" latest
     is-url-superb "^2.0.0"
@@ -11465,9 +11465,9 @@ escape-string-regexp@^4.0.0:
   integrity sha1-FLqDpdNz49MR5a/KKc9b+tllvzQ=
 
 escodegen@1.x.x, escodegen@^1.11.0, escodegen@^1.11.1, escodegen@^1.14.1, escodegen@^1.9.1:
-  version "1.14.2"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/escodegen/-/escodegen-1.14.2.tgz#14ab71bf5026c2aa08173afba22c6f3173284a84"
-  integrity sha1-FKtxv1AmwqoIFzr7oixvMXMoSoQ=
+  version "1.14.3"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/escodegen/-/escodegen-1.14.3.tgz#4e7b81fba61581dc97582ed78cab7f0e8d63f503"
+  integrity sha1-TnuB+6YVgdyXWC7XjKt/Do1j9QM=
   dependencies:
     esprima "^4.0.1"
     estraverse "^4.2.0"
@@ -26877,9 +26877,9 @@ verdaccio-htpasswd@9.6.1:
     unix-crypt-td-js "1.1.4"
 
 verdaccio@^4.3.5:
-  version "4.7.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/verdaccio/-/verdaccio-4.7.0.tgz#f8c40d299f081f449151ab1091be00909c3f563d"
-  integrity sha1-+MQNKZ8IH0SRUasQkb4AkJw/Vj0=
+  version "4.7.1"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/verdaccio/-/verdaccio-4.7.1.tgz#22ae671124189c09dfa6f059ad3e57191405387e"
+  integrity sha1-Iq5nESQYnAnfpvBZrT5XGRQFOH4=
   dependencies:
     "@verdaccio/commons-api" "9.6.1"
     "@verdaccio/local-storage" "9.6.1"
