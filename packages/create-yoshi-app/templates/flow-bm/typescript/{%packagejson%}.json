@@ -8,7 +8,7 @@
     "email": "{%authorEmail%}"
   },
   "scripts": {
-    "start": "PORT=5000 yoshi-bm start",
+    "start": "PORT=5000 yoshi-bm start --url http://localhost:5000/business-manager/00000000-0000-0000-0000-000000000000/{%projectName%}",
     "build": "yoshi-bm build",
     "test": "yoshi-bm test",
     "lint": "yoshi-bm lint",
@@ -20,12 +20,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx,scss,less}": "yoshi lint"
+    "*.{js,ts,tsx,scss,less}": "npm run lint"
   },
   "devDependencies": {
     "@testing-library/react": "^9.3.0",
     "@types/chance": "^1.0.6",
-    "@types/history": "^4.7.3",
     "@types/jest": "^24.0.0",
     "@types/node": "^8.0.0",
     "@types/testing-library__react": "^9.1.2",
@@ -40,17 +39,9 @@
     "react-module-container": "~1.0.0",
     "typescript": "~3.9.0",
     "yoshi": "^4.1.0",
-    "yoshi-flow-bm": "^4.1.0",
-    "yoshi-style-dependencies": "^4.1.0"
+    "yoshi-flow-bm": "^4.1.0"
   },
   "dependencies": {
-    "@sentry/browser": "5.7.1",
-    "@wix/fedops-logger": "^3.0.5",
-    "@wix/wix-axios-config": "latest",
-    "@wix/wnp-bootstrap-grpc": "^1.0.296",
-    "axios": "^0.19.0",
-    "i18next": "~8.4.0",
-    "i18next-xhr-backend": "~1.4.0",
     "yoshi-flow-bm-runtime": "^4.1.0"
   },
   "jest": {
