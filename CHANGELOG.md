@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.107.0 (2020-06-23)
+
+#### :rocket: New Feature
+
+- `yoshi-serverless-client`
+  - [#2616](https://github.com/wix/yoshi/pull/2616) Yoshi Serverless Client ([@yanivefraim](https://github.com/yanivefraim))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-monorepo`
+  - [#2619](https://github.com/wix/yoshi/pull/2619) Fix `--debug` option not being passed over to dev-environment in monorepo flow ([@ronami](https://github.com/ronami))
+
 ## 4.106.0 (2020-06-22)
 
 #### :rocket: New Feature
