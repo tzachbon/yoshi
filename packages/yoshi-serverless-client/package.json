@@ -1,0 +1,24 @@
+{
+  "name": "yoshi-serverless-client",
+  "version": "4.105.0",
+  "main": "build/index.js",
+  "sideEffects": false,
+  "keywords": [
+    "yoshi",
+    "server"
+  ],
+  "author": "Yaniv Efraim",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node-fetch": "1.6.9",
+    "@wix/headers": "^1.7.0",
+    "isomorphic-unfetch": "3.0.0",
+    "toastify-js": "1.8.0"
+  },
+  "peerDependencies": {
+    "yoshi-serverless": "^4.14.0"
+  },
+  "devDependencies": {
+    "yoshi-serverless": "4.106.0"
+  }
+}

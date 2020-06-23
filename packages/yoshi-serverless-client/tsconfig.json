@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "build",
+    "target": "es5"
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ],
+  "files": [
+    "./src/external-types.d.ts",
+  ],
+  "references": [
+    { "path": "../yoshi-serverless" }
+  ]
+}
