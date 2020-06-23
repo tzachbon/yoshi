@@ -13,9 +13,7 @@ exports[`CommonViewerScriptEntry template generates correct template w/o control
 
   var sentryConfig = null;
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = {\\"default\\":\\"en\\"};
 
@@ -37,9 +35,7 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
 
   var sentryConfig = null;
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = null;
 
@@ -47,6 +43,7 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
           translationsConfig: null,
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -66,9 +63,7 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
 
   var sentryConfig = null;
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = {\\"default\\":\\"en\\"};
 
@@ -76,6 +71,7 @@ exports[`CommonViewerScriptEntry template generates correct template with a sing
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someApp\\",
           componentName: \\"SomeComp\\",
@@ -97,9 +93,7 @@ import controller1 from 'project/src/components/todo/controller.ts';
 
   var sentryConfig = null;
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = {\\"default\\":\\"en\\"};
 
@@ -107,12 +101,14 @@ import controller1 from 'project/src/components/todo/controller.ts';
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"STUDIO_WIDGET\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
           id: \\"CONTROLLER_ID\\" }, { method: controller1,
           widgetType: \\"STUDIO_WIDGET\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -134,9 +130,7 @@ import controller1 from 'project/src/components/todo/controller.ts';
 
   var sentryConfig = null;
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = {\\"default\\":\\"en\\"};
 
@@ -144,12 +138,14 @@ import controller1 from 'project/src/components/todo/controller.ts';
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
           id: \\"CONTROLLER_ID\\" }, { method: controller1,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/todo/controller.ts\\",
           appName: \\"someapp\\",
           componentName: \\"SomeWidget\\",
@@ -175,9 +171,7 @@ exports[`CommonViewerScriptEntry template generates correct template with sentry
       teamName: 'team-name',
     };
 
-  var experimentsConfig = {
-    scope: 'test-scope'
-  };
+  var experimentsConfig = {\\"scope\\":\\"test-scope\\"};
 
   var translationsConfig = {\\"default\\":\\"en\\"};
 
@@ -185,6 +179,7 @@ exports[`CommonViewerScriptEntry template generates correct template with sentry
   export const createControllers = createControllersWithDescriptors([{ method: controller0,
           widgetType: \\"WIDGET_OUT_OF_IFRAME\\",
           translationsConfig: {\\"default\\":\\"en\\"},
+          experimentsConfig: {\\"scope\\":\\"test-scope\\"},
           controllerFileName: \\"project/src/components/button/controller.ts\\",
           appName: \\"someApp\\",
           componentName: \\"SomeWidget\\",

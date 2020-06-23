@@ -45,8 +45,6 @@ describe('createController', () => {
 
     expect(setPropsSpy).toBeCalledWith({
       appName,
-      experiments: experiments.all(),
-      mobile: false,
     });
   });
 });

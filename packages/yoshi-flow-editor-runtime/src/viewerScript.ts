@@ -30,6 +30,7 @@ const onCSRLoaded = (flowAPI: ControllerFlowAPI) => () => {
 type ControllerDescriptor = {
   id: string | null;
   method: Function;
+  experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
   widgetType: WidgetType;
   controllerFileName: string | null;
@@ -108,7 +109,8 @@ function ooiControllerWrapper(
   });
 
   const wrappedController = Promise.all([
-    flowAPI._translationsPromise,
+    flowAPI.getTranslations(),
+    flowAPI.getExperiments(),
     Promise.resolve(userControllerPromise).catch((error) => {
       if (!flowAPI.inEditor) {
         // Currently platform doesn't log errors happened in worker. We want to fix it here.
@@ -120,7 +122,7 @@ function ooiControllerWrapper(
       }
       return { _controllerError: error };
     }),
-  ]).then(([translations, userController]) => {
+  ]).then(([translations, experiments, userController]) => {
     delete flowAPI._translationsPromise;
 
     return {
@@ -131,7 +133,10 @@ function ooiControllerWrapper(
           __publicData__: controllerConfig.config.publicData,
           _language: flowAPI.getSiteLanguage(),
           _translations: translations,
+          _experiments: experiments.all(),
+          _mobile: flowAPI.isMobile(),
           _enabledHOCs: {
+            experiments: !!controllerDescriptor.experimentsConfig,
             translations:
               controllerDescriptor.translationsConfig &&
               !controllerDescriptor.translationsConfig.disabled,
@@ -192,6 +197,7 @@ const getDescriptorForConfig = (
 export const createControllers = (
   createController: CreateControllerFn,
   translationsConfig: TranslationsConfig | null = null,
+  experimentsConfig: ExperimentsConfig | null = null,
 ) => {
   return createControllersWithDescriptors([
     {
@@ -199,6 +205,7 @@ export const createControllers = (
       id: null,
       translationsConfig,
       widgetType: OOI_WIDGET_COMPONENT_TYPE,
+      experimentsConfig,
       controllerFileName: null,
       componentName: null,
       appName: null,

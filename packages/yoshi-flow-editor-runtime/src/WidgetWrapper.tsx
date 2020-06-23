@@ -3,18 +3,22 @@ import {
   withStyles,
   withSentryErrorBoundary,
 } from '@wix/native-components-infra';
+import { ExperimentsProvider } from '@wix/wix-experiments-react';
 import {
   ISantaProps,
   IHostProps,
 } from '@wix/native-components-infra/dist/src/types/types';
+import { TPAComponentsProvider } from 'wix-ui-tpa/TPAComponentsConfig';
 import { I18nextProvider } from 'react-i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
+import { ExperimentsBag } from '@wix/wix-experiments';
 import i18n from './i18next';
 import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
 import { ControllerProvider } from './react/Controller/ControllerProvider';
 import { IControllerContext } from './react/Controller/ControllerContext';
 import { SentryConfig } from './constants';
 import { buildSentryOptions, getArtifact } from './utils';
+import { WithProviders, ProvidersList } from './react/utils';
 
 declare global {
   interface Window {
@@ -24,10 +28,13 @@ declare global {
 // TODO - improve this type or bring from controller wrapper
 interface IFlowProps {
   __publicData__: Record<string, any>;
-  _language: any;
-  _translations: any;
+  _language: string;
+  _translations: Record<string, string>;
+  _experiments: ExperimentsBag;
+  _mobile?: boolean;
   _enabledHOCs: {
     translations: boolean;
+    experiments: boolean;
   };
   onAppLoaded?: () => void;
   cssBaseUrl?: string;
@@ -71,30 +78,60 @@ const getWidgetWrapper = (
       _language,
       _translations,
       _enabledHOCs,
+      _experiments,
+      _mobile,
       onAppLoaded,
       ...widgetProps
     } = props;
 
-    // TODO: Make a better approach for enabled hocs to not copy children for each variation
-    return (
-      <AppLoadedHandler onAppLoaded={onAppLoaded} host={props.host}>
+    const availableProviders: ProvidersList = [
+      (children) => (
+        <TPAComponentsProvider value={{ mobile: _mobile }}>
+          {children}
+        </TPAComponentsProvider>
+      ),
+      (children) => (
+        <ControllerProvider data={props}>{children}</ControllerProvider>
+      ),
+      (children) => (
         <PublicDataProvider data={__publicData__} sdk={{ Wix }}>
-          <ControllerProvider data={props}>
-            {_enabledHOCs.translations ? (
-              <I18nextProvider
-                i18n={i18n({
-                  language: _language,
-                  translations: _translations,
-                })}
-              >
-                <UserComponent {...widgetProps} />
-              </I18nextProvider>
-            ) : (
-              <UserComponent {...widgetProps} />
-            )}
-          </ControllerProvider>
+          {children}
         </PublicDataProvider>
+      ),
+    ];
+
+    if (_enabledHOCs.experiments) {
+      availableProviders.push((children) => (
+        <ExperimentsProvider options={{ experiments: _experiments }}>
+          {children}
+        </ExperimentsProvider>
+      ));
+    }
+
+    if (_enabledHOCs.translations) {
+      availableProviders.push((children) => (
+        <I18nextProvider
+          i18n={i18n({
+            language: _language,
+            translations: _translations,
+          })}
+        >
+          {children}
+        </I18nextProvider>
+      ));
+    }
+
+    // We want AppLoaderHandler to wrap all other providers;
+    availableProviders.push((children) => (
+      <AppLoadedHandler onAppLoaded={onAppLoaded} host={props.host}>
+        {children}
       </AppLoadedHandler>
+    ));
+
+    return (
+      <WithProviders providers={availableProviders}>
+        <UserComponent {...widgetProps} />
+      </WithProviders>
     );
   };
   const cssPath = isEditor

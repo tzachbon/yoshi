@@ -17,21 +17,23 @@
     "@wix/platform-editor-sdk": "^0.0.940",
     "@wix/wix-base-ui": "^3.0.0",
     "@wix/wix-experiments": "^3.0.442",
-    "i18next": "^11.6.0",
-    "lodash": "^4.17.15",
+    "@wix/wix-experiments-react": "^3.0.0",
     "prop-types": "^15.7.2",
-    "raven-js": "^3.27.2",
+    "lodash": "^4.17.15",
+    "i18next": "^11.6.0",
     "react-i18next": "^7.13.0",
-    "tpa-style-webpack-plugin": "^1.3.13"
+    "raven-js": "^3.27.2",
+    "tpa-style-webpack-plugin": "^1.3.13",
+    "wix-ui-tpa": "^1.0.123"
   },
   "peerDependencies": {
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@types/i18next": "8.4.5",
     "@types/prop-types": "^15.7.3",
     "@types/react": "16.9.35",
     "@types/react-i18next": "7.8.3",
+    "@types/i18next": "8.4.5",
     "react": "^16.9.0"
   }
 }

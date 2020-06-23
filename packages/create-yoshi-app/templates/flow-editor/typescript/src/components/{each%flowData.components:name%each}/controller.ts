@@ -5,20 +5,14 @@ import {
 import { appName } from '../../../.application.json';
 
 const createController: CreateControllerFn = async ({
-  controllerConfig,
   flowAPI,
 }: ControllerParams) => {
-  const { setProps } = controllerConfig;
-  const { getExperiments, isMobile } = flowAPI;
-
-  const experiments = await getExperiments();
+  const { setProps } = flowAPI.controllerConfig;
 
   return {
     async pageReady() {
       setProps({
         appName,
-        mobile: isMobile(),
-        experiments: experiments.all(),
       });
     },
   };

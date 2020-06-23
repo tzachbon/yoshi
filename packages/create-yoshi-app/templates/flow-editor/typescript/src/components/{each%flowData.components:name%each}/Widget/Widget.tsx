@@ -1,14 +1,9 @@
 import React from 'react';
 import {
-  ExperimentsProvider,
-  withExperiments,
-  InjectedExperimentsProps,
-} from '@wix/wix-experiments-react';
-import { ExperimentsBag } from '@wix/wix-experiments';
-import { TPAComponentsProvider } from 'wix-ui-tpa/TPAComponentsConfig';
-import {
   BILoggerProvider,
+  withExperiments,
   translate,
+  InjectedExperimentsProps,
   InjectedTranslateProps,
 } from 'yoshi-flow-editor-runtime';
 import { Button } from 'wix-ui-tpa/Button';
@@ -20,27 +15,19 @@ const biLogger = initSchemaLogger(webBiLogger);
 
 interface WidgetWrapperProps {
   appName: string;
-  mobile: boolean;
-  language: string;
-  translations: Record<string, string>;
-  experiments: ExperimentsBag;
 }
 
 type WidgetProps = InjectedExperimentsProps &
   InjectedTranslateProps &
-  Pick<WidgetWrapperProps, 'appName'>;
+  WidgetWrapperProps;
 
 export default class extends React.Component<WidgetWrapperProps> {
   render() {
-    const { appName, experiments, mobile } = this.props;
+    const { appName } = this.props;
 
     return (
       <BILoggerProvider logger={biLogger}>
-        <ExperimentsProvider options={{ experiments }}>
-          <TPAComponentsProvider value={{ mobile }}>
-            <Widget appName={appName} />
-          </TPAComponentsProvider>
-        </ExperimentsProvider>
+        <Widget appName={appName} />
       </BILoggerProvider>
     );
   }

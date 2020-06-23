@@ -61,14 +61,16 @@ const getControllerScriptId = (controller: TemplateControllerConfig) => {
 const controllerConfigs = t<{
   controllersMeta: Array<TemplateControllerConfig>;
   translationsConfig: TranslationsConfig | null;
+  experimentsConfig: ExperimentsConfig | null;
   appName: string | null;
-}>`${({ controllersMeta, translationsConfig, appName }) =>
+}>`${({ controllersMeta, translationsConfig, experimentsConfig, appName }) =>
   controllersMeta
     .map(
       (controller, i) =>
         `{ method: ${getControllerVariableName(i)},
           widgetType: "${controller.widgetType}",
           translationsConfig: ${JSON.stringify(translationsConfig)},
+          experimentsConfig: ${JSON.stringify(experimentsConfig)},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
           componentName: "${controller.componentName}",
@@ -95,11 +97,7 @@ export default t<Opts>`
       : 'null'};
 
   var experimentsConfig = ${({ experimentsConfig }) =>
-    experimentsConfig
-      ? `{
-    scope: '${experimentsConfig.scope}'
-  }`
-      : 'null'};
+    experimentsConfig ? JSON.stringify(experimentsConfig) : 'null'};
 
   var translationsConfig = ${({ translationsConfig }) =>
     translationsConfig ? JSON.stringify(translationsConfig) : 'null'};
@@ -111,10 +109,12 @@ export default t<Opts>`
     controllersMeta,
     appName,
     translationsConfig,
+    experimentsConfig,
   }) =>
     controllerConfigs({
       controllersMeta,
       appName,
       translationsConfig,
+      experimentsConfig,
     })}]);
 `;

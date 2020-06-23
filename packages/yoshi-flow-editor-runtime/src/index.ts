@@ -33,3 +33,9 @@ export {
   TranslationFunction,
 } from 'react-i18next';
 export { I18nextProvider } from './i18next/I18nextProvider';
+
+export {
+  withExperiments,
+  InjectedExperimentsProps,
+} from '@wix/wix-experiments-react';
+export { ExperimentsProvider } from './experiments/ExperimentsProvider';

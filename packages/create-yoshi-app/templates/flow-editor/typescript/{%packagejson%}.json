@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@testing-library/react": "^9.3.0",
-    "@wix/santa-site-renderer-testkit": "^1.59.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^8.0.0",
     "@types/react": "16.9.15",

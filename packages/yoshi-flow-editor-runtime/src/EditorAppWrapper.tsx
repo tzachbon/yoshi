@@ -60,7 +60,11 @@ const createEditorAppForWixSDK = ({
 
   return ViewerScriptWrapper(WithComponent, {
     viewerScript: {
-      createControllers: createControllers(userController, translationsConfig),
+      createControllers: createControllers(
+        userController,
+        translationsConfig,
+        experimentsConfig,
+      ),
       initAppForPage: initAppForPageWrapper(
         customInitAppForPage,
         sentry,
