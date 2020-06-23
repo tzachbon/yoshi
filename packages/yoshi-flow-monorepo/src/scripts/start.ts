@@ -67,7 +67,7 @@ const start: cliCommand = async function (argv, rootConfig, { apps, libs }) {
     return process.exit(1);
   }
 
-  const pkg = apps.find((pkg) => pkg.name === appName);
+  const pkg = apps.find((pkg) => stripOrganization(pkg.name) === appName);
 
   if (!pkg) {
     console.log(
