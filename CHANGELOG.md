@@ -1,5 +1,18 @@
 # Changelog
 
+## 4.107.1 (2020-06-23)
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`, `yoshi-flow-bm`
+  - [#2602](https://github.com/wix/yoshi/pull/2602) Clean BM Flow template ([@amitdahan](https://github.com/amitdahan))
+
+#### :nail_care: Polish
+
+- `yoshi-common`
+
+  - [#2617](https://github.com/wix/yoshi/pull/2617) [Experimental] Use `babel-loader` with cache enabled to transpile TypeScript files ([@ronami](https://github.com/ronami))
+
 ## 4.107.0 (2020-06-23)
 
 #### :rocket: New Feature
