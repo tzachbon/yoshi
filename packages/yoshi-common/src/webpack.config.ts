@@ -24,6 +24,7 @@ import {
 import { StatsWriterPlugin } from 'webpack-stats-plugin';
 // @ts-ignore - missing types
 import ModuleNotFoundPlugin from 'react-dev-utils/ModuleNotFoundPlugin';
+import getCacheIdentifier from 'react-dev-utils/getCacheIdentifier';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import {
   toIdentifier,
@@ -881,6 +882,7 @@ export function createBaseWebpackConfig({
       // this improves the build time for Thunderbolt
       // https://webpack.js.org/configuration/module/#modulenoparse
       noParse: /\.carmi.(js|ts)$/,
+
       rules: [
         ...(useAssetRelocator && target === 'node'
           ? [
@@ -1007,24 +1009,49 @@ export function createBaseWebpackConfig({
               ? [{ loader: 'yoshi-angular-dependencies/ng-annotate-loader' }]
               : []),
 
-            {
-              loader: 'ts-loader',
-              options: {
-                happyPackMode: true,
-                compilerOptions: useAngular
-                  ? {}
-                  : {
-                      module: 'esnext',
-                      moduleResolution: 'node',
-                      ...(process.env.NODE_ENV === 'development'
-                        ? {
-                            lib: ['es2017'],
-                            target: 'es2017',
-                          }
-                        : {}),
-                    },
-              },
-            },
+            process.env.EXPERIMENTAL_BABEL_LOADER
+              ? {
+                  loader: 'babel-loader',
+                  options: {
+                    ...babelConfig,
+                    presets: [
+                      ...babelConfig.presets,
+                      require.resolve('@babel/preset-typescript'),
+                    ],
+                    cacheDirectory: true,
+                    // https://github.com/facebook/create-react-app/issues/6846
+                    cacheCompression: false,
+                    compact: isProduction,
+                    cacheIdentifier: getCacheIdentifier(
+                      // Use different cache key for build/start
+                      isProduction ? 'production' : 'development',
+                      // Cache key should include these packages and their versions
+                      [
+                        'babel-preset-yoshi',
+                        'yoshi-common',
+                        '@babel/preset-typescript',
+                      ],
+                    ),
+                  },
+                }
+              : {
+                  loader: 'ts-loader',
+                  options: {
+                    happyPackMode: true,
+                    compilerOptions: useAngular
+                      ? {}
+                      : {
+                          module: 'esnext',
+                          moduleResolution: 'node',
+                          ...(process.env.NODE_ENV === 'development'
+                            ? {
+                                lib: ['es2017'],
+                                target: 'es2017',
+                              }
+                            : {}),
+                        },
+                  },
+                },
           ],
         },
 
@@ -1043,6 +1070,7 @@ export function createBaseWebpackConfig({
             },
           ],
         },
+
         ...(transpileCarmiOutput
           ? [
               {
