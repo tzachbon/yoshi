@@ -67,6 +67,14 @@ const mockSentryData = (teamName, projectName) => {
   });
 };
 
+const mockAutoRelease = () => {
+  mock('../src/auto-release/setupAutoRelease', {
+    default: async () => {
+      return null;
+    },
+  });
+};
+
 if (filteredTemplates.length === 0) {
   console.log(
     chalk.red('Could not find any project for the specified projects:'),
@@ -122,12 +130,14 @@ const testTemplate = (mockedAnswers) => {
           'some-team',
           mockedAnswers.templateDefinition.projectName,
         );
+        mockAutoRelease();
       } else if (isAppBuilder(mockedAnswers.templateDefinition.name)) {
         mockFlowData(mockedAnswers.templateDefinition.title, 'STUDIO_WIDGET');
         mockSentryData(
           'some-team',
           mockedAnswers.templateDefinition.projectName,
         );
+        mockAutoRelease();
       }
       const { createApp } = mock.reRequire('../src/index');
 
