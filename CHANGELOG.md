@@ -1,5 +1,24 @@
 # Changelog
 
+## 4.109.0 (2020-06-24)
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`
+  - [#2621](https://github.com/wix/yoshi/pull/2621) Intagrate tpa-settings to editor flow templates ([@bordi](https://github.com/bordi))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2626](https://github.com/wix/yoshi/pull/2626) Fix for translations to include default values during build time ([@yavorsky](https://github.com/yavorsky))
+- `create-yoshi-app`
+  - [#2625](https://github.com/wix/yoshi/pull/2625) Mock auto-release module ([@yavorsky](https://github.com/yavorsky))
+
+#### :house: Internal
+
+- `create-yoshi-app`, `yoshi-common`, `yoshi-flow-bm`, `yoshi-flow-editor`, `yoshi`
+  - [#2604](https://github.com/wix/yoshi/pull/2604) Refactor `yoshi/types.d.ts` to be shared across the different flows ([@amitdahan](https://github.com/amitdahan))
+
 ## 4.108.0 (2020-06-24)
 
 #### :rocket: New Feature
