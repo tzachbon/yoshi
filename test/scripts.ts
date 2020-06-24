@@ -2,6 +2,7 @@ import path from 'path';
 import execa from 'execa';
 import fs from 'fs-extra';
 import defaultsDeep from 'lodash/defaultsDeep';
+import { getServerlessScope } from '../packages/yoshi-helpers/build/utils';
 import { ciEnv, localEnv } from '../scripts/utils/constants';
 import serve from '../packages/yoshi-common/serve';
 import writeJson from '../packages/yoshi-common/build/write-json';
@@ -56,6 +57,7 @@ export default class Scripts {
   private readonly staticsServerPort: number;
   private readonly storybookServerPort: number;
   public readonly serverUrl: string;
+  public readonly serverlessUrl: string;
   private readonly yoshiPublishDir: string;
   public readonly staticsServerUrl: string;
   private readonly isMonorepo: boolean;
@@ -79,6 +81,9 @@ export default class Scripts {
     this.staticsServerPort = projectType === 'flow-library' ? 3300 : 3200;
     this.storybookServerPort = 9009;
     this.serverUrl = `http://localhost:${this.serverProcessPort}`;
+    this.serverlessUrl = `http://localhost:${
+      this.serverProcessPort
+    }/serverless/${getServerlessScope(testDirectory)}`;
     this.staticsServerUrl = `http://localhost:${this.staticsServerPort}`;
     this.yoshiPublishDir = isPublish
       ? `${global.yoshiPublishDir}/node_modules`
@@ -249,12 +254,8 @@ export default class Scripts {
           );
         }),
         Promise.all([
-          this.projectType !== 'flow-library' &&
-          this.projectType !== 'yoshi-serverless-typescript'
+          this.projectType !== 'flow-library'
             ? waitForPort(this.serverProcessPort, { timeout: 60 * 1000 })
-            : Promise.resolve(),
-          this.projectType === 'yoshi-serverless-typescript'
-            ? waitForPort(7777, { timeout: 60 * 1000 })
             : Promise.resolve(),
           waitForPort(this.staticsServerPort, { timeout: 60 * 1000 }),
           // waitForStdout(startProcess, 'Compiled successfully!'),
