@@ -42,7 +42,7 @@
     "test:integration:yoshiServer:js:fast": "npx jest ./test/javascript/features/yoshi-server",
     "test:integration:yoshiServer:js": "WITH_PUBLISH=true npx jest ./test/javascript/features/yoshi-server",
     "test:integration:yoshiServer:ts:fast": "npx jest ./test/typescript/features/yoshi-server",
-    "test:integration:yoshiServer:ts": "WITH_PUBLISH=true npx jest ./test/typescript/features/yoshi-server",
+    "test:integration:yoshiServer:ts": "WITH_PUBLISH=true npx jest ./test/typescript/features/yoshi-server/api-client-serverless/api-client-serverless",
     "// template tests": "-------------------------------------------------------------------------------",
     "test:templates:client": "npm run client --prefix ./packages/create-yoshi-app",
     "test:templates:fullstack": "npm run fullstack --prefix ./packages/create-yoshi-app",
