@@ -6,7 +6,8 @@ import {
   shouldAddFedops,
   shouldAddSentry,
 } from './queries';
-import { EXPORTED_COMPONENTS_DIR } from './constants';
+import { EXPORTED_COMPONENTS_DIR, GENERATED_DIR } from './constants';
+import renderLegacyExportedComponent from './renderLegacyExportedComponent';
 
 const generateExportedComponentCode = (
   component: ExportedComponentModel,
@@ -25,7 +26,6 @@ import {
   ${addFedops ? 'createFedopsProvider,' : ''}
 } from 'yoshi-flow-bm-runtime';
 
-
 export default wrapComponent(Component, [
   ${
     addExperiments
@@ -34,24 +34,36 @@ export default wrapComponent(Component, [
         )}),\n`
       : ''
   }
-  ${addSentry ? `createSentryProvider(${model.config.sentryDsn}),` : ''}
-  ${addFedops ? `createFedopsProvider(${component.componentId}),` : ''}
-]);
-  `;
+  ${
+    addSentry
+      ? `createSentryProvider(${JSON.stringify(model.config.sentryDsn)}),`
+      : ''
+  }
+  ${
+    addFedops
+      ? `createFedopsProvider(${JSON.stringify(component.componentId)}),`
+      : ''
+  }
+]);`;
 };
+
+export const EXPORTED_COMPONENT_ENTRY = ({
+  relativePath,
+}: ExportedComponentModel) =>
+  path.join(GENERATED_DIR, EXPORTED_COMPONENTS_DIR, relativePath);
 
 const renderExportedComponent = (
   component: ExportedComponentModel,
   model: FlowBMModel,
 ) => {
-  const componentEntry = path.join(
-    path.resolve(__dirname, `../tmp/${EXPORTED_COMPONENTS_DIR}`),
-    component.relativePath,
-  );
+  const componentEntry = EXPORTED_COMPONENT_ENTRY(component);
   fs.outputFileSync(
     componentEntry,
     generateExportedComponentCode(component, model),
   );
+  if (component.config.legacyBundle) {
+    renderLegacyExportedComponent(component);
+  }
 };
 
 export default renderExportedComponent;

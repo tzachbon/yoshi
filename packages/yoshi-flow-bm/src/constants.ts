@@ -1,3 +1,4 @@
+import path from 'path';
 import { constantCase } from 'constant-case';
 
 const EXTENSIONS = '{tsx,ts,jsx,js}';
@@ -23,3 +24,9 @@ export const METHODS_CONFIG_PATTERN = `${METHODS_DIR}/**/*.${CONFIG_EXT}`;
 export const MODULE_INIT_PATTERN = `src/moduleInit.${EXTENSIONS}`;
 
 export const TRANSLATIONS_DIR = 'translations';
+
+export const GENERATED_DIR = path.resolve(__dirname, '../tmp');
+
+export const MODULE_ENTRY_PATH = path.join(GENERATED_DIR, 'module.ts');
+
+export const GENERATED_LEGACY_DIR = path.join(GENERATED_DIR, 'legacy');

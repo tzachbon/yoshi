@@ -193,7 +193,11 @@ For example, the `src/pages/some-route.tsx` file, will be configured by `src/pag
 ```json
 {
   "componentId": "some-component-id",
-  "componentName": "some-component-name"
+  "componentName": "some-component-name",
+  "legacyBundle": {
+    "bundleName": "bundle-name",
+    "lazyComponentId": "lazy-component-id"
+  }
 }
 ```
 
@@ -205,6 +209,14 @@ Sets the page's `componentId`. Defaults to `<MODULE_ID>.pages.<FILE_NAME>`.
 
 Sets the page's `componentName`. Defaults to `<MODULE_ID>.pages.<FILE_NAME>`.
 
+#### `page.legacyBundle`
+
+Opts-in to building a legacy bundle for the page component.
+Bundle will be named `{page.legacyBundle.bundleName}.bundle[.min].js` and will register the page component with ID supplied in `page.legacyBundle.lazyComponentId`.
+
+This legacy bundle is used for migration to truly separate-GAable setup.
+Read more [here](https://github.com/wix/yoshi/issues/2527).
+
 ### Exported Component-level Configuration
 
 Exported components can be customized by adding a `*.json` file with the same name as the appropriate component file.
@@ -212,13 +224,25 @@ For example, the `src/exported-components/some-component.tsx` file, will be conf
 
 ```json
 {
-  "componentId": "some-component-id"
+  "componentId": "some-component-id",
+  "legacyBundle": {
+    "bundleName": "bundle-name",
+    "lazyComponentId": "lazy-component-id"
+  }
 }
 ```
 
 #### `exported-component.componentId`
 
 Sets the component's `componentId`. Defaults to `<MODULE_ID>.components.<FILE_NAME>`.
+
+#### `exported-component.legacyBundle`
+
+Opts-in to building a legacy bundle for the exported-component.
+Bundle will be named `{exported-component.legacyBundle.bundleName}.bundle[.min].js` and will register the exported-component with ID supplied in `exported-component.legacyBundle.lazyComponentId`.
+
+This legacy bundle is used for migration to truly separate-GAable setup.
+Read more [here](https://github.com/wix/yoshi/issues/2527).
 
 ### Method-level Configuration
 

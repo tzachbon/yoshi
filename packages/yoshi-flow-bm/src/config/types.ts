@@ -9,7 +9,6 @@ export interface ModuleConfig {
   routeNamespace: string;
   topology: Record<string, { artifactId: string }>;
   moduleBundleName: string;
-  emitLegacyWrappers: boolean;
 }
 
 export type InitialPageConfig = Partial<PageConfig>;
@@ -17,12 +16,20 @@ export type InitialPageConfig = Partial<PageConfig>;
 export interface PageConfig {
   componentId: string;
   componentName: string;
+  legacyBundle?: {
+    bundleName: string;
+    lazyComponentId: string;
+  };
 }
 
 export type InitialExportedComponentConfig = Partial<ExportedComponentConfig>;
 
 export interface ExportedComponentConfig {
   componentId: string;
+  legacyBundle?: {
+    bundleName: string;
+    lazyComponentId: string;
+  };
 }
 
 export type InitialMethodConfig = Partial<MethodConfig>;

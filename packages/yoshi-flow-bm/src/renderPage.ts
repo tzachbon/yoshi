@@ -6,7 +6,8 @@ import {
   shouldAddFedops,
   shouldAddSentry,
 } from './queries';
-import { PAGES_DIR } from './constants';
+import { GENERATED_DIR, PAGES_DIR } from './constants';
+import renderLegacyPage from './renderLegacyPage';
 
 const generatePageCode = (page: PageModel, model: FlowBMModel) => {
   const addExperiments = shouldAddExperiments(model);
@@ -21,7 +22,6 @@ import {
   ${addSentry ? 'createSentryProvider,' : ''}
   ${addFedops ? 'createFedopsProvider,' : ''}
 } from 'yoshi-flow-bm-runtime';
-
 
 export default wrapComponent(Component, [
   ${
@@ -41,16 +41,19 @@ export default wrapComponent(Component, [
       ? `createFedopsProvider(${JSON.stringify(page.componentId)}),`
       : ''
   }
-]);
-  `;
+]);`;
 };
 
+export const PAGE_ENTRY = ({ relativePath }: PageModel) =>
+  path.join(GENERATED_DIR, PAGES_DIR, relativePath);
+
 const renderPage = (page: PageModel, model: FlowBMModel) => {
-  const pageEntry = path.join(
-    path.resolve(__dirname, `../tmp/${PAGES_DIR}`),
-    page.relativePath,
-  );
+  const pageEntry = PAGE_ENTRY(page);
   fs.outputFileSync(pageEntry, generatePageCode(page, model));
+
+  if (page.config.legacyBundle) {
+    renderLegacyPage(page);
+  }
 };
 
 export default renderPage;

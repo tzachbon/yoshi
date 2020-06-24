@@ -18,6 +18,8 @@ import { CliCommand } from '../bin/yoshi-bm';
 import createFlowBMModel from '../model';
 import renderModule, { getModuleEntry } from '../renderModule';
 import renderModuleConfig from '../renderModuleConfig';
+import { getLegacyPageEntries } from '../renderLegacyPage';
+import { getLegacyExportedComponentEntries } from '../renderLegacyExportedComponent';
 
 const join = (...dirs: Array<string>) => path.join(process.cwd(), ...dirs);
 
@@ -74,10 +76,6 @@ const build: CliCommand = async function (argv, config) {
   renderModule(model);
   renderModuleConfig(model);
 
-  if (model.config.emitLegacyWrappers) {
-    renderLegacyWrappers(model);
-  }
-
   await copyTemplates();
 
   if (inTeamCity()) {
@@ -97,20 +95,24 @@ const build: CliCommand = async function (argv, config) {
     ]);
   }
 
-  const moduleEntry = getModuleEntry(model);
+  const entries = {
+    ...getModuleEntry(model),
+    ...getLegacyPageEntries(model),
+    ...getLegacyExportedComponentEntries(model),
+  };
 
   const clientDebugConfig = createClientWebpackConfig(config, {
     isDev: true,
     forceEmitSourceMaps,
   });
-  clientDebugConfig.entry = moduleEntry;
+  clientDebugConfig.entry = entries;
 
   const clientOptimizedConfig = createClientWebpackConfig(config, {
     isAnalyze,
     forceEmitSourceMaps,
     forceEmitStats,
   });
-  clientOptimizedConfig.entry = moduleEntry;
+  clientOptimizedConfig.entry = entries;
 
   const serverConfig = createServerWebpackConfig(config, {
     isDev: true,

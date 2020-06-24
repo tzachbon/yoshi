@@ -20,16 +20,23 @@ export const validModuleConfig: InitialModuleConfig = {
     },
     { barUrl: { artifactId: 'bar' } },
   ),
-  emitLegacyWrappers: true,
 };
 
 export const validPageConfig: InitialPageConfig = {
   componentId: 'component-id',
   componentName: 'component-name',
+  legacyBundle: {
+    bundleName: 'some-legacy-bundle-name',
+    lazyComponentId: 'some-legacy-page-component-id',
+  },
 };
 
 export const validExportedComponentConfig: InitialExportedComponentConfig = {
   componentId: 'component-id',
+  legacyBundle: {
+    bundleName: 'some-legacy-bundle-name',
+    lazyComponentId: 'some-legacy-component-id',
+  },
 };
 
 export const validMethodConfig: InitialMethodConfig = {
