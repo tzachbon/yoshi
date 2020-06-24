@@ -1,6 +1,4 @@
-import path from 'path';
 import fs from 'fs-extra';
-import { Entry } from 'webpack';
 import { FlowBMModel } from './model';
 import renderPage from './renderPage';
 import renderExportedComponent from './renderExportedComponent';
