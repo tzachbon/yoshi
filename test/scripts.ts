@@ -206,10 +206,9 @@ export default class Scripts {
         PORT: `${this.serverProcessPort}`,
         NODE_PATH: this.yoshiPublishDir,
         ...defaultOptions,
-        EXPERIMENTAL_YOSHI_SERVERLESS: 'true',
-        // ...(this.projectType === 'yoshi-serverless-typescript'
-        //   ? { EXPERIMENTAL_YOSHI_SERVERLESS: 'true' }
-        //   : {}),
+        ...(this.projectType === 'yoshi-serverless-typescript'
+          ? { EXPERIMENTAL_YOSHI_SERVERLESS: 'true' }
+          : {}),
         ...localEnv,
         ...opts.env,
       },
