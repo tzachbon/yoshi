@@ -38,7 +38,6 @@
     "react": "16.8.3",
     "react-module-container": "~1.0.0",
     "typescript": "~3.9.0",
-    "yoshi": "^4.1.0",
     "yoshi-flow-bm": "^4.1.0"
   },
   "dependencies": {

@@ -1,3 +1,7 @@
+/// <reference types="yoshi/types" />
+/// <reference types="jest-yoshi-preset/types" />
+/// <reference types="@wix/wix-bootstrap-renderer/declarations" />
+
 interface Window {
   __LOCALE__: string;
   __BASEURL__: string;

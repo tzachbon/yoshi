@@ -14,14 +14,12 @@
     "skipLibCheck": true
   },
   "include": [
-    "./__tests__/**/*.ts",
-    "./src/**/*.*"
+    "__tests__",
+    "src",
+    "dev"
   ],
   "files": [
-    "./jest-yoshi.config.js",
-    "./node_modules/yoshi/types.d.ts",
-    "./node_modules/yoshi-flow-bm/types.d.ts",
-    "./node_modules/jest-yoshi-preset/types.d.ts",
-    "./dev/server.ts"
+    "jest-yoshi.config.js",
+    "src/external-types.d.ts"
   ]
 }

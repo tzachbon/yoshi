@@ -1,3 +1,6 @@
+/// <reference types="yoshi/types" />
+/// <reference types="jest-yoshi-preset/types" />
+
 declare module 'react-module-container' {
   import React from 'react';
   import { PageComponentId } from '@wix/business-manager-api';
