@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@wix/serverless-api": "^1.0.0",
+    "@wix/serverless-testkit": "^1.0.0",
+    "ejs": "2.7.4",
     "fp-ts": "2.6.6",
     "fs-extra": "^8.1.0",
     "globby": "10.0.2",

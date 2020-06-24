@@ -41,6 +41,10 @@ module.exports = (functionsBuilder) => {
       const server = await Server.create(ctx);
       const result = await server.handle(req);
 
-      return result;
+      const webResponse = {
+        body: result,
+        status: 200,
+      };
+      return new FullHttpResponse(webResponse);
     });
 };

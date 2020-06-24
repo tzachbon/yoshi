@@ -37,6 +37,8 @@ export type ProjectType =
   | 'javascript'
   | 'yoshi-server-javascript'
   | 'yoshi-server-typescript'
+  | 'yoshi-serverless-javascript'
+  | 'yoshi-serverless-typescript'
   | 'monorepo-javascript'
   | 'monorepo-typescript'
   | 'flow-library';
@@ -129,12 +131,17 @@ export default class Scripts {
       yoshiBinToUse = yoshiFlowLibraryBin;
     }
 
+    let envVars = '';
+    if (projectType === 'yoshi-serverless-typescript') {
+      envVars = 'EXPERIMENTAL_YOSHI_SERVERLESS=true ';
+    }
+
     // Add scripts to package.json template
     const scripts = {
       scripts: {
-        start: `node ${yoshiBinToUse} start`,
-        build: `node ${yoshiBinToUse} build`,
-        test: `node ${yoshiBinToUse} test`,
+        start: `${envVars}node ${yoshiBinToUse} start`,
+        build: `${envVars}node ${yoshiBinToUse} build`,
+        test: `${envVars}node ${yoshiBinToUse} test`,
       },
     };
     const packageJSONPath = path.join(featureDir, 'package.json');
@@ -199,6 +206,10 @@ export default class Scripts {
         PORT: `${this.serverProcessPort}`,
         NODE_PATH: this.yoshiPublishDir,
         ...defaultOptions,
+        EXPERIMENTAL_YOSHI_SERVERLESS: 'true',
+        // ...(this.projectType === 'yoshi-serverless-typescript'
+        //   ? { EXPERIMENTAL_YOSHI_SERVERLESS: 'true' }
+        //   : {}),
         ...localEnv,
         ...opts.env,
       },
@@ -224,13 +235,13 @@ export default class Scripts {
     // promise will reject immediately
     try {
       await Promise.race([
-        waitForStdout(startProcess, 'Compiled with warnings', {
-          throttle: true,
-        }).then(() => {
-          throw new Error(
-            `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
-          );
-        }),
+        // waitForStdout(startProcess, 'Compiled with warnings', {
+        //   throttle: true,
+        // }).then(() => {
+        //   throw new Error(
+        //     `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
+        //   );
+        // }),
         waitForStdout(startProcess, 'Failed to compile', {
           throttle: true,
         }).then(() => {
@@ -239,11 +250,15 @@ export default class Scripts {
           );
         }),
         Promise.all([
-          this.projectType !== 'flow-library'
+          this.projectType !== 'flow-library' &&
+          this.projectType !== 'yoshi-serverless-typescript'
             ? waitForPort(this.serverProcessPort, { timeout: 60 * 1000 })
             : Promise.resolve(),
+          this.projectType === 'yoshi-serverless-typescript'
+            ? waitForPort(7777, { timeout: 60 * 1000 })
+            : Promise.resolve(),
           waitForPort(this.staticsServerPort, { timeout: 60 * 1000 }),
-          waitForStdout(startProcess, 'Compiled successfully!'),
+          // waitForStdout(startProcess, 'Compiled successfully!'),
           opts.waitForStorybook
             ? waitForPort(this.storybookServerPort, { timeout: 60 * 1000 })
             : Promise.resolve(),
