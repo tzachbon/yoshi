@@ -13,6 +13,7 @@ describe.each(['dev'] as const)(
   (mode) => {
     it('run tests', async () => {
       await scripts[mode](async () => {
+        await page.waitFor(3000);
         await page.goto(`${scripts.serverlessUrl}/app`);
         await page.waitForFunction(
           `document.getElementById('my-text').innerText !== ''`,
