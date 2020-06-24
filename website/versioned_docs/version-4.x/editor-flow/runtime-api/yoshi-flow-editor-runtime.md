@@ -98,6 +98,8 @@ It's a HOC from `react-i18next` that allows using translations for `Widget` and 
 
 All translations should be located under `assets/locales/messages_:LANGUAGE.json`.
 
+⚠️ You should not use `I18NextProvider`. Editor flow already provides needed context based on website's language.
+
 Just wrapping any component will give an access to app's translations via `t` property:
 
 _Widget.tsx_
@@ -126,5 +128,41 @@ it('should render a title correctly', async () => {
   );
 
   expect(getByTestId('app-title').textContent).toBe('app.widget.welcome');
+});
+```
+
+## `withExperiments`
+Connects a React component to underlying experiments.
+A higher-order React component class that builds props from the experiments state and passes them to the wrapped component for Widget and Settings.
+
+⚠️ You should not use `ExperimentsProvider`. Editor flow already provides needed context based on your experiments configuration under `.application.json`.
+
+For more info about `withExperiments` HOC, please read [official README](https://github.com/wix-private/fed-infra/tree/master/experiments/wix-experiments-react#withexperimentscomponent).
+
+_Widget.tsx_
+```tsx
+import { withExperiments } from 'yoshi-flow-editor-runtime';
+
+export default withExperiments<WidgetProps>(({ experiments }) => {
+  return <h1 data-hook="app-title">{experiments.isEnabled('specs.scope.ShowEmoji') ? '👋' : 'Hey!'}</h1>;
+});
+```
+
+### Testing
+Editor flow provides easy way to mock experiments you want to test via `ExperimentsProvider` from `yoshi-flow-editor-runtime/test`.
+
+Just pass experiments needed to be mocked via `experiments` property:
+
+```tsx
+import { ExperimentsProvider } from 'yoshi-flow-editor-runtime/test';
+
+it('should render a title correctly', async () => {
+  const { getByTestId } = render(
+    <ExperimentsProvider experiments={{ 'specs.scope.ShowEmoji': true }}>
+      <Widget />
+    </ExperimentsProvider>
+  );
+
+  expect(getByTestId('app-title').textContent).toBe('👋');
 })
 ```
