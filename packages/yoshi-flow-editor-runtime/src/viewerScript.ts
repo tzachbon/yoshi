@@ -104,6 +104,7 @@ function ooiControllerWrapper(
     viewerScriptFlowAPI,
     appDefinitionId,
     defaultTranslations: controllerDescriptor.defaultTranslations,
+    appName: controllerDescriptor.appName,
     translationsConfig: controllerDescriptor.translationsConfig,
     biConfig: controllerDescriptor.biConfig,
     widgetId: controllerDescriptor.id,

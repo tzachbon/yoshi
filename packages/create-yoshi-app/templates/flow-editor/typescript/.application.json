@@ -11,6 +11,10 @@
   "translations": {
     "default": "en"
   },
+  "bi": {
+    "owner": "bi-logger-editor-flow-template",
+    "visitor": "bi-logger-editor-flow-template"
+  },
   "experiments": {
     "scope": "test"
   }
