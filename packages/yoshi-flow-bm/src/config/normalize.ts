@@ -43,7 +43,6 @@ export const normalizePageConfig = (
   const pageConfigDefaults: InitialPageConfig = {
     componentId,
     componentName: componentId,
-    legacyBundle: undefined,
   };
 
   return defaultsDeep(initialConfig, pageConfigDefaults) as PageConfig;
@@ -59,7 +58,6 @@ export const normalizeExportedComponentConfig = (
 
   const exportedComponentConfigDefaults: InitialExportedComponentConfig = {
     componentId,
-    legacyBundle: undefined,
   };
 
   return defaultsDeep(
