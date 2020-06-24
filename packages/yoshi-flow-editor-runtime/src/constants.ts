@@ -22,6 +22,10 @@ export type SentryConfig = {
 };
 
 export type TranslationsConfig = {
+  defaultTranslationsPath?: string;
+  prefix?: string;
   default?: string;
   disabled?: boolean;
 };
+
+export type DefaultTranslations = Record<string, string> | null;

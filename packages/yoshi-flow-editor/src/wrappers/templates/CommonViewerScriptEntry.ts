@@ -2,6 +2,7 @@ import {
   WidgetType,
   ExperimentsConfig,
   SentryConfig,
+  DefaultTranslations,
   TranslationsConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
@@ -19,6 +20,7 @@ type Opts = {
   viewerEntryFileName: string | null;
   sentryConfig: SentryConfig | null;
   translationsConfig: TranslationsConfig | null;
+  defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
   appName: string | null;
   controllersMeta: Array<TemplateControllerConfig>;
@@ -61,9 +63,16 @@ const getControllerScriptId = (controller: TemplateControllerConfig) => {
 const controllerConfigs = t<{
   controllersMeta: Array<TemplateControllerConfig>;
   translationsConfig: TranslationsConfig | null;
+  defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
   appName: string | null;
-}>`${({ controllersMeta, translationsConfig, experimentsConfig, appName }) =>
+}>`${({
+  controllersMeta,
+  translationsConfig,
+  experimentsConfig,
+  defaultTranslations,
+  appName,
+}) =>
   controllersMeta
     .map(
       (controller, i) =>
@@ -71,6 +80,7 @@ const controllerConfigs = t<{
           widgetType: "${controller.widgetType}",
           translationsConfig: ${JSON.stringify(translationsConfig)},
           experimentsConfig: ${JSON.stringify(experimentsConfig)},
+          defaultTranslations: ${JSON.stringify(defaultTranslations)},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
           componentName: "${controller.componentName}",
@@ -109,12 +119,14 @@ export default t<Opts>`
     controllersMeta,
     appName,
     translationsConfig,
+    defaultTranslations,
     experimentsConfig,
   }) =>
     controllerConfigs({
       controllersMeta,
       appName,
       translationsConfig,
+      defaultTranslations,
       experimentsConfig,
     })}]);
 `;

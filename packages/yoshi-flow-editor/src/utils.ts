@@ -1,6 +1,7 @@
 import path from 'path';
 import { URL } from 'url';
 import urlJoin from 'url-join';
+import fs from 'fs-extra';
 import { BROWSER_LIB_URL } from '@wix/add-sentry/lib/constants';
 import { SentryConfig } from 'yoshi-flow-editor-runtime/build/constants';
 import { FlowEditorModel, ComponentModel } from './model';
@@ -157,4 +158,14 @@ export const generateSentryScript = (sentry: SentryConfig) => {
 
 export const normalizeProjectName = (projectName: string) => {
   return projectName.replace('@wix/', '');
+};
+
+export const getDefaultTranslations = (model: FlowEditorModel) => {
+  let defaultTranslations = null;
+  if (model.translationsConfig?.defaultTranslationsPath) {
+    defaultTranslations = fs.readJSONSync(
+      model.translationsConfig.defaultTranslationsPath,
+    );
+  }
+  return defaultTranslations;
 };

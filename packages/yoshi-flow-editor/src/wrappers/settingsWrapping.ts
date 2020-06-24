@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
+import { getDefaultTranslations } from '../utils';
 import settingsEntryTemplate from './templates/SettingsAppEntryContent';
 
 const settingsWrapperPath =
@@ -24,6 +25,7 @@ const settingsWrapper = (
           settingsWrapperPath,
           baseUIPath,
           translationsConfig: model.translationsConfig,
+          defaultTranslations: getDefaultTranslations(model),
           sentry: model.sentry,
           componentFileName: component.settingsFileName,
         });

@@ -12,6 +12,7 @@ import {
   OOI_WIDGET_COMPONENT_TYPE,
   ExperimentsConfig,
   TranslationsConfig,
+  DefaultTranslations,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 import { ViewerScriptFlowAPI, ControllerFlowAPI } from './FlowAPI';
@@ -32,6 +33,7 @@ type ControllerDescriptor = {
   method: Function;
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
+  defaultTranslations: DefaultTranslations | null;
   widgetType: WidgetType;
   controllerFileName: string | null;
   appName: string | null;
@@ -53,6 +55,7 @@ const defaultControllerWrapper = (
     appDefinitionId: controllerConfig.appParams.appDefinitionId,
     widgetId: controllerDescriptor.id,
     translationsConfig: controllerDescriptor.translationsConfig,
+    defaultTranslations: controllerDescriptor.defaultTranslations,
     controllerConfig,
   });
   return controllerDescriptor.method({
@@ -97,6 +100,7 @@ function ooiControllerWrapper(
   const flowAPI = new ControllerFlowAPI({
     viewerScriptFlowAPI,
     appDefinitionId,
+    defaultTranslations: controllerDescriptor.defaultTranslations,
     translationsConfig: controllerDescriptor.translationsConfig,
     widgetId: controllerDescriptor.id,
     controllerConfig,
@@ -198,12 +202,14 @@ export const createControllers = (
   createController: CreateControllerFn,
   translationsConfig: TranslationsConfig | null = null,
   experimentsConfig: ExperimentsConfig | null = null,
+  defaultTranslations: DefaultTranslations | null = null,
 ) => {
   return createControllersWithDescriptors([
     {
       method: createController,
       id: null,
       translationsConfig,
+      defaultTranslations,
       widgetType: OOI_WIDGET_COMPONENT_TYPE,
       experimentsConfig,
       controllerFileName: null,

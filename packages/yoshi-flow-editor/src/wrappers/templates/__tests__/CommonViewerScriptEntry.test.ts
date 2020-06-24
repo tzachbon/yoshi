@@ -10,6 +10,7 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      defaultTranslations: {},
       translationsConfig: null,
       appName: 'someapp',
       controllersMeta: [
@@ -36,6 +37,7 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someApp',
+      defaultTranslations: null,
       translationsConfig: {
         default: 'en',
       },
@@ -62,6 +64,7 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someapp',
+      defaultTranslations: { a: 'b' },
       translationsConfig: {
         default: 'en',
       },
@@ -96,6 +99,7 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someapp',
+      defaultTranslations: { a: 'b' },
       translationsConfig: {
         default: 'en',
       },
@@ -132,6 +136,7 @@ describe('CommonViewerScriptEntry template', () => {
       translationsConfig: {
         default: 'en',
       },
+      defaultTranslations: { a: 'b' },
       appName: 'someApp',
       controllersMeta: [],
       experimentsConfig: {
@@ -148,6 +153,7 @@ describe('CommonViewerScriptEntry template', () => {
       translationsConfig: {
         default: 'en',
       },
+      defaultTranslations: { a: 'b' },
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: {

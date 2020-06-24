@@ -15,6 +15,7 @@ import {
   ExperimentsConfig,
   SentryConfig,
   TranslationsConfig,
+  DefaultTranslations,
 } from './constants';
 import { getSiteLanguage, isSSR, isMobile } from './helpers';
 import { ReportError } from './types';
@@ -58,15 +59,17 @@ export class ControllerFlowAPI extends FlowAPI {
   constructor({
     viewerScriptFlowAPI,
     controllerConfig,
-    translationsConfig,
+    translationsConfig = null,
     appDefinitionId,
     widgetId,
+    defaultTranslations = null,
   }: {
     viewerScriptFlowAPI: ViewerScriptFlowAPI;
     controllerConfig: IWidgetControllerConfig;
     appDefinitionId: string;
-    translationsConfig: TranslationsConfig | null;
+    translationsConfig?: TranslationsConfig | null;
     widgetId: string | null;
+    defaultTranslations?: DefaultTranslations | null;
   }) {
     super({ experimentsConfig: null });
     this.widgetId = widgetId!;
@@ -93,7 +96,11 @@ export class ControllerFlowAPI extends FlowAPI {
     const language = this.getSiteLanguage(translationsConfig?.default);
 
     this._translationsPromise = translationsConfig
-      ? getSiteTranslations(language)
+      ? getSiteTranslations(
+          language,
+          defaultTranslations,
+          translationsConfig.prefix,
+        )
       : Promise.resolve({});
   }
 
@@ -113,7 +120,10 @@ export class ControllerFlowAPI extends FlowAPI {
   };
 
   getSiteLanguage = (fallbackLanguage: string = 'en') => {
-    return getSiteLanguage(this.controllerConfig.wixCodeApi, fallbackLanguage);
+    return getSiteLanguage(
+      this.controllerConfig.wixCodeApi,
+      fallbackLanguage || this.translationsConfig?.default,
+    );
   };
 
   isSSR = () => {

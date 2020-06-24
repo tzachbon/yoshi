@@ -1,27 +1,17 @@
 import memoize from 'lodash/memoize';
 import i18next from 'i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
-// bundle in fallback language
-// import messagesEn from '../assets/locales/messages_en.json';
 
 declare let __webpack_public_path__: string;
 const DEFAULT_LANGUAGE = 'en';
 
-// const messagesEn =
-//   require(`${__webpack_public_path__}assets/locales/messages_en.json`) || {};
-let fallbackTranslations = {};
-
-try {
-  fallbackTranslations = require('assets/locales/messages_en.json');
-} catch (e) {
-  console.error(e);
-}
-
 export function getSiteTranslations(
   language: string,
+  defaultTranslations: Record<string, string> | null = {},
+  prefix: string = 'messages',
 ): Promise<Record<string, string>> {
   if (language === DEFAULT_LANGUAGE) {
-    return Promise.resolve(fallbackTranslations);
+    return Promise.resolve(defaultTranslations || {});
   }
 
   // locales are `fetch`ed and not `import`ed because
@@ -30,11 +20,11 @@ export function getSiteTranslations(
   //   https://github.com/wix-private/site-search/pull/369
   //   https://github.com/wix-private/site-search/commit/93a16dfbe1fcca9af7cc1abe88f0e0df222970c8
   return fetch(
-    `${__webpack_public_path__}assets/locales/messages_${language}.json`,
+    `${__webpack_public_path__}assets/locales/${prefix}_${language}.json`,
   ).then((r) => {
     if (!r.ok) {
       console.error(`Can't load locale: ${language}`);
-      return Promise.resolve(fallbackTranslations);
+      return Promise.resolve(defaultTranslations || {});
     }
 
     return r.json();

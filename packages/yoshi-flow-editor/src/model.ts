@@ -70,6 +70,32 @@ export interface ComponentConfig {
   type?: WidgetType;
 }
 
+function getTranslationsConfig(appConfig: AppConfig, srcPath: string) {
+  let translationsConfig = appConfig.translations ?? null;
+
+  if (translationsConfig) {
+    try {
+      const localesDir = path.join(srcPath, 'assets', 'locales');
+      const defaultLanguage = translationsConfig.default || 'en';
+      const prefixName = translationsConfig.prefix || 'messages';
+      const defaultTranslationsPath = resolveFrom(
+        localesDir,
+        `${prefixName}_${defaultLanguage}`,
+      );
+      if (!defaultTranslationsPath) {
+        throw new Error(
+          `No default local messages found under \`${prefixName}_${defaultLanguage}\``,
+        );
+      }
+      translationsConfig.defaultTranslationsPath = defaultTranslationsPath;
+    } catch (e) {
+      translationsConfig = null;
+    }
+  }
+
+  return translationsConfig;
+}
+
 const extensions = ['.tsx', '.ts', '.js', '.json'];
 function resolveFrom(dir: string, fileName: string): string | null {
   try {
@@ -141,6 +167,8 @@ export async function generateFlowEditorModel(
       )} or \`appDefinitionId\` is not specified here.`,
     );
   }
+
+  const translationsConfig = getTranslationsConfig(appConfig, srcPath);
 
   const componentsDirectories = await globby('./src/components/*', {
     onlyDirectories: true,
@@ -242,10 +270,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,
-    translationsConfig: appConfig.translations ?? {
-      disabled: false,
-      default: 'en',
-    },
+    translationsConfig,
     editorEntryFileName,
     artifactId,
     viewerEntryFileName,

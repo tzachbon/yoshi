@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
+import { getDefaultTranslations } from '../utils';
 import editorEntryTemplate from './templates/EditorAppEntryContent';
 
 const editorAppWrapperPath =
@@ -24,6 +25,7 @@ const componentWrapper = (
       const generateWidgetEntryContent = editorEntryTemplate({
         editorAppWrapperPath,
         componentName: component.name,
+        defaultTranslations: getDefaultTranslations(model),
         translationsConfig: model.translationsConfig,
         componentFileName: component.widgetFileName,
         controllerFileName: component.viewerControllerFileName,

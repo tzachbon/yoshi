@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
+import { getDefaultTranslations } from '../utils';
 import viewerScriptEntry, {
   TemplateControllerConfig,
 } from './templates/CommonViewerScriptEntry';
@@ -43,6 +44,7 @@ const viewerScriptWrapper = (
     controllersMeta,
     appName: model.appName,
     experimentsConfig: model.experimentsConfig,
+    defaultTranslations: getDefaultTranslations(model),
     translationsConfig: model.translationsConfig,
     viewerEntryFileName: model.viewerEntryFileName,
   });
