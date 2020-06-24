@@ -3,6 +3,7 @@ import {
   ExperimentsConfig,
   DefaultTranslations,
   TranslationsConfig,
+  BiConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 import { viewerScriptOptionalImport } from './CommonViewerScriptEntry';
@@ -17,6 +18,7 @@ type Opts = Record<
   viewerEntryFileName: string | null;
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  biConfig: BiConfig;
   sentryConfig: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
 };
@@ -57,6 +59,9 @@ export default t<Opts>`
     var defaultTranslations = ${({ defaultTranslations }) =>
       defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
 
+    var biConfig = ${({ biConfig }) =>
+      biConfig ? JSON.stringify(biConfig) : '{}'};
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
@@ -64,6 +69,7 @@ export default t<Opts>`
       experimentsConfig: experimentsConfig,
       translationsConfig: translationsConfig,
       defaultTranslations: defaultTranslations,
+      biConfig: biConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });

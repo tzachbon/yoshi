@@ -4,6 +4,7 @@ import {
   SentryConfig,
   DefaultTranslations,
   TranslationsConfig,
+  BiConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
@@ -22,6 +23,7 @@ type Opts = {
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
+  biConfig: BiConfig;
   appName: string | null;
   controllersMeta: Array<TemplateControllerConfig>;
 };
@@ -65,6 +67,7 @@ const controllerConfigs = t<{
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
+  biConfig: BiConfig;
   appName: string | null;
 }>`${({
   controllersMeta,
@@ -81,6 +84,7 @@ const controllerConfigs = t<{
           translationsConfig: ${JSON.stringify(translationsConfig)},
           experimentsConfig: ${JSON.stringify(experimentsConfig)},
           defaultTranslations: ${JSON.stringify(defaultTranslations)},
+          biConfig: ${JSON.stringify(biConfig)},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
           componentName: "${controller.componentName}",

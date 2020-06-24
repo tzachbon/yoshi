@@ -15,6 +15,7 @@ import {
   ExperimentsConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BiConfig,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 
@@ -33,6 +34,7 @@ interface IEditorAppCreatorProps {
   sentry: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  biConfig: BiConfig;
 }
 interface IEditorAppWithWixSDKCreatorProps extends IEditorAppCreatorProps {
   sdk: IWixSDKContext;
@@ -52,6 +54,7 @@ const createEditorAppForWixSDK = ({
   experimentsConfig,
   translationsConfig,
   defaultTranslations,
+  biConfig,
   sdk,
 }: IEditorAppWithWixSDKCreatorProps) => {
   const WithComponent = WidgetWrapper(UserComponent, {
@@ -68,6 +71,7 @@ const createEditorAppForWixSDK = ({
         translationsConfig,
         experimentsConfig,
         defaultTranslations,
+        biConfig,
       ),
       initAppForPage: initAppForPageWrapper(
         customInitAppForPage,

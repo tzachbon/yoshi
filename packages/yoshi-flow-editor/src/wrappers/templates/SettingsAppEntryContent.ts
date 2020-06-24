@@ -2,6 +2,7 @@ import {
   SentryConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BiConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
@@ -12,6 +13,7 @@ type Opts = Record<
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   sentry: SentryConfig | null;
+  biConfig: BiConfig;
 };
 
 export default t<Opts>`
@@ -27,6 +29,9 @@ export default t<Opts>`
 
   var defaultTranslations = ${({ defaultTranslations }) =>
     defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
+
+  var biConfig = ${({ biConfig }) =>
+    biConfig ? JSON.stringify(biConfig) : '{}'};
 
   var sentry = ${({ sentry }) =>
     sentry

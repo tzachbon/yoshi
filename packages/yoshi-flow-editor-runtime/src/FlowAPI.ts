@@ -16,6 +16,7 @@ import {
   SentryConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BiConfig,
 } from './constants';
 import { getSiteLanguage, isSSR, isMobile } from './helpers';
 import { ReportError } from './types';
@@ -59,15 +60,19 @@ export class ControllerFlowAPI extends FlowAPI {
   constructor({
     viewerScriptFlowAPI,
     controllerConfig,
-    translationsConfig = null,
     appDefinitionId,
+    biConfig,
+    translationsConfig,
+    appName,
     widgetId,
     defaultTranslations = null,
   }: {
     viewerScriptFlowAPI: ViewerScriptFlowAPI;
     controllerConfig: IWidgetControllerConfig;
     appDefinitionId: string;
-    translationsConfig?: TranslationsConfig | null;
+    biConfig: BiConfig;
+    appName: string | null;
+    translationsConfig: TranslationsConfig | null;
     widgetId: string | null;
     defaultTranslations?: DefaultTranslations | null;
   }) {
@@ -78,17 +83,31 @@ export class ControllerFlowAPI extends FlowAPI {
     this.sentryMonitor = viewerScriptFlowAPI.sentryMonitor;
     this.inEditor = viewerScriptFlowAPI.inEditor;
     this.translationsConfig = translationsConfig;
-    this.fedopsLogger = controllerConfig.platformAPIs.fedOpsLoggerFactory!.getLoggerForWidget(
-      {
-        appId: appDefinitionId,
-        widgetId,
-      },
-    );
+    const { platformAPIs } = controllerConfig;
+    this.fedopsLogger = platformAPIs.fedOpsLoggerFactory!.getLoggerForWidget({
+      appId: appDefinitionId,
+      widgetId,
+    });
 
     if (this.sentryMonitor) {
       this.reportError = this.sentryMonitor.captureException.bind(
         this.sentryMonitor,
       );
+    }
+
+    const platformBI = platformAPIs.bi;
+
+    if (biConfig.visitor && platformBI && platformAPIs.biLoggerFactory) {
+      const biFactory = platformAPIs.biLoggerFactory();
+      const biOptions = {
+        visitor_id: platformBI.visitorId,
+        token: platformBI.biToken,
+        appName,
+        _msid: platformBI.metaSiteId,
+      };
+      const biSchema = require(biConfig.visitor);
+      biSchema(biFactory)({});
+      biSchema.util.updateDefaults(biOptions);
     }
 
     this.appLoadStarted();

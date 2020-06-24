@@ -45,6 +45,7 @@ const viewerScriptWrapper = (
     appName: model.appName,
     experimentsConfig: model.experimentsConfig,
     defaultTranslations: getDefaultTranslations(model),
+    biConfig: model.biConfig,
     translationsConfig: model.translationsConfig,
     viewerEntryFileName: model.viewerEntryFileName,
   });

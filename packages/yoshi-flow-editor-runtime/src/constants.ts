@@ -29,3 +29,8 @@ export type TranslationsConfig = {
 };
 
 export type DefaultTranslations = Record<string, string> | null;
+
+export type BiConfig = {
+  owner?: string;
+  visitor?: string;
+};

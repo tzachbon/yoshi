@@ -15,6 +15,10 @@ describe('addOverrideQueryParamsWithModel', () => {
         artifactId: '7891',
         editorEntryFileName: 'a/b/editor.app.ts',
         viewerEntryFileName: 'a/b',
+        biConfig: {
+          visitor: 'bi-visitor-package',
+          owner: 'bi-owner-package',
+        },
         appDefId: 'APP_DEF_ID',
         sentry: null,
         translationsConfig: {},
@@ -54,6 +58,10 @@ describe('addOverrideQueryParamsWithModel', () => {
         artifactId: '7891',
         urls: {},
         translationsConfig: {},
+        biConfig: {
+          visitor: 'bi-visitor-package',
+          owner: 'bi-owner-package',
+        },
         experimentsConfig: {
           scope: 'test-scope',
         },
@@ -98,6 +106,7 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: '@wix/app',
         artifactId: '7891',
         urls: {},
+        biConfig: {},
         translationsConfig: null,
         editorEntryFileName: null,
         viewerEntryFileName: 'a/b',
@@ -135,6 +144,10 @@ describe('addOverrideQueryParamsWithModel', () => {
         artifactId: '7891',
         urls: {},
         translationsConfig: {},
+        biConfig: {
+          visitor: 'bi-visitor-package',
+          owner: 'bi-owner-package',
+        },
         editorEntryFileName: null,
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
@@ -173,6 +186,10 @@ describe('addOverrideQueryParamsWithModel', () => {
         projectName: 'some-project',
         viewerEntryFileName: 'a/b',
         appDefId: 'APP_DEF_ID',
+        biConfig: {
+          visitor: 'bi-visitor-package',
+          owner: 'bi-owner-package',
+        },
         translationsConfig: {},
         experimentsConfig: {
           scope: 'test-scope',

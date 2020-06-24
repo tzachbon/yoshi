@@ -9,6 +9,10 @@ describe('EditorAppEntry template', () => {
       defaultTranslations: { a: 'b' },
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       viewerEntryFileName: 'some/viwer.app.ts',
       sentryConfig: {
         DSN: 'https//dsn.com',
@@ -29,6 +33,10 @@ describe('EditorAppEntry template', () => {
       defaultTranslations: { a: 'b' },
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       viewerEntryFileName: null,
       translationsConfig: {
         default: 'en',

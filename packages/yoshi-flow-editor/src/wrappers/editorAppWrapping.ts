@@ -26,6 +26,7 @@ const componentWrapper = (
         editorAppWrapperPath,
         componentName: component.name,
         defaultTranslations: getDefaultTranslations(model),
+        biConfig: model.biConfig,
         translationsConfig: model.translationsConfig,
         componentFileName: component.widgetFileName,
         controllerFileName: component.viewerControllerFileName,

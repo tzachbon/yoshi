@@ -12,6 +12,7 @@ import {
   TranslationsConfig,
   OOI_WIDGET_COMPONENT_TYPE,
   PLATFORM_WIDGET_COMPONENT_TYPE,
+  BiConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import {
   WIDGET_FILENAME,
@@ -35,6 +36,7 @@ export interface FlowEditorModel {
   editorEntryFileName: string | null;
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
+  biConfig: BiConfig;
   components: Array<ComponentModel>;
   sentry: SentryConfig | null;
   urls: URLsConfig;
@@ -63,6 +65,7 @@ export interface AppConfig {
   appName?: string;
   translations?: TranslationsConfig | null;
   sentry?: SentryConfig;
+  bi?: BiConfig;
 }
 export interface ComponentConfig {
   id: string;
