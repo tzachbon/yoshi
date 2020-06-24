@@ -63,18 +63,22 @@ export default class Scripts {
   private readonly isMonorepo: boolean;
   private readonly projectType: ProjectType;
   private readonly yoshiBinToUse: string;
+  private readonly ignoreWarnings: boolean;
 
   constructor({
     testDirectory,
     isMonorepo,
     projectType,
     yoshiBinToUse,
+    ignoreWarnings = false,
   }: {
     testDirectory: string;
     isMonorepo: boolean;
     projectType: ProjectType;
     yoshiBinToUse: string;
+    ignoreWarnings: boolean;
   }) {
+    this.ignoreWarnings = ignoreWarnings;
     this.verbose = !!process.env.DEBUG;
     this.testDirectory = testDirectory;
     this.serverProcessPort = 3000;
@@ -98,9 +102,11 @@ export default class Scripts {
   static setupProjectFromTemplate({
     templateDir,
     projectType,
+    ignoreWarnings = false,
   }: {
     templateDir: string;
     projectType: ProjectType;
+    ignoreWarnings?: boolean;
   }) {
     // The test will run in '.tmp' folder. For example: '.tmp/javascript/features/css-inclusion'
     const featureDir = path.join(
@@ -194,6 +200,7 @@ export default class Scripts {
       isMonorepo,
       projectType,
       yoshiBinToUse,
+      ignoreWarnings,
     });
   }
 
@@ -235,17 +242,8 @@ export default class Scripts {
         }
       });
 
-    // `startProcess` will never resolve but if it fails this
-    // promise will reject immediately
     try {
-      await Promise.race([
-        // waitForStdout(startProcess, 'Compiled with warnings', {
-        //   throttle: true,
-        // }).then(() => {
-        //   throw new Error(
-        //     `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
-        //   );
-        // }),
+      const errorsArray = [
         waitForStdout(startProcess, 'Failed to compile', {
           throttle: true,
         }).then(() => {
@@ -253,12 +251,31 @@ export default class Scripts {
             `Yoshi start failed to compile: \n \n ${startProcessOutput}`,
           );
         }),
+      ];
+      if (!this.ignoreWarnings) {
+        errorsArray.push(
+          waitForStdout(startProcess, 'Compiled with warnings', {
+            throttle: true,
+          }).then(() => {
+            throw new Error(
+              `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
+            );
+          }),
+        );
+      }
+
+      // `startProcess` will never resolve but if it fails this
+      // promise will reject immediately
+      await Promise.race([
+        ...errorsArray,
         Promise.all([
           this.projectType !== 'flow-library'
             ? waitForPort(this.serverProcessPort, { timeout: 60 * 1000 })
             : Promise.resolve(),
           waitForPort(this.staticsServerPort, { timeout: 60 * 1000 }),
-          // waitForStdout(startProcess, 'Compiled successfully!'),
+          !this.ignoreWarnings
+            ? waitForStdout(startProcess, 'Compiled successfully!')
+            : Promise.resolve<string>(''),
           opts.waitForStorybook
             ? waitForPort(this.storybookServerPort, { timeout: 60 * 1000 })
             : Promise.resolve(),

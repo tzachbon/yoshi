@@ -5,6 +5,7 @@ jest.setTimeout(30 * 1000);
 const scripts = Scripts.setupProjectFromTemplate({
   templateDir: __dirname,
   projectType: 'yoshi-serverless-typescript',
+  ignoreWarnings: true,
 });
 
 describe.each(['dev'] as const)(
