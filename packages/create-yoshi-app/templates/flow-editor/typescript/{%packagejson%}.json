@@ -25,6 +25,7 @@
     "*.{js,scss,less}": "yoshi-flow-editor lint"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.10.1",
     "@testing-library/react": "^9.3.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^8.0.0",
@@ -63,7 +64,8 @@
     "uuid": "^3.3.2",
     "wix-ui-tpa": "^1.0.123",
     "typescript": "~3.9.0",
-    "yoshi-flow-editor-runtime": "^4.67.0"
+    "yoshi-flow-editor-runtime": "^4.67.0",
+    "@wix/tpa-settings": "^2.0.185"
   },
   "jest": {
     "preset": "jest-yoshi-preset"

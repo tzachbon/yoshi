@@ -10,17 +10,20 @@ import { Widget } from './Widget';
 describe('Widget', () => {
   it('should render a title correctly', async () => {
     const appName = 'My App';
+    const greetingsName = 'Test';
 
     const { getByTestId } = render(
       <ExperimentsProvider experiments={{}}>
         <I18nextProvider>
-          <Widget appName={appName} />
+          <Widget appName={appName} greetingsText={greetingsName} />
         </I18nextProvider>
       </ExperimentsProvider>,
     );
 
     const key = 'app.widget.welcome';
 
-    expect(getByTestId('app-title').textContent).toBe(`${key} ${appName}!`);
+    expect(getByTestId('app-title').textContent).toBe(
+      `${key} ${greetingsName} ${appName}!`,
+    );
   });
 });

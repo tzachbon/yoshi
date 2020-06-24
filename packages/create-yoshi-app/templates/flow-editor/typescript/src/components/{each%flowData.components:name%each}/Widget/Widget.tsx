@@ -15,6 +15,7 @@ const biLogger = initSchemaLogger(webBiLogger);
 
 interface WidgetWrapperProps {
   appName: string;
+  greetingsText: string;
 }
 
 type WidgetProps = InjectedExperimentsProps &
@@ -23,11 +24,11 @@ type WidgetProps = InjectedExperimentsProps &
 
 export default class extends React.Component<WidgetWrapperProps> {
   render() {
-    const { appName } = this.props;
+    const { appName, greetingsText } = this.props;
 
     return (
       <BILoggerProvider logger={biLogger}>
-        <Widget appName={appName} />
+        <Widget appName={appName} greetingsText={greetingsText} />
       </BILoggerProvider>
     );
   }
@@ -35,12 +36,12 @@ export default class extends React.Component<WidgetWrapperProps> {
 
 export const Widget = translate()(
   withExperiments<WidgetProps>(
-    ({ appName, t, experiments, ...rest }: WidgetProps) => {
+    ({ appName, t, experiments, greetingsText, ...rest }: WidgetProps) => {
       return (
-        <div {...styles('root', {}, rest)} data-hook="{%name%}-wrapper">
+        <div {...styles('root', {}, rest)} data-hook="widget0-wrapper">
           <div className={styles.header}>
             <h2 data-hook="app-title">
-              {t('app.widget.welcome')} {appName}!
+              {t('app.widget.welcome')} {greetingsText} {appName}!
             </h2>
           </div>
           {/* {This is a dummy experiment. To generate a new experiment,

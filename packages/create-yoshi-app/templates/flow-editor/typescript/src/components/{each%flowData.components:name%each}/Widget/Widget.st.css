@@ -5,15 +5,15 @@
 
 .root {
   --backgroundColor: "color(color-2)";
-  --fontSize: "font(Body-M)";
   text-align: center;
 }
 
+
 .header {
   background-color: "color(--backgroundColor)";
-  font: "font(--fontSize)";
+  font: "fallback(font(--textFont), font({theme: \'Body-M\', size: \'20px\'}))";
   padding: 10px;
-  color: blue;
+  color: "fallback(color(--textColor), color(color-5))";
 }
 
 .mainButton {
@@ -25,5 +25,4 @@
   height: 30px;
   margin-top: 20px;
   border-radius: 10px;
-  color: red;
 }

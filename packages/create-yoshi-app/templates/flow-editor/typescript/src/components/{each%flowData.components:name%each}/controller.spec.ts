@@ -45,6 +45,7 @@ describe('createController', () => {
 
     expect(setPropsSpy).toBeCalledWith({
       appName,
+      greetingsText: 'Developer',
     });
   });
 });
