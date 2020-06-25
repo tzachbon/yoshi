@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.110.0 (2020-06-25)
+
+#### :rocket: New Feature
+
+- `create-yoshi-app`, `yoshi-common`, `yoshi-config`
+  - [#2628](https://github.com/wix/yoshi/pull/2628) Add dockerignore and templates ([@yanivefraim](https://github.com/yanivefraim))
+
+#### :bug: Bug Fix
+
+- `create-yoshi-app`
+  - [#2627](https://github.com/wix/yoshi/pull/2627) add .dockerignore to BM template ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.109.0 (2020-06-24)
 
 #### :building_construction: Templates
