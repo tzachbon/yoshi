@@ -10,17 +10,19 @@ export const SERVERLESS_SCOPE_BUILD_DIR = (scopeName: string = '') =>
   `${SERVERLESS_SCOPE_DIR(scopeName)}/dist`;
 export const SERVER_CHUNKS_DIR = 'chunks';
 export const DOCKER_FILE = 'Dockerfile';
+export const DOCKER_IGNORE = '.dockerignore';
+export const TEMPLATES = 'templates';
 
 export const ROUTES_DIR = path.join(SRC_DIR, 'routes');
 export const SERVER_CHUNKS_BUILD_DIR = path.join(BUILD_DIR, SERVER_CHUNKS_DIR);
-export const TEMPLATES_DIR = path.join(SRC_DIR, 'templates');
+export const TEMPLATES_DIR = path.join(SRC_DIR, TEMPLATES);
 export const PUBLIC_DIR = path.join(SRC_DIR, 'assets');
 export const STATICS_DIR = path.join(BUILD_DIR, 'statics');
 export const ES_DIR = path.join(BUILD_DIR, 'esm');
 export const CJS_DIR = path.join(BUILD_DIR, 'cjs');
 export const TYPES_DIR = path.join(BUILD_DIR, 'types');
 export const ROUTES_BUILD_DIR = path.join(BUILD_DIR, 'routes');
-export const TEMPLATES_BUILD_DIR = path.join(STATICS_DIR, 'templates');
+export const TEMPLATES_BUILD_DIR = path.join(STATICS_DIR, TEMPLATES);
 export const ASSETS_DIR = path.join(STATICS_DIR, 'assets');
 
 export const NODE_PLATFORM_DEFAULT_CONFIGS_DIR = 'test/configs';

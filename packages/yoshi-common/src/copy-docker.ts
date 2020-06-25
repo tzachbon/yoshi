@@ -1,6 +1,10 @@
 import path from 'path';
 import fs from 'fs-extra';
-import { DOCKER_FILE } from 'yoshi-config/build/paths';
+import {
+  DOCKER_FILE,
+  DOCKER_IGNORE,
+  TEMPLATES,
+} from 'yoshi-config/build/paths';
 import { Config } from 'yoshi-config/build/config';
 import { replaceTemplates } from './utils/template-utils';
 
@@ -8,15 +12,16 @@ export default async function (config: Config, cwd = process.cwd()) {
   if (!config.yoshiServer) {
     return;
   }
-  const projectDockerExists = fs.existsSync(path.resolve(cwd, DOCKER_FILE));
+
+  const dockerDestinationPath = path.resolve(cwd, DOCKER_FILE);
+  const projectDockerExists = fs.existsSync(dockerDestinationPath);
   if (!projectDockerExists) {
-    const dockerFileName = path.resolve(
+    const dockerFilePath = path.resolve(
       __dirname,
       `./templates/${DOCKER_FILE}`,
     );
 
-    const dockerDestinationPath = path.resolve(cwd, DOCKER_FILE);
-    fs.copyFileSync(dockerFileName, dockerDestinationPath);
+    fs.copyFileSync(dockerFilePath, dockerDestinationPath);
     const dockerFileContent = fs.readFileSync(dockerDestinationPath, 'utf-8');
     const author = config.pkgJson.author;
     let name: string;
@@ -38,4 +43,15 @@ export default async function (config: Config, cwd = process.cwd()) {
     );
     fs.outputFileSync(dockerDestinationPath, transformedContent);
   }
+
+  const dockerignoreDestinationPath = path.resolve(cwd, DOCKER_IGNORE);
+  const projectDockerignoreExists = fs.existsSync(dockerignoreDestinationPath);
+  if (!projectDockerignoreExists) {
+    const dockerIgnore = ['node_modules', 'target'];
+    fs.writeFileSync(dockerignoreDestinationPath, dockerIgnore.join('\n'));
+  }
+  // a templates folder is mandatory in case of a Docker
+  // (docker task will fail in case there's no such folder)
+  const templatesFolderPath = path.resolve(cwd, TEMPLATES);
+  fs.ensureDirSync(templatesFolderPath);
 }

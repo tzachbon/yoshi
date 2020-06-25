@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`.dockerignore [prod] should create a .dockerignore file 1`] = `
+"node_modules
+target"
+`;
+
+exports[`docker [prod] should create a docker file 1`] = `
+"FROM docker-repo.wixpress.com/wix-bootstrap-onbuild:stable
+MAINTAINER yaniv <yanivef@wix.com>
+"
+`;
+
+exports[`templates folder [prod] should create a templates folder 1`] = `Array []`;
