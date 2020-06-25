@@ -24,6 +24,7 @@ const settingsWrapper = (
         const generateSettingsEntryContent = settingsEntryTemplate({
           settingsWrapperPath,
           baseUIPath,
+          experimentsConfig: model.experimentsConfig,
           translationsConfig: model.translationsConfig,
           defaultTranslations: getDefaultTranslations(model),
           sentry: model.sentry,
