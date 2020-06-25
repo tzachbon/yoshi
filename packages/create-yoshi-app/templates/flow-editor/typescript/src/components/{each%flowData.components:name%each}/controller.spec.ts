@@ -44,8 +44,7 @@ describe('createController', () => {
     await controller.pageReady();
 
     expect(setPropsSpy).toBeCalledWith({
-      appName,
-      greetingsText: 'Developer',
+      greetingsText: `to ${appName}`,
     });
   });
 });

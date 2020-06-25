@@ -1,4 +1,5 @@
 import { ISettingsParam, ISettingsParams } from '@wix/tpa-settings';
+import { appName } from '../../../.application.json';
 
 export type IComponentSettings = ISettingsParams<{
   greetingsText: ISettingsParam<string>;
@@ -7,6 +8,6 @@ export type IComponentSettings = ISettingsParams<{
 export const componentSettings: IComponentSettings = {
   greetingsText: {
     key: 'greetingsText',
-    getDefaultValue: () => 'Developer',
+    getDefaultValue: () => `to ${appName}`,
   },
 };
