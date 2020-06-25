@@ -1,21 +1,15 @@
 import React, { Suspense } from 'react';
 import { I18nextProvider } from 'react-i18next';
-import { ExperimentsProvider } from '@wix/wix-experiments-react';
 import SentryGlobal from '@sentry/browser';
+import { IWixStatic } from '@wix/native-components-infra/dist/src/types/wix-sdk';
 import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
 import { ErrorBoundary } from './react/ErrorBoundary';
 import { getEditorParams } from './utils';
 import i18n, { getLanguageWithInstance } from './i18next';
 import { SDKProvider } from './react/SDK/SDKProvider';
 import { SDK } from './react/SDK/SDKRenderProp';
-import { WithProviders, ProvidersList } from './react/utils';
-import { IEditorSDKContext, IWixSDKContext } from './react/SDK/SDKContext';
-import {
-  SentryConfig,
-  TranslationsConfig,
-  ExperimentsConfig,
-  DefaultTranslations,
-} from './constants';
+import { IWixSDKEditorEnvironmentContext } from './react/SDK/SDKContext';
+import { SentryConfig, TranslationsConfig } from './constants';
 
 interface SettingsWrapperProps {
   __publicData__: Record<string, any>;
@@ -27,111 +21,81 @@ declare global {
   }
 }
 
+const WithTranslations: React.FC<{
+  translationsConfig: TranslationsConfig | null;
+  Wix: IWixStatic;
+}> = ({ children, Wix, translationsConfig }) => {
+  return translationsConfig ? (
+    <I18nextProvider
+      i18n={i18n({
+        language: getLanguageWithInstance(Wix),
+        waitForReact: true,
+      })}
+    >
+      {children}
+    </I18nextProvider>
+  ) : (
+    (children as React.ReactElement)
+  );
+};
+
 const SettingsWrapper = (
   UserComponent: typeof React.Component,
-  {
-    sentry,
-    translationsConfig,
-    defaultTranslations,
-    experimentsConfig,
-  }: {
-    sentry: SentryConfig | null;
-    translationsConfig: TranslationsConfig | null;
-    defaultTranslations: DefaultTranslations | null;
-    experimentsConfig: ExperimentsConfig | null;
-  },
+  sentry: SentryConfig | null,
+  translationsConfig: TranslationsConfig | null,
 ) => (props: SettingsWrapperProps) => {
   const { editorSDKSrc } = getEditorParams();
-
-  const availableProviders: ProvidersList<{
-    sdk: IEditorSDKContext | IWixSDKContext;
-  }> = [
-    (children, additionalProps) => (
-      <PublicDataProvider sdk={additionalProps.sdk} data={props.__publicData__}>
-        {children}
-      </PublicDataProvider>
-    ),
-  ];
-
-  if (translationsConfig) {
-    availableProviders.push((children, additionalProps) => {
-      const { Wix } = additionalProps.sdk as IWixSDKContext;
-      return Wix ? (
-        <I18nextProvider
-          i18n={i18n({
-            language: getLanguageWithInstance(Wix),
-            defaultLanguage: translationsConfig.default,
-            defaultTranslations,
-            prefix: translationsConfig.prefix,
-            waitForReact: true,
-          })}
-        >
-          {children}
-        </I18nextProvider>
-      ) : (
-        // TODO: Handle translations provider for app builder components
-        children
-      );
-    });
-  }
-
-  if (experimentsConfig) {
-    availableProviders.push((children, additionalProps) => {
-      const { Wix } = additionalProps.sdk as IWixSDKContext;
-      return Wix ? (
-        <ExperimentsProvider options={{ scope: experimentsConfig.scope }}>
-          {children}
-        </ExperimentsProvider>
-      ) : (
-        // TODO: Handle translations provider for app builder components
-        children
-      );
-    });
-  }
-
-  if (sentry) {
-    availableProviders.push((children, additionalProps) => {
-      const { Wix } = additionalProps.sdk as IWixSDKContext;
-
-      return (
-        <ErrorBoundary
-          handleException={window.Sentry.captureException}
-          configure={() => {
-            window.Sentry.init({ environment: 'Editor' });
-            if (Wix) {
-              window.Sentry.configureScope((scope) => {
-                scope.setTag('msid', Wix.Utils.getInstanceValue('metaSiteId'));
-                scope.setUser({
-                  id: Wix.Utils.getInstanceValue('uid'),
-                });
-              });
-            }
-          }}
-        >
-          {children}
-        </ErrorBoundary>
-      );
-    });
-  } else {
-    availableProviders.push((childen) => (
-      <ErrorBoundary handleException={(err) => console.log(err)}>
-        {childen}
-      </ErrorBoundary>
-    ));
-  }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <SDKProvider editorSDKSrc={editorSDKSrc}>
         <SDK editorSDKSrc={editorSDKSrc}>
           {(sdk) => {
+            if (!sentry) {
+              return (
+                <ErrorBoundary handleException={(err) => console.log(err)}>
+                  <WithTranslations
+                    translationsConfig={translationsConfig}
+                    Wix={(sdk as IWixSDKEditorEnvironmentContext).Wix}
+                  >
+                    <PublicDataProvider sdk={sdk} data={props.__publicData__}>
+                      <UserComponent />
+                    </PublicDataProvider>
+                  </WithTranslations>
+                </ErrorBoundary>
+              );
+            }
             return (
-              <WithProviders
-                providers={availableProviders}
-                additionalProps={{ sdk }}
+              <ErrorBoundary
+                handleException={window.Sentry.captureException}
+                configure={() => {
+                  window.Sentry.init({ environment: 'Editor' });
+
+                  const Wix = sdk
+                    ? (sdk as IWixSDKEditorEnvironmentContext).Wix
+                    : null;
+                  if (Wix) {
+                    window.Sentry.configureScope((scope) => {
+                      scope.setTag(
+                        'msid',
+                        Wix.Utils.getInstanceValue('metaSiteId'),
+                      );
+                      scope.setUser({
+                        id: Wix.Utils.getInstanceValue('uid'),
+                      });
+                    });
+                  }
+                }}
               >
-                <UserComponent />
-              </WithProviders>
+                <WithTranslations
+                  translationsConfig={translationsConfig}
+                  Wix={(sdk as IWixSDKEditorEnvironmentContext).Wix}
+                >
+                  <PublicDataProvider sdk={sdk} data={props.__publicData__}>
+                    <UserComponent />
+                  </PublicDataProvider>
+                </WithTranslations>
+              </ErrorBoundary>
             );
           }}
         </SDK>

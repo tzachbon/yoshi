@@ -1,18 +1,16 @@
 import memoize from 'lodash/memoize';
 import i18next from 'i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
-import { DefaultTranslations } from '../constants';
 
 declare let __webpack_public_path__: string;
 const DEFAULT_LANGUAGE = 'en';
 
 export function getSiteTranslations(
   language: string,
-  defaultTranslations: DefaultTranslations | null = {},
+  defaultTranslations: Record<string, string> | null = {},
   prefix: string = 'messages',
-  defaultLanguage: string = DEFAULT_LANGUAGE,
 ): Promise<Record<string, string>> {
-  if (language === defaultLanguage) {
+  if (language === DEFAULT_LANGUAGE) {
     return Promise.resolve(defaultTranslations || {});
   }
 
@@ -39,23 +37,13 @@ export interface I18nConfig {
   language: string;
   translations?: object;
   waitForReact?: boolean;
-  defaultLanguage?: string;
-  defaultTranslations?: DefaultTranslations;
-  prefix?: string;
 }
 
 export default memoize(function i18n(params: I18nConfig) {
-  const {
-    language,
-    translations,
-    defaultTranslations,
-    waitForReact,
-    defaultLanguage,
-    prefix,
-  } = params;
+  const { language, translations, waitForReact } = params;
   const options: any = {
     lng: language,
-    fallbackLng: defaultLanguage || DEFAULT_LANGUAGE,
+    fallbackLng: DEFAULT_LANGUAGE,
     keySeparator: false,
     react: {
       wait: !!waitForReact,
@@ -76,12 +64,7 @@ export default memoize(function i18n(params: I18nConfig) {
         namespace: string,
         callback: (error: Error | null, t?: any) => void,
       ) => {
-        return getSiteTranslations(
-          lang,
-          defaultTranslations,
-          prefix,
-          defaultLanguage,
-        )
+        return getSiteTranslations(lang)
           .then((t) => callback(null, t))
           .catch((error) => callback(error));
       },

@@ -282,6 +282,8 @@ export default async function({ flowAPI }) => {
   return {
     pageReady() {
       const language = flowAPI.getSiteLanguage();
+      const translations = getSiteTranslations(language);
+
       // ...
     }
   };

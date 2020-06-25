@@ -2,7 +2,6 @@ import {
   SentryConfig,
   TranslationsConfig,
   DefaultTranslations,
-  ExperimentsConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
@@ -12,7 +11,6 @@ type Opts = Record<
 > & {
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
-  experimentsConfig: ExperimentsConfig | null;
   sentry: SentryConfig | null;
 };
 
@@ -30,9 +28,6 @@ export default t<Opts>`
   var defaultTranslations = ${({ defaultTranslations }) =>
     defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
 
-  var experimentsConfig = ${({ experimentsConfig }) =>
-    experimentsConfig ? JSON.stringify(experimentsConfig) : 'null'};
-
   var sentry = ${({ sentry }) =>
     sentry
       ? `{
@@ -43,5 +38,5 @@ export default t<Opts>`
     }`
       : 'null'};
 
-  ReactDOM.render(React.createElement(SettingsWrapper(Settings, { sentry, translationsConfig, experimentsConfig, defaultTranslations }), null), document.getElementById('root'));
+  ReactDOM.render(React.createElement(SettingsWrapper(Settings, sentry, translationsConfig), null), document.getElementById('root'));
 `;
