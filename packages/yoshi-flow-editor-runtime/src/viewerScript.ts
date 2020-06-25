@@ -141,9 +141,7 @@ function ooiControllerWrapper(
           _mobile: flowAPI.isMobile(),
           _enabledHOCs: {
             experiments: !!controllerDescriptor.experimentsConfig,
-            translations:
-              controllerDescriptor.translationsConfig &&
-              !controllerDescriptor.translationsConfig.disabled,
+            translations: !!controllerDescriptor.translationsConfig,
           },
           // Set initial state
           state: context.state,

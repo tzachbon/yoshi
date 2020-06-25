@@ -1,14 +1,16 @@
 import React from 'react';
 
-export type ProvidersList = Array<
-  (children: React.ReactElement) => React.ReactElement
+export type ProvidersList<P = Record<string, any>> = Array<
+  (children: React.ReactElement, additionalProps: P) => React.ReactElement
 >;
 
 export const WithProviders: React.FC<{
-  providers: ProvidersList;
+  // TODO: Move to Class to use provider arg according to the additionalProps value.
+  providers: ProvidersList<any>;
   children: React.ReactElement;
-}> = ({ providers, children }) => {
+  additionalProps?: Record<string, any>;
+}> = ({ providers, children, additionalProps }) => {
   return providers.reduce((child, getProvider) => {
-    return getProvider(child);
+    return getProvider(child, additionalProps || {});
   }, children);
 };
