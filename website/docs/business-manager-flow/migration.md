@@ -163,9 +163,7 @@ const FooModal: FC = () => {
 export default FooModal;
 ```
 
-> **Note I:**
-
-> **Note II:** Exported Components are wrapped with all the same contexts, so `moduleParams` are also available using `useModuleParams`.
+> **Note:** Exported Components are wrapped with all the same contexts, so `moduleParams` are also available using `useModuleParams`.
 
 If needed, the `componentId` can be overridden:
 
@@ -197,13 +195,24 @@ Similar to pages & exported-components, the `methodId` can also be overridden:
 }
 ```
 
+# Multiple GAables
+
+If you are using multiple bundles in your BM `.json` configuration, so each GAable has its own `module.bundle.js` file, you can use `moduleConfigurationId` config option to set the `moduleId` your configuration is to be taken from during runtime by BM:
+
+```json
+// .module.json
+{
+  "moduleId": "MY_MODULE_SETTINGS",
+  "moduleConfigurationId": "MY_MODULE"
+}
+```
+
+If you are using the less-preferred way of having 1 module bundle, which refers to lazy wrappers that point to separately GAable page/component bundles, you can use the `legacyBundle` config option to ease migration into separating GAables into separate module bundles.
+
+For more context: https://github.com/wix/yoshi/issues/2527
+
 ## Feedback
 
 As the BM Flow is in its early stages, we'd love your feedback, positive & negative!
-GitHub issues are more than welcome and as always, we're here to help over @ [#yoshi](https://wix.slack.com/archives/CAL591CDV).
 
-# Multiple GAables
-
-> For more context: https://github.com/wix/yoshi/issues/2527
-
-The `legacyBundle` option is available to ease migration into separating GAables into separate `BusinessManagerModule` bundles.
+GitHub Issues are more than welcome and as always, we're here to help over @ [#yoshi](https://wix.slack.com/archives/CAL591CDV).
