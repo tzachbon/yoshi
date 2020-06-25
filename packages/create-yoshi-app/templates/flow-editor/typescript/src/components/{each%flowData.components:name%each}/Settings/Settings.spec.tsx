@@ -7,17 +7,19 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import {
-  I18nextProvider,
-  WixSDKProvider,
-  IConfigureWixSDKTestkit,
-} from 'yoshi-flow-editor-runtime/test';
+import { WixSdkTestKit } from '@wix/native-components-infra/dist/test/mocks/wix-sdk.testkit';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../../../../__tests__/helpers/i18n.mock';
 import Settings from './Settings';
+import { WixSDKProvider } from 'yoshi-flow-editor-runtime/build/react/SDK/WixSDKProvider';
 
 describe('Settings', () => {
-  const configureWixStatic: IConfigureWixSDKTestkit = (wix) => {
-    wix.with.styleParams({});
-    wix.with.siteColors([
+  let wixSdkTestKit: WixSdkTestKit;
+
+  beforeEach(async () => {
+    wixSdkTestKit = new WixSdkTestKit();
+    wixSdkTestKit.with.styleParams({});
+    wixSdkTestKit.with.siteColors([
       { name: 'color_1', value: '#FFFFFF', reference: 'white/black' },
       { name: 'color_2', value: '#000000', reference: 'black/white' },
       { name: 'color_3', value: '#ED1C24', reference: 'primery-1' },
@@ -49,13 +51,12 @@ describe('Settings', () => {
       { name: 'color_34', value: '#2B5336', reference: 'color-24' },
       { name: 'color_35', value: '#15291B', reference: 'color-25' },
     ]);
-    return wix;
-  };
+  });
 
   it('should render tabs', async () => {
     render(
-      <I18nextProvider>
-        <WixSDKProvider configure={configureWixStatic}>
+      <I18nextProvider i18n={i18n as any}>
+        <WixSDKProvider Wix={wixSdkTestKit.Wix}>
           <Settings />
         </WixSDKProvider>
       </I18nextProvider>,
@@ -68,8 +69,8 @@ describe('Settings', () => {
 
   it('should go to the design tab', async () => {
     render(
-      <I18nextProvider>
-        <WixSDKProvider configure={configureWixStatic}>
+      <I18nextProvider i18n={i18n as any}>
+        <WixSDKProvider Wix={wixSdkTestKit.Wix}>
           <Settings />
         </WixSDKProvider>
       </I18nextProvider>,
