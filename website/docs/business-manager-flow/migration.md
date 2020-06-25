@@ -147,6 +147,8 @@ To override those, create a neighboring `.json` file:
 }
 ```
 
+> Read more about page route logic [here](overview#route)
+
 ## Exported Components
 
 Very similar to page components, but in `src/exported-components` and there's no significance (other than the default `componentId`) to the relative path inside `src/exported-components`:
@@ -209,7 +211,7 @@ If you are using multiple bundles in your BM `.json` configuration, so each GAab
 
 If you are using the less-preferred way of having 1 module bundle, which refers to lazy wrappers that point to separately GAable page/component bundles, you can use the `legacyBundle` config option to ease migration into separating GAables into separate module bundles.
 
-For more context: https://github.com/wix/yoshi/issues/2527
+> See more context [here](https://github.com/wix/yoshi/issues/2527)
 
 ## Feedback
 
