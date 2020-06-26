@@ -19,6 +19,7 @@ import { IControllerContext } from './react/Controller/ControllerContext';
 import { SentryConfig } from './constants';
 import { buildSentryOptions, getArtifact } from './utils';
 import { WithProviders, ProvidersList } from './react/utils';
+import { BILoggerProvider } from './react/BILogger/BILoggerProvider';
 
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ interface IFlowProps {
   _enabledHOCs: {
     translations: boolean;
     experiments: boolean;
+    bi: boolean;
   };
   onAppLoaded?: () => void;
   cssBaseUrl?: string;
@@ -107,6 +109,14 @@ const getWidgetWrapper = (
         </ExperimentsProvider>
       ));
     }
+
+    // if (_enabledHOCs.bi) {
+    //   availableProviders.push((children) => (
+    //     <BILoggerProvider logger={}>
+    //       {children}
+    //     </ExperimentsProvider>
+    //   ));
+    // }
 
     if (_enabledHOCs.translations) {
       availableProviders.push((children) => (

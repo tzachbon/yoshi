@@ -27,6 +27,8 @@ exports[`EditorAppEntry template generates correct template for editor app entry
 
     var defaultTranslations = {\\"a\\":\\"b\\"};
 
+    var biConfig = {\\"visitor\\":\\"visitor-bi-package\\",\\"owner\\":\\"owner-bi-package\\"};
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
@@ -34,6 +36,7 @@ exports[`EditorAppEntry template generates correct template for editor app entry
       experimentsConfig: experimentsConfig,
       translationsConfig: translationsConfig,
       defaultTranslations: defaultTranslations,
+      biConfig: biConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });
@@ -63,6 +66,8 @@ exports[`EditorAppEntry template generates correct template for editor app entry
 
     var defaultTranslations = {\\"a\\":\\"b\\"};
 
+    var biConfig = {\\"visitor\\":\\"visitor-bi-package\\",\\"owner\\":\\"owner-bi-package\\"};
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
@@ -70,6 +75,7 @@ exports[`EditorAppEntry template generates correct template for editor app entry
       experimentsConfig: experimentsConfig,
       translationsConfig: translationsConfig,
       defaultTranslations: defaultTranslations,
+      biConfig: biConfig,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });

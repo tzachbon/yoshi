@@ -7859,14 +7859,6 @@ bfj@^6.1.1:
     hoopy "^0.1.4"
     tryer "^1.0.1"
 
-bi-logger-editor-flow-template@^1.0.1:
-  version "1.0.42"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/bi-logger-editor-flow-template/-/bi-logger-editor-flow-template-1.0.42.tgz#b3c4618e098fa4d13d65263ad003a0b8924e6904"
-  integrity sha1-s8RhjgmPpNE9ZSY60AOguJJOaQQ=
-  dependencies:
-    "@wix/bi-logger-testkit" latest
-    is-url-superb "^2.0.0"
-
 bi-logger-yoshi@^1.0.158:
   version "1.0.170"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/bi-logger-yoshi/-/bi-logger-yoshi-1.0.170.tgz#7760c1889e977eb4fc94d652143b099f4c48c972"

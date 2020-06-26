@@ -14,6 +14,7 @@ import {
   TranslationsConfig,
   DefaultTranslations,
   BiConfig,
+  VisitorBiLogger,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 import { ViewerScriptFlowAPI, ControllerFlowAPI } from './FlowAPI';
@@ -35,6 +36,7 @@ type ControllerDescriptor = {
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  biLogger: any;
   widgetType: WidgetType;
   biConfig: BiConfig;
   controllerFileName: string | null;
@@ -55,8 +57,10 @@ const defaultControllerWrapper = (
   const flowAPI = new ControllerFlowAPI({
     viewerScriptFlowAPI,
     appDefinitionId: controllerConfig.appParams.appDefinitionId,
+    biLogger: controllerDescriptor.biLogger,
     appName: controllerDescriptor.appName,
     widgetId: controllerDescriptor.id,
+    biConfig: controllerDescriptor.biConfig,
     translationsConfig: controllerDescriptor.translationsConfig,
     defaultTranslations: controllerDescriptor.defaultTranslations,
     controllerConfig,
@@ -108,6 +112,7 @@ function ooiControllerWrapper(
     translationsConfig: controllerDescriptor.translationsConfig,
     biConfig: controllerDescriptor.biConfig,
     widgetId: controllerDescriptor.id,
+    biLogger: controllerDescriptor.biLogger,
     controllerConfig,
   });
 
@@ -143,9 +148,11 @@ function ooiControllerWrapper(
           _language: flowAPI.getSiteLanguage(),
           _translations: translations,
           _experiments: experiments.all(),
+          // _biLogger: flowAPI.biLogger,
           _mobile: flowAPI.isMobile(),
           _enabledHOCs: {
             experiments: !!controllerDescriptor.experimentsConfig,
+            bi: !!flowAPI.biLogger,
             translations:
               controllerDescriptor.translationsConfig &&
               !controllerDescriptor.translationsConfig.disabled,
@@ -209,6 +216,7 @@ export const createControllers = (
   experimentsConfig: ExperimentsConfig | null = null,
   defaultTranslations: DefaultTranslations | null = null,
   biConfig: BiConfig,
+  biLogger: VisitorBiLogger,
 ) => {
   return createControllersWithDescriptors([
     {
@@ -217,6 +225,7 @@ export const createControllers = (
       biConfig,
       translationsConfig,
       defaultTranslations,
+      biLogger,
       widgetType: OOI_WIDGET_COMPONENT_TYPE,
       experimentsConfig,
       controllerFileName: null,

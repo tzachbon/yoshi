@@ -34,3 +34,5 @@ export type BiConfig = {
   owner?: string;
   visitor?: string;
 };
+
+export type VisitorBiLogger = any;

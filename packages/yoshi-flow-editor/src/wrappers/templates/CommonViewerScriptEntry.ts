@@ -23,7 +23,7 @@ type Opts = {
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
-  biConfig: BiConfig;
+  biConfig: BiConfig | null;
   appName: string | null;
   controllersMeta: Array<TemplateControllerConfig>;
 };
@@ -67,12 +67,14 @@ const controllerConfigs = t<{
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
-  biConfig: BiConfig;
+  biConfig: BiConfig | null;
+  biLogger: any;
   appName: string | null;
 }>`${({
   controllersMeta,
   translationsConfig,
   experimentsConfig,
+  biConfig,
   defaultTranslations,
   appName,
 }) =>
@@ -81,10 +83,17 @@ const controllerConfigs = t<{
       (controller, i) =>
         `{ method: ${getControllerVariableName(i)},
           widgetType: "${controller.widgetType}",
-          translationsConfig: ${JSON.stringify(translationsConfig)},
-          experimentsConfig: ${JSON.stringify(experimentsConfig)},
-          defaultTranslations: ${JSON.stringify(defaultTranslations)},
-          biConfig: ${JSON.stringify(biConfig)},
+          translationsConfig: ${
+            translationsConfig ? JSON.stringify(translationsConfig) : 'null'
+          },
+          experimentsConfig: ${
+            experimentsConfig ? JSON.stringify(experimentsConfig) : 'null'
+          },
+          defaultTranslations: ${
+            defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'
+          },
+          biLogger: biLogger,
+          biConfig: ${biConfig ? JSON.stringify(biConfig) : 'null'},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
           componentName: "${controller.componentName}",
@@ -124,11 +133,15 @@ export default t<Opts>`
     appName,
     translationsConfig,
     defaultTranslations,
+    biConfig,
     experimentsConfig,
   }) =>
     controllerConfigs({
       controllersMeta,
       appName,
+      biConfig,
+      biLogger:
+        biConfig && biConfig.visitor ? `require(${biConfig.visitor})` : 'null',
       translationsConfig,
       defaultTranslations,
       experimentsConfig,

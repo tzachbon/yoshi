@@ -17,6 +17,7 @@ import {
   TranslationsConfig,
   DefaultTranslations,
   BiConfig,
+  VisitorBiLogger,
 } from './constants';
 import { getSiteLanguage, isSSR, isMobile } from './helpers';
 import { ReportError } from './types';
@@ -53,6 +54,7 @@ export class ControllerFlowAPI extends FlowAPI {
   fedopsLogger: BaseLogger<string>;
   inEditor: boolean;
   widgetId: string;
+  biLogger: VisitorBiLogger;
   translationsConfig: TranslationsConfig | null;
 
   _translationsPromise: Promise<Record<string, string>>;
@@ -64,14 +66,16 @@ export class ControllerFlowAPI extends FlowAPI {
     biConfig,
     translationsConfig,
     appName,
+    biLogger,
     widgetId,
     defaultTranslations = null,
   }: {
     viewerScriptFlowAPI: ViewerScriptFlowAPI;
     controllerConfig: IWidgetControllerConfig;
     appDefinitionId: string;
-    biConfig: BiConfig;
+    biConfig: BiConfig | null;
     appName: string | null;
+    biLogger: VisitorBiLogger | null;
     translationsConfig: TranslationsConfig | null;
     widgetId: string | null;
     defaultTranslations?: DefaultTranslations | null;
@@ -97,7 +101,12 @@ export class ControllerFlowAPI extends FlowAPI {
 
     const platformBI = platformAPIs.bi;
 
-    if (biConfig.visitor && platformBI && platformAPIs.biLoggerFactory) {
+    if (
+      biConfig?.visitor &&
+      platformBI &&
+      platformAPIs.biLoggerFactory &&
+      biLogger
+    ) {
       const biFactory = platformAPIs.biLoggerFactory();
       const biOptions = {
         visitor_id: platformBI.visitorId,
@@ -105,9 +114,8 @@ export class ControllerFlowAPI extends FlowAPI {
         appName,
         _msid: platformBI.metaSiteId,
       };
-      const biSchema = require(biConfig.visitor);
-      biSchema(biFactory)({});
-      biSchema.util.updateDefaults(biOptions);
+      this.biLogger = biLogger(biFactory)({});
+      this.biLogger.util.updateDefaults(biOptions);
     }
 
     this.appLoadStarted();

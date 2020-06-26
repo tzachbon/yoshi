@@ -16,6 +16,7 @@ import {
   TranslationsConfig,
   DefaultTranslations,
   BiConfig,
+  VisitorBiLogger,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 
@@ -35,6 +36,7 @@ interface IEditorAppCreatorProps {
   experimentsConfig: ExperimentsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   biConfig: BiConfig;
+  biLogger: VisitorBiLogger;
 }
 interface IEditorAppWithWixSDKCreatorProps extends IEditorAppCreatorProps {
   sdk: IWixSDKContext;
@@ -55,6 +57,7 @@ const createEditorAppForWixSDK = ({
   translationsConfig,
   defaultTranslations,
   biConfig,
+  biLogger,
   sdk,
 }: IEditorAppWithWixSDKCreatorProps) => {
   const WithComponent = WidgetWrapper(UserComponent, {
@@ -72,6 +75,7 @@ const createEditorAppForWixSDK = ({
         experimentsConfig,
         defaultTranslations,
         biConfig,
+        biLogger,
       ),
       initAppForPage: initAppForPageWrapper(
         customInitAppForPage,

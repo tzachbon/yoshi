@@ -18,7 +18,7 @@ type Opts = Record<
   viewerEntryFileName: string | null;
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
-  biConfig: BiConfig;
+  biConfig: BiConfig | null;
   sentryConfig: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
 };
@@ -60,7 +60,7 @@ export default t<Opts>`
       defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
 
     var biConfig = ${({ biConfig }) =>
-      biConfig ? JSON.stringify(biConfig) : '{}'};
+      biConfig ? JSON.stringify(biConfig) : 'null'};
 
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,

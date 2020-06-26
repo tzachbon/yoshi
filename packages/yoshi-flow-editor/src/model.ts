@@ -36,7 +36,7 @@ export interface FlowEditorModel {
   editorEntryFileName: string | null;
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
-  biConfig: BiConfig;
+  biConfig: BiConfig | null;
   components: Array<ComponentModel>;
   sentry: SentryConfig | null;
   urls: URLsConfig;
@@ -273,6 +273,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,
+    biConfig: appConfig.bi ?? null,
     translationsConfig,
     editorEntryFileName,
     artifactId,

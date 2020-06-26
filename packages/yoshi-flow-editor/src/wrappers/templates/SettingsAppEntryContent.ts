@@ -13,7 +13,7 @@ type Opts = Record<
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   sentry: SentryConfig | null;
-  biConfig: BiConfig;
+  biConfig: BiConfig | null;
 };
 
 export default t<Opts>`
@@ -31,7 +31,7 @@ export default t<Opts>`
     defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
 
   var biConfig = ${({ biConfig }) =>
-    biConfig ? JSON.stringify(biConfig) : '{}'};
+    biConfig ? JSON.stringify(biConfig) : 'null'};
 
   var sentry = ${({ sentry }) =>
     sentry
