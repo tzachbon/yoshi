@@ -9,6 +9,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 import {
   I18nextProvider,
+  ExperimentsProvider,
   WixSDKProvider,
   IConfigureWixSDKTestkit,
 } from 'yoshi-flow-editor-runtime/test';
@@ -26,11 +27,13 @@ describe('Settings', () => {
 
   it('should render tabs', async () => {
     render(
-      <I18nextProvider>
-        <WixSDKProvider configure={configureWixStatic}>
-          <Settings />
-        </WixSDKProvider>
-      </I18nextProvider>,
+      <ExperimentsProvider experiments={{}}>
+        <I18nextProvider>
+          <WixSDKProvider configure={configureWixStatic}>
+            <Settings />
+          </WixSDKProvider>
+        </I18nextProvider>
+      </ExperimentsProvider>,
     );
 
     await waitForElement(() => screen.getByTestId('settings-tabs'));
@@ -40,11 +43,13 @@ describe('Settings', () => {
 
   it('should go to the design tab', async () => {
     render(
-      <I18nextProvider>
-        <WixSDKProvider configure={configureWixStatic}>
-          <Settings />
-        </WixSDKProvider>
-      </I18nextProvider>,
+      <ExperimentsProvider experiments={{}}>
+        <I18nextProvider>
+          <WixSDKProvider configure={configureWixStatic}>
+            <Settings />
+          </WixSDKProvider>
+        </I18nextProvider>
+      </ExperimentsProvider>,
     );
 
     await waitForElement(() => screen.getByTestId('settings-tabs'));
