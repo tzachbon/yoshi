@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.110.2 (2020-06-28)
+
+#### :bug: Bug Fix
+
+- `yoshi-common`
+  - [#2641](https://github.com/wix/yoshi/pull/2641) Upgrade petri spec version to 1.3.285 ([@ranyitz](https://github.com/ranyitz))
+
 ## 4.110.1 (2020-06-28)
 
 #### :building_construction: Templates
