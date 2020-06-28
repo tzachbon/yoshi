@@ -1,5 +1,30 @@
 # Changelog
 
+## 4.110.2 (2020-06-28)
+
+#### :bug: Bug Fix
+
+- `yoshi-common`
+  - [#2641](https://github.com/wix/yoshi/pull/2641) Upgrade petri spec version to 1.3.285 ([@ranyitz](https://github.com/ranyitz))
+
+## 4.110.1 (2020-06-28)
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`
+  - [#2630](https://github.com/wix/yoshi/pull/2630) Remove appName usage from the editor flow template ([@yavorsky](https://github.com/yavorsky))
+  - [#2631](https://github.com/wix/yoshi/pull/2631) Fix testEnvBuilder naming lint error in server template ([@sidoruk-sv](https://github.com/sidoruk-sv))
+
+#### :memo: Documentation
+
+- [#2639](https://github.com/wix/yoshi/pull/2639) Fix a typo in `CONTRIBUTING.md` test section ([@tzachbon](https://github.com/tzachbon))
+- [#2633](https://github.com/wix/yoshi/pull/2633) Remove `babel-preset-yoshi` from docs ([@ranyitz](https://github.com/ranyitz))
+
+#### :house: Internal
+
+- `yoshi-serverless`
+  - [#2620](https://github.com/wix/yoshi/pull/2620) Yoshi Serverless: remove redundant code ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.110.0 (2020-06-25)
 
 #### :rocket: New Feature

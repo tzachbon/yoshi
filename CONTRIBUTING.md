@@ -103,7 +103,7 @@ Command:
 We have several status checks for integration tests, in order to parallelize them in CI. Locally, we usually run the specific feature relevant for us. You can filter it using jest (awesome) filtering capabilities. For example:
 
 ```
-npx jest css-inclution
+npx jest css-inclusion
 ```
 
 or
@@ -123,7 +123,7 @@ npx jest moment -t='exclude locales imported from moment'
 Add a `DEBUG=true` before the command, for example:
 
 ```
-DEBUG=true npx jest css-inclution
+DEBUG=true npx jest css-inclusion
 ```
 
 This will open the browser and produce verbose logs.
@@ -131,15 +131,15 @@ This will open the browser and produce verbose logs.
 The tests will run under `.tmp` folder and can be debugged easily. For example:
 
 ```
-> .tmp/javascript/features/css-inclution >> npm start
+> .tmp/javascript/features/css-inclusion >> npm start
 ```
 
 ```
-> .tmp/javascript/features/css-inclution >> npm test
+> .tmp/javascript/features/css-inclusion >> npm test
 ```
 
 ```
-> .tmp/javascript/features/css-inclution >> npm build
+> .tmp/javascript/features/css-inclusion >> npm build
 ```
 
 ### Template tests
