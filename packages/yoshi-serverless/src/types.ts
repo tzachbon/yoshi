@@ -22,7 +22,6 @@ export type YoshiFunctionContext = {
   req: WebRequest; // & WithAspects;
   context: FunctionContext;
   initData: any;
-  config: any;
 };
 
 export type ServerFunction<
@@ -42,7 +41,6 @@ export type RouteContext = {
   context: FunctionContext;
   params: { [name: string]: any | undefined };
   initData: any;
-  config: any;
 };
 
 export type RouteFunction<Result extends FunctionResult> = (

@@ -68,7 +68,6 @@ export default route(async function () {
     const fnThis = {
       context: this.context,
       req: this.req,
-      config: this.config,
       initData: this.initData,
     };
 

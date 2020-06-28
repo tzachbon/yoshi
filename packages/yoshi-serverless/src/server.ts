@@ -16,20 +16,11 @@ export type Route = {
 
 export default class Server {
   private context: FunctionContext;
-  private config: any;
   private routes: Array<Route>;
   private initData: any;
 
   constructor(context: FunctionContext) {
     this.context = context;
-    try {
-      // this.config = context.config.load(
-      //   // strip organization name from package name
-      //   project.name.slice(project.name.indexOf('/') + 1),
-      // );
-    } catch (e) {
-      // do nothing
-    }
     this.routes = this.createRoutes();
 
     if (process.env.NODE_ENV === 'development') {
@@ -106,7 +97,6 @@ export default class Server {
             req,
             params,
             initData: this.initData,
-            config: this.config,
           };
 
           const result = await chunk.call(fnThis);
