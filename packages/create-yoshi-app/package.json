@@ -65,6 +65,6 @@
     "mock-require": "^3.0.3",
     "tempy": "^0.5.0",
     "ts-node": "^8.4.1",
-    "type-fest": "^0.15.0"
+    "type-fest": "^0.16.0"
   }
 }

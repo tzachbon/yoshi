@@ -3785,7 +3785,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/i18next@*", "@types/i18next@8.4.5":
+"@types/i18next@*", "@types/i18next@8.4.5", "@types/i18next@8.4.6":
   version "8.4.5"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/i18next/-/i18next-8.4.5.tgz#d6c0cb594258815219c70006e9f5cd65ad6d797f"
   integrity sha1-1sDLWUJYgVIZxwAG6fXNZa1teX8=
@@ -3897,6 +3897,11 @@
   version "4.14.155"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/lodash/-/lodash-4.14.155.tgz#e2b4514f46a261fd11542e47519c20ebce7bc23a"
   integrity sha1-4rRRT0aiYf0RVC5HUZwg6857wjo=
+
+"@types/lodash@4.14.157":
+  version "4.14.157"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/lodash/-/lodash-4.14.157.tgz#fdac1c52448861dfde1a2e1515dbc46e54926dc8"
+  integrity sha1-/awcUkSIYd/eGi4VFdvEblSSbcg=
 
 "@types/long@*", "@types/long@4.0.1", "@types/long@^4.0.1":
   version "4.0.1"
@@ -26363,10 +26368,15 @@ type-detect@4.0.8, type-detect@^4.0.0, type-detect@^4.0.5:
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha1-dkb7XxiHHPu3dJ5pvTmmOI63RQw=
 
-type-fest@0.15.1, type-fest@^0.15.0:
+type-fest@0.15.1:
   version "0.15.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/type-fest/-/type-fest-0.15.1.tgz#d2c4e73d3e4a53cf1a906396dd460a1c5178ca00"
   integrity sha1-0sTnPT5KU88akGOW3UYKHFF4ygA=
+
+type-fest@0.16.0, type-fest@^0.16.0:
+  version "0.16.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/type-fest/-/type-fest-0.16.0.tgz#3240b891a78b0deae910dbeb86553e552a148860"
+  integrity sha1-MkC4kaeLDerpENvrhlU+VSoUiGA=
 
 type-fest@^0.10.0:
   version "0.10.0"
