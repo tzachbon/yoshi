@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`e2e [dev] run tests 1`] = `
+"[13:09:32] Starting 'cdn'...
+	cdn is already running on 3200, skipping...
+[13:09:34] Finished 'cdn' after 1953 ms
+
+        When using server.command in jest config you must specify your port.
+
+        For example:
+        
+        module.exports = {
+          server: {
+            command: 'node dist/server.js',
+            port: 3100,
+          },
+        }
+jest failed with status code \\"1\\""
+`;
+
+exports[`e2e [prod] run tests 1`] = `
+"[13:09:23] Starting 'cdn'...
+	cdn is already running on 3200, skipping...
+[13:09:24] Finished 'cdn' after 651 ms
+
+        When using server.command in jest config you must specify your port.
+
+        For example:
+        
+        module.exports = {
+          server: {
+            command: 'node dist/server.js',
+            port: 3100,
+          },
+        }
+jest failed with status code \\"1\\""
+`;

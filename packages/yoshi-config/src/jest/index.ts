@@ -5,6 +5,7 @@ import importFresh from 'import-fresh';
 import { validate } from 'jest-validate';
 import validConfig from './validConfig';
 import { Config } from './config';
+import validateServerConfig from './validate-server-config';
 
 export default (): Config => {
   const configPath = path.join(process.cwd(), 'jest-yoshi.config.js');
@@ -35,6 +36,8 @@ export default (): Config => {
       'coverageThreshold',
     ],
   });
+
+  validateServerConfig(config);
 
   return config;
 };
