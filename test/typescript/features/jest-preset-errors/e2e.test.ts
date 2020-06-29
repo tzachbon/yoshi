@@ -7,7 +7,7 @@ const scripts = Scripts.setupProjectFromTemplate({
 
 jest.setTimeout(40000);
 
-describe.each(['dev'] as const)('e2e [%s]', (mode) => {
+describe.each(['dev'] as const)('show browser errors in terminal', (mode) => {
   it('run tests', async () => {
     await scripts[mode](async () => {
       const warnMessage =
@@ -16,7 +16,7 @@ describe.each(['dev'] as const)('e2e [%s]', (mode) => {
       try {
         await scripts.test(mode);
       } catch (e) {
-        expect(e.message.includes(warnMessage)).toBe(true);
+        expect(e.message).toMatch(warnMessage);
       }
     });
   });
