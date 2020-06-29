@@ -1,4 +1,6 @@
 {
   "app.widget.welcome": "Welcome",
-  "app.settings.label": "Configure Widget"
+  "app.settings.label": "Configure Widget",
+  "app.settings.tabs.main": "Main",
+  "app.settings.tabs.design": "Design"
 }

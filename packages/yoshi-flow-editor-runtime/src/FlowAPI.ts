@@ -100,6 +100,7 @@ export class ControllerFlowAPI extends FlowAPI {
           language,
           defaultTranslations,
           translationsConfig.prefix,
+          translationsConfig.default,
         )
       : Promise.resolve({});
   }
