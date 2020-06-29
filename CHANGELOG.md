@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.110.3 (2020-06-29)
+
+#### :nail_care: Polish
+
+- `yoshi-flow-monorepo`
+  - [#2643](https://github.com/wix/yoshi/pull/2643) Create site-assets web compilation under a flag in start script ([@ronami](https://github.com/ronami))
+  - [#2632](https://github.com/wix/yoshi/pull/2632) Remove sourcemaps from site-assets node ([@ronami](https://github.com/ronami))
+
 ## 4.110.2 (2020-06-28)
 
 #### :bug: Bug Fix
