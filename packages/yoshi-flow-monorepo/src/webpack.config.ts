@@ -344,6 +344,7 @@ export function createSiteAssetsWebpackConfig(
     transpileCarmiOutput,
     disableEmitSourceMaps = false,
     forceMinimizeServer = false,
+    keepFunctionNames = false,
   }: {
     isDev?: boolean;
     forceEmitSourceMaps?: boolean;
@@ -353,6 +354,7 @@ export function createSiteAssetsWebpackConfig(
     transpileCarmiOutput?: boolean;
     disableEmitSourceMaps?: boolean;
     forceMinimizeServer?: boolean;
+    keepFunctionNames?: boolean;
   },
 ): webpack.Configuration {
   const entry = pkg.config.entry || defaultEntry;
@@ -378,6 +380,7 @@ export function createSiteAssetsWebpackConfig(
     tpaStyle: pkg.config.tpaStyle,
     separateStylableCss: pkg.config.separateStylableCss,
     createEjsTemplates: pkg.config.experimentalBuildHtml,
+    keepFunctionNames,
     transpileCarmiOutput,
     ...defaultOptions,
   });
