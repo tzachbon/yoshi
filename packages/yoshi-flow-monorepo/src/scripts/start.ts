@@ -120,16 +120,18 @@ const start: cliCommand = async function (argv, rootConfig, { apps, libs }) {
       },
     );
 
-    siteAssetConfigWeb = createSiteAssetsWebpackConfig(
-      rootConfig,
-      pkg,
-      libs,
-      apps,
-      {
-        isDev: true,
-        target: 'web',
-      },
-    );
+    if (process.env.CREATE_SITE_ASSETS_WEB) {
+      siteAssetConfigWeb = createSiteAssetsWebpackConfig(
+        rootConfig,
+        pkg,
+        libs,
+        apps,
+        {
+          isDev: true,
+          target: 'web',
+        },
+      );
+    }
   } else {
     clientConfig = createClientWebpackConfig(rootConfig, pkg, libs, apps, {
       isDev: true,
