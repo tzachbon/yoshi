@@ -8,6 +8,7 @@ import { WebRequest, FunctionContext } from '@wix/serverless-api';
 import { ROUTES_BUILD_DIR, BUILD_DIR } from 'yoshi-config/build/paths';
 import { RouteFunction, InitServerFunction } from './types';
 import { pathMatch, connectToYoshiServerHMR, buildRoute } from './utils';
+import nonWebpackRequireFresh from './non-webpack-require-fresh';
 
 export type Route = {
   route: string;
@@ -87,7 +88,7 @@ export default class Server {
 
     return serverChunks.map((absolutePath) => {
       // @ts-ignore
-      const chunk = __non_webpack_require__(absolutePath) as RouteFunction<any>;
+      const chunk = nonWebpackRequireFresh(absolutePath) as RouteFunction<any>;
       const route = buildRoute(absolutePath);
       return {
         route,
