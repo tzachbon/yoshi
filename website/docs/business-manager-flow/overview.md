@@ -1,7 +1,7 @@
 ---
-id: business-manager-flow
-title: Business-Manager Flow
-sidebar_label: Business-Manager Flow
+id: overview
+title: Business-Manager Flow Overview
+sidebar_label: Overview
 ---
 
 > 🧪 Experimental
