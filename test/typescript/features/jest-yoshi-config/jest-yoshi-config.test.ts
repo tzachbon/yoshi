@@ -12,10 +12,10 @@ describe.each(['prod', 'dev'] as const)('e2e [%s]', (mode) => {
     await scripts[mode](async () => {
       try {
         await scripts.test(mode);
-        throw new Error('Test should have failed but passed');
-      } catch (e) {
-        expect(e.message).toMatchSnapshot();
+      } catch (error) {
+        expect(error.message).toMatchSnapshot();
       }
+      expect.assertions(1);
     });
   });
 });
