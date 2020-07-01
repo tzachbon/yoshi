@@ -9,6 +9,7 @@ export default ({
   authorEmail,
   flowData,
   sentryData,
+  repositoryName,
 }: TemplateModel) => {
   const valuesMap: Record<string, any> = {
     projectName,
@@ -18,6 +19,7 @@ export default ({
     packagejson: 'package',
     flowData,
     sentryData,
+    repositoryName,
   };
 
   Object.keys(valuesMap).forEach((key) => {

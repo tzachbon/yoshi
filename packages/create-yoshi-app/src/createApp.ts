@@ -11,6 +11,7 @@ import generateProject from './generateProject';
 import TemplateModel from './TemplateModel';
 import SentryTemplateModel from './sentry-registration/TemplateModel';
 import DevCenterTemplateModel from './dev-center-registration/TemplateModel';
+import verifyServerlessParentDir from './verifyServerlessParentDir';
 
 export interface CreateAppOptions {
   workingDir: string;
@@ -62,6 +63,13 @@ export default async ({
 
     templateModel.setSentryData(sentryModel);
     await setupAutoRelease(templateModel);
+  }
+
+  if (
+    templateModel.templateDefinition.name.includes('platformize-serverless')
+  ) {
+    verifyServerlessParentDir(workingDir);
+    templateModel.setRepositoryName(workingDir);
   }
 
   console.log(

@@ -5,6 +5,7 @@ process.on('unhandledRejection', (error) => {
 process.env.EXPERIMENTAL_FLOW_BM = 'true';
 process.env.EXPERIMENTAL_PLATFORM_TEMPLATE = 'true';
 process.env.EXPERIMENTAL_FLOW_LIBRARY = 'true';
+process.env.EXPERIMENTAL_PLATFORMIZE_SERVERLESS = 'true';
 
 const fs = require('fs-extra');
 const path = require('path');

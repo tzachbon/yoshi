@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import execa from 'execa';
 
 export type Language = 'javascript' | 'typescript';
 
@@ -25,6 +26,7 @@ export default class TemplateModel<F = Record<string, any>> {
   readonly language: Language;
   flowData: F | null;
   sentryData: SentryData | null;
+  repositoryName: string | null;
 
   constructor({
     projectName,
@@ -46,6 +48,7 @@ export default class TemplateModel<F = Record<string, any>> {
     this.language = language;
     this.flowData = null;
     this.sentryData = null;
+    this.repositoryName = null;
   }
 
   getPath() {
@@ -58,6 +61,24 @@ export default class TemplateModel<F = Record<string, any>> {
 
   getFlowData(): F | null {
     return this.flowData;
+  }
+
+  async setRepositoryName(dir: string) {
+    try {
+      const { stdout } = await execa(
+        'basename -s .git `git config --get remote.origin.url`',
+        {
+          shell: true,
+          cwd: dir,
+          stdio: 'pipe',
+        },
+      );
+
+      this.repositoryName = stdout;
+      return !!this.repositoryName;
+    } catch (error) {
+      return false;
+    }
   }
 
   getSentryData() {

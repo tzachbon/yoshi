@@ -56,6 +56,15 @@ if (process.env.EXPERIMENTAL_PLATFORM_TEMPLATE === 'true') {
   });
 }
 
+if (process.env.EXPERIMENTAL_PLATFORMIZE_SERVERLESS === 'true') {
+  templates.push({
+    name: 'platformize-serverless',
+    title: 'Platformize Serverless',
+    path: toTemplatePath('platformize-serverless'),
+    availableLanguages: ['typescript'],
+  });
+}
+
 if (process.env.EXPERIMENTAL_FLOW_LIBRARY === 'true') {
   templates.push({
     name: 'flow-library',
