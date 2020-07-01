@@ -5,6 +5,7 @@ import { BUILD_DIR } from 'yoshi-config/build/paths';
 import { requestPayloadCodec, DSL } from '../types';
 import { relativeFilePath, connectToYoshiServerHMR } from '../utils';
 import { route } from '..';
+import nonWebpackRequireFresh from '../non-webpack-require-fresh';
 
 const buildDir = path.resolve(__dirname, '..', '..', BUILD_DIR);
 
@@ -23,7 +24,7 @@ function createFunctions() {
 
     return {
       ...acc,
-      [filename]: __non_webpack_require__(absolutePath),
+      [filename]: nonWebpackRequireFresh(absolutePath),
     };
   }, {});
 

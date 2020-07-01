@@ -10,14 +10,16 @@
   "author": "Yaniv Efraim",
   "license": "ISC",
   "dependencies": {
-    "@wix/serverless-api": "^1.0.0",
+    "@wix/serverless-api": "^1.0.541",
     "fp-ts": "2.6.6",
     "fs-extra": "^8.1.0",
     "globby": "10.0.2",
     "import-fresh": "3.2.1",
     "io-ts": "2.2.6",
     "path-to-regexp": "3.2.0",
+    "parent-module": "2.0.0",
     "react-dev-utils": "7.0.5",
+    "resolve-from": "5.0.0",
     "sockjs-client": "1.4.0",
     "yoshi-config": "4.83.0",
     "youch": "2.0.10"

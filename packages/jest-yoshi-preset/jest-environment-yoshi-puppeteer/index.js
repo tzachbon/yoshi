@@ -51,6 +51,18 @@ module.exports = class PuppeteerEnvironment extends ParentEnvironment {
       this.global.console.warn(error.stack);
     });
 
+    this.global.page.on('requestfinished', (request) => {
+      const hasError = [404, 503].includes(request.response().status());
+
+      if (hasError) {
+        this.global.console.warn(
+          `Request failed or not found. url: ${request.url()}, status code: ${request
+            .response()
+            .status()}, method: ${request.method()}`,
+        );
+      }
+    });
+
     this.global.page.on('requestfailed', (request) => {
       if (request.url().includes(servers.cdn.url)) {
         this.global.console.warn(
