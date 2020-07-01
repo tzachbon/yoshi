@@ -322,6 +322,38 @@ export const getStyleLoaders = ({
         },
       ],
     },
+
+    // Experimental Stylable loader
+    ...(process.env.EXPERIMENTAL_STYLABLE_LOADER
+      ? [
+          {
+            test: /\.st\.css$/i,
+            use: [
+              ...(embedCss
+                ? [
+                    // expected to be installed on the project that tests this experimental feature
+                    // eslint-disable-next-line import/no-extraneous-dependencies
+                    require('@stylable/experimental-loader').stylableLoaders.runtime(),
+                    {
+                      loader: MiniCssExtractPlugin.loader,
+                      options: { reloadAll: true },
+                    },
+                    // expected to be installed on the project that tests this experimental feature
+                    // eslint-disable-next-line import/no-extraneous-dependencies
+                    require('@stylable/experimental-loader').stylableLoaders.transform(),
+                  ]
+                : // https://github.com/wix/stylable/tree/master/packages/experimental-loader#ssr-exportsonly
+                  [
+                    // expected to be installed on the project that tests this experimental feature
+                    // eslint-disable-next-line import/no-extraneous-dependencies
+                    require('@stylable/experimental-loader').stylableLoaders.transform(
+                      { exportsOnly: true },
+                    ),
+                  ]),
+            ],
+          },
+        ]
+      : []),
   ];
 };
 
@@ -731,18 +763,22 @@ export function createBaseWebpackConfig({
 
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-            new StylableWebpackPlugin({
-              ...getCommonStylbleWebpackConfig(name),
-              filename: isDev
-                ? '[name].stylable.bundle.css'
-                : createEjsTemplates
-                ? '[name].[hash:8].stylable.bundle.css'
-                : '[name].stylable.bundle.css',
-              outputCSS: separateStylableCss,
-              includeCSSInJS: !separateStylableCss,
-              runtimeMode: 'shared',
-              globalRuntimeId,
-            }),
+            ...(process.env.EXPERIMENTAL_STYLABLE_LOADER
+              ? []
+              : [
+                  new StylableWebpackPlugin({
+                    ...getCommonStylbleWebpackConfig(name),
+                    filename: isDev
+                      ? '[name].stylable.bundle.css'
+                      : createEjsTemplates
+                      ? '[name].[hash:8].stylable.bundle.css'
+                      : '[name].stylable.bundle.css',
+                    outputCSS: separateStylableCss,
+                    includeCSSInJS: !separateStylableCss,
+                    runtimeMode: 'shared',
+                    globalRuntimeId,
+                  }),
+                ]),
 
             // site-assets manifest is handled with its own plugin
             ...(configName !== 'site-assets'
@@ -798,11 +834,15 @@ export function createBaseWebpackConfig({
               raw: true,
               entryOnly: false,
             }),
-            new StylableWebpackPlugin({
-              ...getCommonStylbleWebpackConfig(name),
-              outputCSS: false,
-              includeCSSInJS: false,
-            }),
+            ...(process.env.EXPERIMENTAL_STYLABLE_LOADER
+              ? []
+              : [
+                  new StylableWebpackPlugin({
+                    ...getCommonStylbleWebpackConfig(name),
+                    outputCSS: false,
+                    includeCSSInJS: false,
+                  }),
+                ]),
           ]
         : []),
 
