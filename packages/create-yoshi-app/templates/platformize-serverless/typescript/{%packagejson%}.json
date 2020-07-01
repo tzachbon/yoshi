@@ -8,7 +8,7 @@
     "test": "npm run build && serverless-cli test .",
     "dev": "npx tsc -w",
     "deploy": "npm run build && git add . && git commit -m",
-    "postdeploy": "git push && serverless-cli deploy @wix/{%projectName%}"
+    "postdeploy": "git push && serverless-cli deploy {%projectName%}"
   },
   "author": "",
   "license": "ISC",
