@@ -2,6 +2,7 @@ import path from 'path';
 import execa from 'execa';
 import fs from 'fs-extra';
 import defaultsDeep from 'lodash/defaultsDeep';
+import { getServerlessScope } from '../packages/yoshi-helpers/build/utils';
 import { ciEnv, localEnv } from '../scripts/utils/constants';
 import serve from '../packages/yoshi-common/serve';
 import writeJson from '../packages/yoshi-common/build/write-json';
@@ -37,6 +38,8 @@ export type ProjectType =
   | 'javascript'
   | 'yoshi-server-javascript'
   | 'yoshi-server-typescript'
+  | 'yoshi-serverless-javascript'
+  | 'yoshi-serverless-typescript'
   | 'monorepo-javascript'
   | 'monorepo-typescript'
   | 'flow-library';
@@ -54,29 +57,37 @@ export default class Scripts {
   private readonly staticsServerPort: number;
   private readonly storybookServerPort: number;
   public readonly serverUrl: string;
+  public readonly serverlessUrl: string;
   private readonly yoshiPublishDir: string;
   public readonly staticsServerUrl: string;
   private readonly isMonorepo: boolean;
   private readonly projectType: ProjectType;
   private readonly yoshiBinToUse: string;
+  private readonly ignoreWarnings: boolean;
 
   constructor({
     testDirectory,
     isMonorepo,
     projectType,
     yoshiBinToUse,
+    ignoreWarnings = false,
   }: {
     testDirectory: string;
     isMonorepo: boolean;
     projectType: ProjectType;
     yoshiBinToUse: string;
+    ignoreWarnings: boolean;
   }) {
+    this.ignoreWarnings = ignoreWarnings;
     this.verbose = !!process.env.DEBUG;
     this.testDirectory = testDirectory;
     this.serverProcessPort = 3000;
     this.staticsServerPort = projectType === 'flow-library' ? 3300 : 3200;
     this.storybookServerPort = 9009;
     this.serverUrl = `http://localhost:${this.serverProcessPort}`;
+    this.serverlessUrl = `http://localhost:${
+      this.serverProcessPort
+    }/serverless/${getServerlessScope(testDirectory)}`;
     this.staticsServerUrl = `http://localhost:${this.staticsServerPort}`;
     this.yoshiPublishDir = isPublish
       ? `${global.yoshiPublishDir}/node_modules`
@@ -91,9 +102,11 @@ export default class Scripts {
   static setupProjectFromTemplate({
     templateDir,
     projectType,
+    ignoreWarnings = false,
   }: {
     templateDir: string;
     projectType: ProjectType;
+    ignoreWarnings?: boolean;
   }) {
     // The test will run in '.tmp' folder. For example: '.tmp/javascript/features/css-inclusion'
     const featureDir = path.join(
@@ -129,12 +142,19 @@ export default class Scripts {
       yoshiBinToUse = yoshiFlowLibraryBin;
     }
 
+    let envVarsObj: { [key: string]: string } = {};
+    if (projectType === 'yoshi-serverless-typescript') {
+      envVarsObj = { EXPERIMENTAL_YOSHI_SERVERLESS: 'true' };
+    }
+    const envVars = Object.keys(envVarsObj).reduce((acc, cur) => {
+      return `${cur}=${envVarsObj[cur]} ${acc}`;
+    }, '');
     // Add scripts to package.json template
     const scripts = {
       scripts: {
-        start: `node ${yoshiBinToUse} start`,
-        build: `node ${yoshiBinToUse} build`,
-        test: `node ${yoshiBinToUse} test`,
+        start: `${envVars}node ${yoshiBinToUse} start`,
+        build: `${envVars}node ${yoshiBinToUse} build`,
+        test: `${envVars}node ${yoshiBinToUse} test`,
       },
     };
     const packageJSONPath = path.join(featureDir, 'package.json');
@@ -182,6 +202,7 @@ export default class Scripts {
       isMonorepo,
       projectType,
       yoshiBinToUse,
+      ignoreWarnings,
     });
   }
 
@@ -199,6 +220,9 @@ export default class Scripts {
         PORT: `${this.serverProcessPort}`,
         NODE_PATH: this.yoshiPublishDir,
         ...defaultOptions,
+        ...(this.projectType === 'yoshi-serverless-typescript'
+          ? { EXPERIMENTAL_YOSHI_SERVERLESS: 'true' }
+          : {}),
         ...localEnv,
         ...opts.env,
       },
@@ -220,17 +244,8 @@ export default class Scripts {
         }
       });
 
-    // `startProcess` will never resolve but if it fails this
-    // promise will reject immediately
     try {
-      await Promise.race([
-        waitForStdout(startProcess, 'Compiled with warnings', {
-          throttle: true,
-        }).then(() => {
-          throw new Error(
-            `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
-          );
-        }),
+      const errorsArray = [
         waitForStdout(startProcess, 'Failed to compile', {
           throttle: true,
         }).then(() => {
@@ -238,12 +253,31 @@ export default class Scripts {
             `Yoshi start failed to compile: \n \n ${startProcessOutput}`,
           );
         }),
+      ];
+      if (!this.ignoreWarnings) {
+        errorsArray.push(
+          waitForStdout(startProcess, 'Compiled with warnings', {
+            throttle: true,
+          }).then(() => {
+            throw new Error(
+              `Yoshi start was compiled with warnings \n \n ${startProcessOutput}`,
+            );
+          }),
+        );
+      }
+
+      // `startProcess` will never resolve but if it fails this
+      // promise will reject immediately
+      await Promise.race([
+        ...errorsArray,
         Promise.all([
           this.projectType !== 'flow-library'
             ? waitForPort(this.serverProcessPort, { timeout: 60 * 1000 })
             : Promise.resolve(),
           waitForPort(this.staticsServerPort, { timeout: 60 * 1000 }),
-          waitForStdout(startProcess, 'Compiled successfully!'),
+          !this.ignoreWarnings
+            ? waitForStdout(startProcess, 'Compiled successfully!')
+            : Promise.resolve(''),
           opts.waitForStorybook
             ? waitForPort(this.storybookServerPort, { timeout: 60 * 1000 })
             : Promise.resolve(),
