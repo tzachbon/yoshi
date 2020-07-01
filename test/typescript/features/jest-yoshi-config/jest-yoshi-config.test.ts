@@ -13,7 +13,8 @@ describe.each(['prod', 'dev'] as const)('e2e [%s]', (mode) => {
       try {
         await scripts.test(mode);
       } catch (error) {
-        expect(error.message).toMatchSnapshot();
+        const errorMessage = error.message.split('\n').splice(3).join('\n');
+        expect(errorMessage).toMatchSnapshot();
       }
       expect.assertions(1);
     });
