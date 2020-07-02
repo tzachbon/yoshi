@@ -1,5 +1,44 @@
 # Changelog
 
+## 4.111.0 (2020-07-02)
+
+#### :rocket: New Feature
+
+- `yoshi-common`
+  - [#2659](https://github.com/wix/yoshi/pull/2659) Add support for experimental Stylable loader under a flag (env var) ([@ronami](https://github.com/ronami))
+- `jest-yoshi-preset`
+  - [#2642](https://github.com/wix/yoshi/pull/2642) Jest connection error message ([@tzachbon](https://github.com/tzachbon))
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2635](https://github.com/wix/yoshi/pull/2635) Provide translations, experiments automatically. ([@yavorsky](https://github.com/yavorsky))
+
+#### :building_construction: Templates
+
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2635](https://github.com/wix/yoshi/pull/2635) Provide translations, experiments automatically. ([@yavorsky](https://github.com/yavorsky))
+
+#### :bug: Bug Fix
+
+- `yoshi-serverless`
+  - [#2645](https://github.com/wix/yoshi/pull/2645) Yoshi serverless - import fresh with `_non_webpack_require_` ([@yanivefraim](https://github.com/yanivefraim))
+- Other
+  - [#2629](https://github.com/wix/yoshi/pull/2629) Let wallaby know not to build `spec-setup.ts` ([@amitdahan](https://github.com/amitdahan))
+
+#### :nail_care: Polish
+
+- `yoshi-flow-bm-runtime`
+  - [#2606](https://github.com/wix/yoshi/pull/2606) Add types to `methods` & `moduleInit` in BM flow ([@amitdahan](https://github.com/amitdahan))
+
+#### :memo: Documentation
+
+- [#2496](https://github.com/wix/yoshi/pull/2496) Add bm-flow migration guide ([@amitdahan](https://github.com/amitdahan))
+- [#2656](https://github.com/wix/yoshi/pull/2656) Update `migration-guide.md` (source) ([@sidoruk-sv](https://github.com/sidoruk-sv))
+- [#2655](https://github.com/wix/yoshi/pull/2655) DOCS: Update `migration-guide.md` ([@sidoruk-sv](https://github.com/sidoruk-sv))
+
+#### :house: Internal
+
+- `yoshi-common`, `yoshi-helpers`, `yoshi-serverless`
+  - [#2623](https://github.com/wix/yoshi/pull/2623) Yoshi serverless tests ([@yanivefraim](https://github.com/yanivefraim))
+
 ## 4.110.3 (2020-06-29)
 
 #### :nail_care: Polish
