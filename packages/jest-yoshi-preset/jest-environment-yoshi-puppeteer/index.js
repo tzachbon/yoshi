@@ -52,6 +52,7 @@ module.exports = class PuppeteerEnvironment extends ParentEnvironment {
     });
 
     this.global.page.on('requestfinished', (request) => {
+      // there are cases when the response object is undefined
       const response = request.response();
 
       if (response) {
