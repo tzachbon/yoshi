@@ -1,5 +1,19 @@
 # Changelog
 
+## 4.112.0 (2020-07-02)
+
+#### :rocket: New Feature
+
+- `create-yoshi-app`, `yoshi-flow-editor`
+  - [#2661](https://github.com/wix/yoshi/pull/2661) Bump `bob-widget-services` version ([@maoryosef2](https://github.com/maoryosef2))
+
+#### :bug: Bug Fix
+
+- `jest-yoshi-preset`
+  - [#2665](https://github.com/wix/yoshi/pull/2665) Fix `requestfinished` event -> check for response bug ([@tzachbon](https://github.com/tzachbon))
+- `yoshi-flow-editor-runtime`
+  - [#2664](https://github.com/wix/yoshi/pull/2664) Fix multilingual for settings panel ([@yavorsky](https://github.com/yavorsky))
+
 ## 4.111.0 (2020-07-02)
 
 #### :rocket: New Feature
