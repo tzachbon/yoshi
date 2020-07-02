@@ -36,7 +36,7 @@ This is a generic flow to create Client libraries.
 
 This flow is specific to building Editor-Platform-Apps and Out-Of-iFrame Apps.
 
-### [Business Manager Flow](business-manager-flow.md)
+### [Business Manager Flow](business-manager-flow/overview.md)
 
 This flow is specific to building Business-Manager-Modules.
 

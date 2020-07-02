@@ -186,5 +186,15 @@
       "type": "doc",
       "id": "version-4.x/yoshi-server/testing"
     }
+  ],
+  "version-4.x/business-manager-flow": [
+    {
+      "type": "doc",
+      "id": "version-4.x/business-manager-flow/overview"
+    },
+    {
+      "type": "doc",
+      "id": "version-4.x/business-manager-flow/migration"
+    }
   ]
 }
