@@ -59,9 +59,7 @@ module.exports = class PuppeteerEnvironment extends ParentEnvironment {
 
         if (hasError) {
           this.global.console.warn(
-            `Request failed or not found. url: ${request.url()}, status code: ${request
-              .response()
-              .status()}, method: ${request.method()}`,
+            `Request failed or not found. url: ${request.url()}, status code: ${response.status()}, method: ${request.method()}`,
           );
         }
       }
