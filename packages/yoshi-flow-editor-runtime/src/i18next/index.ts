@@ -2,6 +2,7 @@ import memoize from 'lodash/memoize';
 import i18next from 'i18next';
 import { IWixStatic } from '@wix/native-components-infra/dist/es/src/types/wix-sdk';
 import { DefaultTranslations } from '../constants';
+import { getQueryParams } from '../utils';
 
 declare let __webpack_public_path__: string;
 const DEFAULT_LANGUAGE = 'en';
@@ -92,5 +93,7 @@ export default memoize(function i18n(params: I18nConfig) {
 });
 
 export const getLanguageWithInstance = memoize((Wix: IWixStatic) => {
-  return Wix.Utils.getLocale() || DEFAULT_LANGUAGE;
+  const queryParams: URLSearchParams = getQueryParams();
+  const multilingualLanguage = queryParams?.get('lang');
+  return multilingualLanguage || Wix.Utils.getLocale() || DEFAULT_LANGUAGE;
 });
