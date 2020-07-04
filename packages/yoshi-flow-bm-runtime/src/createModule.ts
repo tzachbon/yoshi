@@ -48,6 +48,7 @@ export default function createModule({
 
   class Module extends BusinessManagerModule {
     state: any = {};
+    moduleParams!: IBMModuleParams;
 
     setState = (newState: any) => (this.state = newState);
 
@@ -83,11 +84,17 @@ export default function createModule({
           method: loadMethod(),
         }))
         .forEach(({ methodId, method }) => {
-          ModuleRegistry.registerMethod(methodId, () => method.bind(this));
+          ModuleRegistry.registerMethod(methodId, () =>
+            method.bind(this, {
+              module: this,
+              moduleParams: this.moduleParams,
+            }),
+          );
         });
     }
 
     init(moduleParams: IBMModuleParams) {
+      this.moduleParams = moduleParams;
       if (moduleInit) {
         moduleInit.call(this, { module: this, moduleParams });
       }
