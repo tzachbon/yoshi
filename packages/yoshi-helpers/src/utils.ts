@@ -192,18 +192,21 @@ export const getProjectArtifactId = (cwd = process.cwd()) => {
   return '';
 };
 
-export const getServerlessScope = () => {
+export const getServerlessScope = (cwd = process.cwd()) => {
   return (
-    getProjectArtifactId() +
+    getProjectArtifactId(cwd) +
     '-' +
     (getProjectArtifactVersion()?.replace(/\./g, '-') || '0-0-0')
   );
 };
 
-export const serverlessPort = '7777';
+export const serverlessPort = '3000';
 
 export const getServerlessBase = (scope: string) => {
-  if (process.env.NODE_ENV === 'development') {
+  if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV === 'test'
+  ) {
     return `http://localhost:${serverlessPort}/serverless/${scope}`;
   }
   return `/_serverless/${scope}`;

@@ -52,14 +52,17 @@ module.exports = class PuppeteerEnvironment extends ParentEnvironment {
     });
 
     this.global.page.on('requestfinished', (request) => {
-      const hasError = [404, 503].includes(request.response().status());
+      // there are cases when the response object is undefined
+      const response = request.response();
 
-      if (hasError) {
-        this.global.console.warn(
-          `Request failed or not found. url: ${request.url()}, status code: ${request
-            .response()
-            .status()}, method: ${request.method()}`,
-        );
+      if (response) {
+        const hasError = [404, 503].includes(response.status());
+
+        if (hasError) {
+          this.global.console.warn(
+            `Request failed or not found. url: ${request.url()}, status code: ${response.status()}, method: ${request.method()}`,
+          );
+        }
       }
     });
 

@@ -21,16 +21,22 @@ import {
   PAGES_PATTERN,
   TRANSLATIONS_DIR,
 } from './constants';
-import { ModuleConfig } from './config/types';
+import {
+  ExportedComponentConfig,
+  ModuleConfig,
+  PageConfig,
+} from './config/types';
 
 export interface ExportedComponentModel {
   componentId: string;
   absolutePath: string;
   relativePath: string;
+  config: ExportedComponentConfig;
 }
 export interface PageModel extends ExportedComponentModel {
   componentName: string;
   route: string;
+  config: PageConfig;
 }
 export interface MethodModel {
   methodId: string;
@@ -63,7 +69,7 @@ export default function createFlowBMModel(cwd = process.cwd()): FlowBMModel {
 
   const getPageModel = (absolutePath: string): PageModel => {
     const { name } = path.parse(absolutePath);
-    const { componentId, componentName } = loadPageConfig(config, absolutePath);
+    const pageConfig = loadPageConfig(config, absolutePath);
 
     const relativePath = path.relative(path.join(cwd, PAGES_DIR), absolutePath);
 
@@ -74,18 +80,22 @@ export default function createFlowBMModel(cwd = process.cwd()): FlowBMModel {
     );
 
     return {
-      componentId,
-      componentName,
+      componentId: pageConfig.componentId,
+      componentName: pageConfig.componentName,
       absolutePath,
       relativePath,
       route,
+      config: pageConfig,
     };
   };
 
   const getExportedComponentModel = (
     absolutePath: string,
   ): ExportedComponentModel => {
-    const { componentId } = loadExportedComponentConfig(config, absolutePath);
+    const exportedComponentConfig = loadExportedComponentConfig(
+      config,
+      absolutePath,
+    );
 
     const relativePath = path.relative(
       path.join(cwd, EXPORTED_COMPONENTS_DIR),
@@ -93,9 +103,10 @@ export default function createFlowBMModel(cwd = process.cwd()): FlowBMModel {
     );
 
     return {
-      componentId,
+      componentId: exportedComponentConfig.componentId,
       absolutePath,
       relativePath,
+      config: exportedComponentConfig,
     };
   };
 
