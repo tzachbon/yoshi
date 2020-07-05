@@ -4,7 +4,7 @@ import { getProjectArtifactId } from 'yoshi-helpers/build/utils';
 import { FlowBMModel } from './model';
 import { MODULE_CONFIG_PATH } from './constants';
 
-export default ({
+export const renderModuleConfig = ({
   pages,
   config: { moduleId, moduleConfigurationId, appDefId, topology },
 }: FlowBMModel) => {

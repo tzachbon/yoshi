@@ -22,13 +22,20 @@ export const validModuleConfig: InitialModuleConfig = {
   ),
 };
 
+const validLegacyBundleConfig = {
+  bundleName: 'some-legacy-bundle-name',
+  lazyComponentId: 'some-legacy-page-component-id',
+};
+
 export const validPageConfig: InitialPageConfig = {
   componentId: 'component-id',
   componentName: 'component-name',
+  legacyBundle: validLegacyBundleConfig,
 };
 
 export const validExportedComponentConfig: InitialExportedComponentConfig = {
   componentId: 'component-id',
+  legacyBundle: validLegacyBundleConfig,
 };
 
 export const validMethodConfig: InitialMethodConfig = {

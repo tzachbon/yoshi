@@ -11,9 +11,10 @@ import {
   createServerWebpackConfig,
 } from '../webpack.config';
 import createFlowBMModel, { watchFlowBMModel } from '../model';
-import renderModule, { getModuleEntry } from '../renderModule';
-import renderModuleConfig from '../renderModuleConfig';
+import { renderModule } from '../module';
+import { renderModuleConfig } from '../moduleConfig';
 import getStartUrl from '../start-url';
+import getEntries from '../entries';
 
 const join = (...dirs: Array<string>) => path.join(process.cwd(), ...dirs);
 
@@ -96,7 +97,7 @@ const start: CliCommand = async function (argv, yoshiConfig) {
     isDev: true,
     isHot: yoshiConfig.hmr as boolean,
   });
-  clientConfig.entry = getModuleEntry(model);
+  clientConfig.entry = getEntries(model);
 
   const serverConfig = createServerWebpackConfig(yoshiConfig, {
     isDev: true,
