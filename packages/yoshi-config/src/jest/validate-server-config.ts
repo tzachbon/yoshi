@@ -12,7 +12,7 @@ export default function validateServerConfig(config: any) {
         )}
 
         ${chalk.underline('For example:')}
-        
+
         module.exports = {
           server: {
             command: 'node dist/server.js',
@@ -21,6 +21,5 @@ export default function validateServerConfig(config: any) {
         }`,
       ),
     );
-    process.exit(1);
   }
 }
