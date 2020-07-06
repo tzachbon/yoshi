@@ -105,7 +105,9 @@ const build: cliCommand = async function (argv, rootConfig, { apps, libs }) {
     apps = apps.filter((app) => appNames.includes(stripOrganization(app.name)));
   }
 
-  await buildPkgs([...libs, ...apps]);
+  if (!process.env.SKIP_TSC) {
+    await buildPkgs([...libs, ...apps]);
+  }
 
   await Promise.all(
     apps.reduce((acc: Array<Promise<void>>, app) => {
