@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.114.0 (2020-07-06)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-monorepo`
+  - [#2673](https://github.com/wix/yoshi/pull/2673) Experimentally support skipping type check in monorepo flow ([@ronami](https://github.com/ronami))
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2663](https://github.com/wix/yoshi/pull/2663) Add a BI logger support for editor flow ([@yavorsky](https://github.com/yavorsky))
+
 ## 4.113.0 (2020-07-06)
 
 #### :rocket: New Feature
