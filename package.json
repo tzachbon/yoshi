@@ -9,6 +9,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "experimentalMonorepoPublish": true,
   "scripts": {
     "// local dev": "------------------------------------------------------------------------------------",
     "lint": "eslint . --ext js,ts --max-warnings 0",
@@ -22,7 +23,6 @@
     "changelog": "lerna-changelog",
     "createVersion": "node scripts/createVersion",
     "bumpDocs": "npm run version --prefix './website' --",
-    "customPublish": "ts-node -T ./scripts/customPublish.ts",
     "test": ":",
     "// unit tests": "-----------------------------------------------------------------------------------",
     "test:unit": "jest --config='./jest.unit.config.js'",
