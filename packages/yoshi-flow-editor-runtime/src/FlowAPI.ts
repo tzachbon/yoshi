@@ -16,11 +16,16 @@ import {
   SentryConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BIConfig,
 } from './constants';
 import { getSiteLanguage, isSSR, isMobile } from './helpers';
 import { ReportError } from './types';
 import { buildSentryOptions, getArtifact } from './utils';
 import { getSiteTranslations } from './i18next';
+import {
+  VisitorBILoggerFactory,
+  VisitorLogger,
+} from './generated/bi-logger-types';
 
 class FlowAPI {
   getExperiments: () => Promise<Experiments>;
@@ -52,6 +57,7 @@ export class ControllerFlowAPI extends FlowAPI {
   fedopsLogger: BaseLogger<string>;
   inEditor: boolean;
   widgetId: string;
+  biLogger?: VisitorLogger | null;
   translationsConfig: TranslationsConfig | null;
 
   _translationsPromise: Promise<Record<string, string>>;
@@ -59,15 +65,15 @@ export class ControllerFlowAPI extends FlowAPI {
   constructor({
     viewerScriptFlowAPI,
     controllerConfig,
-    translationsConfig = null,
     appDefinitionId,
+    translationsConfig,
     widgetId,
     defaultTranslations = null,
   }: {
     viewerScriptFlowAPI: ViewerScriptFlowAPI;
     controllerConfig: IWidgetControllerConfig;
     appDefinitionId: string;
-    translationsConfig?: TranslationsConfig | null;
+    translationsConfig: TranslationsConfig | null;
     widgetId: string | null;
     defaultTranslations?: DefaultTranslations | null;
   }) {
@@ -78,17 +84,20 @@ export class ControllerFlowAPI extends FlowAPI {
     this.sentryMonitor = viewerScriptFlowAPI.sentryMonitor;
     this.inEditor = viewerScriptFlowAPI.inEditor;
     this.translationsConfig = translationsConfig;
-    this.fedopsLogger = controllerConfig.platformAPIs.fedOpsLoggerFactory!.getLoggerForWidget(
-      {
-        appId: appDefinitionId,
-        widgetId,
-      },
-    );
+    const { platformAPIs } = controllerConfig;
+    this.fedopsLogger = platformAPIs.fedOpsLoggerFactory!.getLoggerForWidget({
+      appId: appDefinitionId,
+      widgetId,
+    });
 
     if (this.sentryMonitor) {
       this.reportError = this.sentryMonitor.captureException.bind(
         this.sentryMonitor,
       );
+    }
+
+    if (viewerScriptFlowAPI.biLogger) {
+      this.biLogger = viewerScriptFlowAPI.biLogger;
     }
 
     this.appLoadStarted();
@@ -134,6 +143,77 @@ export class ControllerFlowAPI extends FlowAPI {
   isMobile = () => {
     return isMobile(this.controllerConfig.wixCodeApi);
   };
+}
+
+export class ViewerScriptFlowAPI extends FlowAPI {
+  sentryMonitor?: RavenStatic;
+  inEditor: boolean;
+  biLogger?: VisitorLogger | null;
+
+  constructor({
+    experimentsConfig,
+    platformServices,
+    sentry,
+    biConfig,
+    biLogger,
+    inEditor,
+    projectName,
+    appName,
+  }: {
+    experimentsConfig: ExperimentsConfig | null;
+    platformServices: IPlatformServices;
+    sentry: SentryConfig | null;
+    biConfig: BIConfig | null;
+    biLogger: VisitorBILoggerFactory | null;
+    inEditor: boolean;
+    projectName: string;
+    appName: string | null;
+  }) {
+    super({ experimentsConfig });
+
+    this.inEditor = inEditor;
+
+    const platformBI = platformServices.bi;
+
+    if (
+      biConfig?.visitor &&
+      platformBI &&
+      platformServices.biLoggerFactory &&
+      biLogger
+    ) {
+      const biFactory = platformServices.biLoggerFactory();
+      const biOptions = {
+        visitor_id: platformBI.visitorId,
+        token: platformBI.biToken,
+        origin: 'viewer',
+        appName,
+        projectName,
+        _msid: platformBI.metaSiteId,
+      };
+      this.biLogger = biLogger(biFactory)({});
+      this.biLogger.util.updateDefaults(biOptions);
+    }
+
+    if (sentry) {
+      const sentryOptions = buildSentryOptions(
+        sentry.DSN,
+        'Viewer:Worker',
+        getArtifact(),
+      );
+
+      this.sentryMonitor = platformServices.monitoring.createMonitor(
+        sentryOptions.dsn,
+        (config) => ({
+          ...config,
+          ...sentryOptions.config,
+        }),
+      );
+
+      this.reportError = this.sentryMonitor.captureException.bind(
+        this.sentryMonitor,
+      );
+    }
+  }
 }
 
 export class EditorScriptFlowAPI extends FlowAPI {
@@ -194,45 +274,4 @@ export class EditorScriptFlowAPI extends FlowAPI {
       appLoadStarted.call(this.fedopsLogger, ...args);
     };
   };
-}
-
-export class ViewerScriptFlowAPI extends FlowAPI {
-  sentryMonitor?: RavenStatic;
-  inEditor: boolean;
-
-  constructor({
-    experimentsConfig,
-    platformServices,
-    sentry,
-    inEditor,
-  }: {
-    experimentsConfig: ExperimentsConfig | null;
-    platformServices: IPlatformServices;
-    sentry: SentryConfig | null;
-    inEditor: boolean;
-  }) {
-    super({ experimentsConfig });
-
-    this.inEditor = inEditor;
-
-    if (sentry) {
-      const sentryOptions = buildSentryOptions(
-        sentry.DSN,
-        'Viewer:Worker',
-        getArtifact(),
-      );
-
-      this.sentryMonitor = platformServices.monitoring.createMonitor(
-        sentryOptions.dsn,
-        (config) => ({
-          ...config,
-          ...sentryOptions.config,
-        }),
-      );
-
-      this.reportError = this.sentryMonitor.captureException.bind(
-        this.sentryMonitor,
-      );
-    }
-  }
 }

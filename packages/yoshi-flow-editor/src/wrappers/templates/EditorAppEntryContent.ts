@@ -3,6 +3,7 @@ import {
   ExperimentsConfig,
   DefaultTranslations,
   TranslationsConfig,
+  BIConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 import { viewerScriptOptionalImport } from './CommonViewerScriptEntry';
@@ -11,12 +12,15 @@ type Opts = Record<
   | 'editorAppWrapperPath'
   | 'componentFileName'
   | 'controllerFileName'
+  | 'projectName'
   | 'componentName',
   string
 > & {
   viewerEntryFileName: string | null;
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  visitorBiLoggerPath: string | null;
+  biConfig: BIConfig | null;
   sentryConfig: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
 };
@@ -34,6 +38,7 @@ export default t<Opts>`
       viewerScriptOptionalImport({ viewerEntryFileName })}
 
     var componentName = '${({ componentName }) => componentName}';
+    var projectName = '${({ projectName }) => projectName}';
     var sentryConfig = ${({ sentryConfig }) =>
       sentryConfig
         ? `{
@@ -57,6 +62,16 @@ export default t<Opts>`
     var defaultTranslations = ${({ defaultTranslations }) =>
       defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'};
 
+    var biConfig = ${({ biConfig }) =>
+      biConfig ? JSON.stringify(biConfig) : 'null'};
+
+    ${({ visitorBiLoggerPath }) =>
+      visitorBiLoggerPath
+        ? `import biLogger from '${visitorBiLoggerPath}'`
+        : 'var biLogger = null'};
+
+    
+
     var WrappedEditorApp = () => React.createElement(EditorAppWrapper, {
       UserComponent: UserComponent,
       name: componentName,
@@ -64,6 +79,9 @@ export default t<Opts>`
       experimentsConfig: experimentsConfig,
       translationsConfig: translationsConfig,
       defaultTranslations: defaultTranslations,
+      projectName: projectName,
+      biConfig: biConfig,
+      biLogger: biLogger,
       userController: createController,
       customInitAppForPage: importedApp.initAppForPage
     });

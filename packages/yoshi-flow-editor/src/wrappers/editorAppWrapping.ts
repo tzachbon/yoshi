@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
-import { getDefaultTranslations } from '../utils';
+import { getDefaultTranslations, resolveBILoggerPath } from '../utils';
 import editorEntryTemplate from './templates/EditorAppEntryContent';
 
 const editorAppWrapperPath =
@@ -22,10 +22,22 @@ const componentWrapper = (
         `${component.name}EditorApp.js`,
       );
 
+      let visitorBiLoggerPath: string | null = null;
+
+      if (model.biConfig?.visitor) {
+        visitorBiLoggerPath = resolveBILoggerPath(
+          model.biConfig.visitor,
+          'visitor',
+        );
+      }
+
       const generateWidgetEntryContent = editorEntryTemplate({
         editorAppWrapperPath,
+        projectName: model.projectName,
         componentName: component.name,
         defaultTranslations: getDefaultTranslations(model),
+        biConfig: model.biConfig,
+        visitorBiLoggerPath,
         translationsConfig: model.translationsConfig,
         componentFileName: component.widgetFileName,
         controllerFileName: component.viewerControllerFileName,

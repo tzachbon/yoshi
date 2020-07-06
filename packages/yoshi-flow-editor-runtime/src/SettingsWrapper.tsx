@@ -1,7 +1,10 @@
 import React, { Suspense } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { ExperimentsProvider } from '@wix/wix-experiments-react';
+import { iframeAppBiLoggerFactory } from '@wix/iframe-app-bi-logger';
 import SentryGlobal from '@sentry/browser';
+import { IWixStatic } from '@wix/native-components-infra/dist/src/types/wix-sdk';
+import memoize from 'lodash/memoize';
 import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
 import { ErrorBoundary } from './react/ErrorBoundary';
 import { getEditorParams } from './utils';
@@ -16,6 +19,8 @@ import {
   ExperimentsConfig,
   DefaultTranslations,
 } from './constants';
+import { BILoggerProvider } from './react/BILogger/BILoggerProvider';
+import { OwnerBILoggerFactory } from './generated/bi-logger-types';
 
 interface SettingsWrapperProps {
   __publicData__: Record<string, any>;
@@ -27,6 +32,26 @@ declare global {
   }
 }
 
+const getBiLoggerInstance = memoize(
+  (
+    biSchema: OwnerBILoggerFactory,
+    Wix: IWixStatic,
+    appName: string | null,
+    projectName: string,
+  ) => {
+    const factory = iframeAppBiLoggerFactory(Wix);
+    const logger = biSchema(factory)();
+    const biOptions = {
+      owner_id: Wix.Utils.getSiteOwnerId(),
+      origin: 'editor',
+      appName,
+      projectName,
+    };
+    logger.util.updateDefaults(biOptions);
+    return logger;
+  },
+);
+
 const SettingsWrapper = (
   UserComponent: typeof React.Component,
   {
@@ -34,11 +59,17 @@ const SettingsWrapper = (
     translationsConfig,
     defaultTranslations,
     experimentsConfig,
+    appName,
+    projectName,
+    biLogger,
   }: {
     sentry: SentryConfig | null;
+    appName: string | null;
     translationsConfig: TranslationsConfig | null;
     defaultTranslations: DefaultTranslations | null;
     experimentsConfig: ExperimentsConfig | null;
+    projectName: string;
+    biLogger: OwnerBILoggerFactory;
   },
 ) => (props: SettingsWrapperProps) => {
   const { editorSDKSrc } = getEditorParams();
@@ -56,6 +87,7 @@ const SettingsWrapper = (
   if (translationsConfig) {
     availableProviders.push((children, additionalProps) => {
       const { Wix } = additionalProps.sdk as IWixSDKContext;
+
       return Wix ? (
         <I18nextProvider
           i18n={i18n({
@@ -84,6 +116,21 @@ const SettingsWrapper = (
         </ExperimentsProvider>
       ) : (
         // TODO: Handle translations provider for app builder components
+        children
+      );
+    });
+  }
+
+  if (biLogger) {
+    availableProviders.push((children, additionalProps) => {
+      const { Wix } = additionalProps.sdk as IWixSDKContext;
+      return Wix ? (
+        <BILoggerProvider
+          logger={getBiLoggerInstance(biLogger, Wix, appName, projectName)}
+        >
+          {children}
+        </BILoggerProvider>
+      ) : (
         children
       );
     });

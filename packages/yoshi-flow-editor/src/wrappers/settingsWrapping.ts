@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
-import { getDefaultTranslations } from '../utils';
+import { getDefaultTranslations, resolveBILoggerPath } from '../utils';
 import settingsEntryTemplate from './templates/SettingsAppEntryContent';
 
 const settingsWrapperPath =
@@ -13,6 +13,12 @@ const settingsWrapper = (
   generatedWidgetEntriesPath: string,
   model: FlowEditorModel,
 ) => {
+  let ownerBiLoggerPath: string | null = null;
+
+  if (model.biConfig?.owner) {
+    ownerBiLoggerPath = resolveBILoggerPath(model.biConfig.owner, 'owner');
+  }
+
   return model.components.reduce(
     (acc: Record<string, string>, component: ComponentModel) => {
       if (component.settingsFileName) {
@@ -24,6 +30,10 @@ const settingsWrapper = (
         const generateSettingsEntryContent = settingsEntryTemplate({
           settingsWrapperPath,
           baseUIPath,
+          biConfig: model.biConfig,
+          appName: model.appName,
+          projectName: model.projectName,
+          ownerBiLoggerPath,
           experimentsConfig: model.experimentsConfig,
           translationsConfig: model.translationsConfig,
           defaultTranslations: getDefaultTranslations(model),

@@ -21,6 +21,10 @@ export default ({
     viewerScriptFlowAPI: new ViewerScriptFlowAPI({
       experimentsConfig,
       sentry: null,
+      biConfig: null,
+      appName: 'app',
+      projectName: 'project',
+      biLogger: null,
       inEditor: false,
       platformServices: aDefaultPlatformServices(),
     }),

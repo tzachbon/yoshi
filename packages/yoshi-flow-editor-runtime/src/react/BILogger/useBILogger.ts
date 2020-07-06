@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { BILoggerContext } from './BILoggerContext';
+import { BILoggerContext, IBILoggerContext } from './BILoggerContext';
 
-export function useBi() {
+export const useBi: () => IBILoggerContext = () => {
   return useContext(BILoggerContext);
-}
+};

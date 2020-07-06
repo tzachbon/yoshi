@@ -1,9 +1,14 @@
 import path from 'path';
 import { URL } from 'url';
+import chalk from 'chalk';
+import resolveCwd from 'resolve-cwd';
 import urlJoin from 'url-join';
 import fs from 'fs-extra';
 import { BROWSER_LIB_URL } from '@wix/add-sentry/lib/constants';
-import { SentryConfig } from 'yoshi-flow-editor-runtime/build/constants';
+import {
+  SentryConfig,
+  BIConfig,
+} from 'yoshi-flow-editor-runtime/build/constants';
 import { FlowEditorModel, ComponentModel } from './model';
 
 export const joinDirs = (...dirs: Array<string>) =>
@@ -160,6 +165,18 @@ export const normalizeProjectName = (projectName: string) => {
   return projectName.replace('@wix/', '');
 };
 
+// Here we are converting bi shorthand to `visitor` + `owner` object for cases when user has the same package for all roles.
+export const normalizeBIConfig = (bi: BIConfig | string | null = null) => {
+  if (typeof bi === 'string') {
+    return {
+      owner: bi,
+      visitor: bi,
+    };
+  }
+
+  return bi ?? null;
+};
+
 export const getDefaultTranslations = (model: FlowEditorModel) => {
   let defaultTranslations = null;
   if (model.translationsConfig?.defaultTranslationsPath) {
@@ -168,4 +185,29 @@ export const getDefaultTranslations = (model: FlowEditorModel) => {
     );
   }
   return defaultTranslations;
+};
+
+export const resolveBILoggerPath = (
+  packageName: string,
+  type: string,
+  silent = false,
+) => {
+  const biLoggerPath = resolveCwd.silent(packageName) || null;
+  if (!silent && !biLoggerPath) {
+    const error = new Error(
+      chalk.red(
+        `Seems like you have ${chalk.bold(
+          'bi',
+        )} specified, but it wasn't installed as a dependency.
+Please add it your your project: ${chalk.bold(
+          `npm install ${packageName}`,
+        )} or remove a ${chalk.bold('bi')} field from ${chalk.bold(
+          '.application.json',
+        )}`,
+      ),
+    );
+    error.name = chalk.red.bold('❌ Missing a BI Logger dependency');
+    throw error;
+  }
+  return biLoggerPath;
 };

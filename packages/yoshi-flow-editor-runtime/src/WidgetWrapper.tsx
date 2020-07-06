@@ -17,8 +17,9 @@ import { PublicDataProvider } from './react/PublicData/PublicDataProvider';
 import { ControllerProvider } from './react/Controller/ControllerProvider';
 import { IControllerContext } from './react/Controller/ControllerContext';
 import { SentryConfig } from './constants';
-import { buildSentryOptions, getArtifact } from './utils';
+import { buildSentryOptions, getArtifact, biLoggerFromProps } from './utils';
 import { WithProviders, ProvidersList } from './react/utils';
+import { BILoggerProvider } from './react/BILogger/BILoggerProvider';
 
 declare global {
   interface Window {
@@ -31,10 +32,13 @@ interface IFlowProps {
   _language: string;
   _translations: Record<string, string>;
   _experiments: ExperimentsBag;
+  _biMethods: Record<string, any>;
+  _biUtil: Record<string, any>;
   _mobile?: boolean;
   _enabledHOCs: {
     translations: boolean;
     experiments: boolean;
+    bi: boolean;
   };
   onAppLoaded?: () => void;
   cssBaseUrl?: string;
@@ -80,9 +84,16 @@ const getWidgetWrapper = (
       _enabledHOCs,
       _experiments,
       _mobile,
+      _biMethods,
+      _biUtil,
       onAppLoaded,
       ...widgetProps
     } = props;
+
+    const biLogger = biLoggerFromProps({
+      biMethods: _biMethods,
+      biUtil: _biUtil,
+    });
 
     const availableProviders: ProvidersList = [
       (children) => (
@@ -105,6 +116,12 @@ const getWidgetWrapper = (
         <ExperimentsProvider options={{ experiments: _experiments }}>
           {children}
         </ExperimentsProvider>
+      ));
+    }
+
+    if (_enabledHOCs.bi) {
+      availableProviders.push((children) => (
+        <BILoggerProvider logger={biLogger}>{children}</BILoggerProvider>
       ));
     }
 

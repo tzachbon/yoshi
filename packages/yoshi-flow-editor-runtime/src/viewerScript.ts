@@ -13,9 +13,12 @@ import {
   ExperimentsConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BIConfig,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
 import { ViewerScriptFlowAPI, ControllerFlowAPI } from './FlowAPI';
+import { VisitorBILoggerFactory } from './generated/bi-logger-types';
+import { biLoggerToProps } from './utils';
 
 let viewerScriptFlowAPI: ViewerScriptFlowAPI;
 let appData: any = {};
@@ -34,7 +37,10 @@ type ControllerDescriptor = {
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  projectName: string;
+  biLogger: VisitorBILoggerFactory;
   widgetType: WidgetType;
+  biConfig: BIConfig;
   controllerFileName: string | null;
   appName: string | null;
   componentName: string | null;
@@ -129,19 +135,26 @@ function ooiControllerWrapper(
   ]).then(([translations, experiments, userController]) => {
     delete flowAPI._translationsPromise;
 
+    const { biMethods, biUtil } = biLoggerToProps(flowAPI.biLogger);
+
     return {
       ...userController,
       pageReady: async (...args: Array<any>) => {
-        // we are going to get rid of current setProps call and override original one with wrapper, where we can populate user's call with flow's fields.
+        // In future we are going to get rid of current setProps call and override original one with wrapper, where we can populate user's call with flow's fields.
         setProps({
           __publicData__: controllerConfig.config.publicData,
           _language: flowAPI.getSiteLanguage(),
           _translations: translations,
           _experiments: experiments.all(),
+          _biMethods: biMethods,
+          _biUtil: biUtil,
           _mobile: flowAPI.isMobile(),
           _enabledHOCs: {
             experiments: !!controllerDescriptor.experimentsConfig,
-            translations: !!controllerDescriptor.translationsConfig,
+            bi: !!flowAPI.biLogger,
+            translations:
+              controllerDescriptor.translationsConfig &&
+              !controllerDescriptor.translationsConfig.disabled,
           },
           // Set initial state
           state: context.state,
@@ -201,13 +214,19 @@ export const createControllers = (
   translationsConfig: TranslationsConfig | null = null,
   experimentsConfig: ExperimentsConfig | null = null,
   defaultTranslations: DefaultTranslations | null = null,
+  biConfig: BIConfig,
+  biLogger: VisitorBILoggerFactory,
+  projectName: string,
 ) => {
   return createControllersWithDescriptors([
     {
       method: createController,
+      projectName,
       id: null,
+      biConfig,
       translationsConfig,
       defaultTranslations,
+      biLogger,
       widgetType: OOI_WIDGET_COMPONENT_TYPE,
       experimentsConfig,
       controllerFileName: null,
@@ -241,31 +260,48 @@ export const createControllersWithDescriptors = (
   return wrappedControllers;
 };
 
-export const initAppForPageWrapper = (
-  initAppForPage: InitAppForPageFn | undefined,
-  sentry: SentryConfig | null,
-  experimentsConfig: ExperimentsConfig | null,
-  inEditor: boolean = false,
-  appName: string | null = null,
-  // translationsConfig: TranslationsConfig | null = null,
-): IInitAppForPage => async (
+interface InitAppForPageWrapperOptions {
+  initAppForPage?: InitAppForPageFn;
+  sentryConfig: SentryConfig | null;
+  experimentsConfig: ExperimentsConfig | null;
+  inEditor: boolean;
+  biConfig: BIConfig;
+  biLogger: VisitorBILoggerFactory;
+  appName: string | null;
+  projectName: string;
+}
+
+export const initAppForPageWrapper = ({
+  initAppForPage,
+  sentryConfig = null,
+  experimentsConfig = null,
+  inEditor = false,
+  projectName,
+  biConfig,
+  biLogger,
+  appName = null,
+}: InitAppForPageWrapperOptions): IInitAppForPage => async (
   initParams: IAppData,
-  apis: IPlatformAPI,
+  platformAPIs: IPlatformAPI,
   namespaces: IWixAPI,
   platformServices: IPlatformServices,
 ) => {
   viewerScriptFlowAPI = new ViewerScriptFlowAPI({
     experimentsConfig,
+    projectName,
+    sentry: sentryConfig,
     platformServices,
-    sentry,
     inEditor,
+    biConfig,
+    biLogger,
+    appName,
   });
 
   if (initAppForPage) {
     try {
       appData = await initAppForPage(
         initParams,
-        apis,
+        platformAPIs,
         namespaces,
         platformServices,
         viewerScriptFlowAPI,

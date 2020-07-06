@@ -5,7 +5,7 @@ import {
 } from 'yoshi-flow-editor-runtime/test';
 import { render } from '@testing-library/react';
 
-import { Widget } from './Widget';
+import Widget from './Widget';
 
 describe('Widget', () => {
   it('should render a title correctly', async () => {

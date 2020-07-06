@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { FlowEditorModel, ComponentModel } from '../model';
-import { getDefaultTranslations } from '../utils';
+import { getDefaultTranslations, resolveBILoggerPath } from '../utils';
 import viewerScriptEntry, {
   TemplateControllerConfig,
 } from './templates/CommonViewerScriptEntry';
@@ -38,13 +38,25 @@ const viewerScriptWrapper = (
     'viewerScript.js',
   );
 
+  let visitorBiLoggerPath = null;
+
+  if (model.biConfig?.visitor) {
+    visitorBiLoggerPath = resolveBILoggerPath(
+      model.biConfig.visitor,
+      'visitor',
+    );
+  }
+
   const generateControllerEntryContent = viewerScriptEntry({
     viewerScriptWrapperPath,
     sentryConfig: model.sentry,
     controllersMeta,
     appName: model.appName,
+    projectName: model.projectName,
     experimentsConfig: model.experimentsConfig,
     defaultTranslations: getDefaultTranslations(model),
+    visitorBiLoggerPath,
+    biConfig: model.biConfig,
     translationsConfig: model.translationsConfig,
     viewerEntryFileName: model.viewerEntryFileName,
   });

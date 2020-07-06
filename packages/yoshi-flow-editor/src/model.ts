@@ -12,6 +12,7 @@ import {
   TranslationsConfig,
   OOI_WIDGET_COMPONENT_TYPE,
   PLATFORM_WIDGET_COMPONENT_TYPE,
+  BIConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import {
   WIDGET_FILENAME,
@@ -24,7 +25,7 @@ import {
   EDITOR_APP_FILENAME,
   URLS_CONFIG,
 } from './constants';
-import { normalizeProjectName } from './utils';
+import { normalizeProjectName, normalizeBIConfig } from './utils';
 
 export interface FlowEditorModel {
   appName: string | null;
@@ -35,6 +36,7 @@ export interface FlowEditorModel {
   editorEntryFileName: string | null;
   experimentsConfig: ExperimentsConfig | null;
   translationsConfig: TranslationsConfig | null;
+  biConfig: BIConfig | null;
   components: Array<ComponentModel>;
   sentry: SentryConfig | null;
   urls: URLsConfig;
@@ -63,6 +65,7 @@ export interface AppConfig {
   appName?: string;
   translations?: TranslationsConfig | null;
   sentry?: SentryConfig;
+  bi?: BIConfig | string;
 }
 export interface ComponentConfig {
   id: string;
@@ -117,7 +120,10 @@ function formatPathsForLog(paths: Array<string>, ext: string) {
   return paths.map((path) => (ext ? `${path}.${ext}` : path)).join(' or ');
 }
 
-function resolveFileNamesFromDirectory(dir: string, fileNames: Array<string>) {
+export function resolveFileNamesFromDirectory(
+  dir: string,
+  fileNames: Array<string>,
+) {
   return (
     fileNames.map((fileName) => resolveFrom(dir, fileName)).find(Boolean) ||
     null
@@ -270,6 +276,7 @@ For more info, visit http://tiny.cc/dev-center-registration`);
     sentry: (shouldUseSentry() && appConfig.sentry) || null,
     experimentsConfig: appConfig ? appConfig.experiments : null,
     appDefId: appConfig.appDefinitionId ?? null,
+    biConfig: normalizeBIConfig(appConfig.bi),
     translationsConfig,
     editorEntryFileName,
     artifactId,

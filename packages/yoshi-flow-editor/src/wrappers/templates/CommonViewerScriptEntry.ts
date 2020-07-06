@@ -4,6 +4,7 @@ import {
   SentryConfig,
   DefaultTranslations,
   TranslationsConfig,
+  BIConfig,
 } from 'yoshi-flow-editor-runtime/build/constants';
 import t from './template';
 
@@ -22,7 +23,10 @@ type Opts = {
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
+  biConfig: BIConfig | null;
+  visitorBiLoggerPath: string | null;
   appName: string | null;
+  projectName: string;
   controllersMeta: Array<TemplateControllerConfig>;
 };
 
@@ -65,24 +69,37 @@ const controllerConfigs = t<{
   translationsConfig: TranslationsConfig | null;
   defaultTranslations: DefaultTranslations | null;
   experimentsConfig: ExperimentsConfig | null;
+  biConfig: BIConfig | null;
   appName: string | null;
+  projectName: string;
 }>`${({
   controllersMeta,
   translationsConfig,
   experimentsConfig,
+  biConfig,
   defaultTranslations,
   appName,
+  projectName,
 }) =>
   controllersMeta
     .map(
       (controller, i) =>
         `{ method: ${getControllerVariableName(i)},
           widgetType: "${controller.widgetType}",
-          translationsConfig: ${JSON.stringify(translationsConfig)},
-          experimentsConfig: ${JSON.stringify(experimentsConfig)},
-          defaultTranslations: ${JSON.stringify(defaultTranslations)},
+          translationsConfig: ${
+            translationsConfig ? JSON.stringify(translationsConfig) : 'null'
+          },
+          experimentsConfig: ${
+            experimentsConfig ? JSON.stringify(experimentsConfig) : 'null'
+          },
+          defaultTranslations: ${
+            defaultTranslations ? JSON.stringify(defaultTranslations) : 'null'
+          },
+          biLogger: biLogger,
+          biConfig: ${biConfig ? JSON.stringify(biConfig) : 'null'},
           controllerFileName: "${controller.controllerFileName}",
           appName: ${appName ? `"${appName}"` : 'null'},
+          projectName: "${projectName}",
           componentName: "${controller.componentName}",
           id: ${getControllerScriptId(controller)} }`,
     )
@@ -112,19 +129,38 @@ export default t<Opts>`
   var translationsConfig = ${({ translationsConfig }) =>
     translationsConfig ? JSON.stringify(translationsConfig) : 'null'};
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage, sentryConfig, experimentsConfig, false, ${({
-    appName,
-  }) => (appName ? `"${appName}"` : 'null')}, translationsConfig);
+  ${({ visitorBiLoggerPath }) =>
+    visitorBiLoggerPath
+      ? `import biLogger from '${visitorBiLoggerPath}'`
+      : 'var biLogger = null'};
+
+  export const initAppForPage = initAppForPageWrapper({
+    initAppForPage: importedApp.initAppForPage,
+    sentry: sentryConfig,
+    experimentsConfig: experimentsConfig,
+    inEditor: false,
+    biLogger: biLogger,
+    projectName: ${({ projectName }) => `"${projectName}"`},
+    biConfig: ${({ biConfig }) =>
+      biConfig ? JSON.stringify(biConfig) : 'null'},
+    appName: ${({ appName }) => (appName ? `"${appName}"` : 'null')},
+    translationsConfig: translationsConfig,
+  });
+
   export const createControllers = createControllersWithDescriptors([${({
     controllersMeta,
     appName,
     translationsConfig,
     defaultTranslations,
+    projectName,
+    biConfig,
     experimentsConfig,
   }) =>
     controllerConfigs({
       controllersMeta,
       appName,
+      projectName,
+      biConfig,
       translationsConfig,
       defaultTranslations,
       experimentsConfig,
