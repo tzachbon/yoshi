@@ -2,6 +2,8 @@ const DEFAULT_ENV = 'development';
 const DEFAULT_MODULES = 'commonjs';
 const env = process.env.BABEL_ENV || process.env.NODE_ENV || DEFAULT_ENV;
 const disablePropTypeRemoval = process.env.DISABLE_REACT_PROP_TYPE_REMOVAL;
+const deprecatedLegacyDecoratorsSupported =
+  process.env.DEPRECATED_LEGACY_DECORATORS === 'true';
 
 const requireDefault = (path) => {
   const required = require(path);
@@ -71,11 +73,9 @@ module.exports = function (api, opts = {}) {
       // Enable stage 2 decorators.
       [
         requireDefault('@babel/plugin-proposal-decorators'),
-        {
-          // Enable export after decorator syntax. It's also a part of the spec and tc39 is not made a decision about it.
-          // Read more https://github.com/tc39/proposal-decorators/issues/69
-          decoratorsBeforeExport: true,
-        },
+        deprecatedLegacyDecoratorsSupported
+          ? { legacy: true }
+          : { decoratorsBeforeExport: true },
       ],
       [
         // Allow the usage of class properties.
