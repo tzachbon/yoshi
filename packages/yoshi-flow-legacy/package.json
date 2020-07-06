@@ -25,8 +25,8 @@
     "test:others": "npm run mocha -- 'test/{webpack-config,config,lint}.spec.js' 'src/**/*.spec.js' 'test/tasks/**/*.spec.js'"
   },
   "dependencies": {
-    "@babel/code-frame": "7.10.3",
-    "@babel/core": "7.10.3",
+    "@babel/code-frame": "7.10.4",
+    "@babel/core": "7.10.4",
     "@types/graphql": "14.2.3",
     "babel-eslint": "10.1.0",
     "babel-jest": "24.9.0",
@@ -108,9 +108,9 @@
     "yoshi-server-tools": "4.111.0"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "7.10.1",
-    "@babel/preset-env": "7.10.3",
-    "@babel/runtime": "7.10.3",
+    "@babel/plugin-syntax-jsx": "7.10.4",
+    "@babel/preset-env": "7.10.4",
+    "@babel/runtime": "7.10.4",
     "@types/ejs": "2.7.0",
     "@types/express": "4.17.6",
     "@types/jest": "24.9.1",
