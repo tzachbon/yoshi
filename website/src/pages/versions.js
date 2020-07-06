@@ -16,6 +16,7 @@ function Version() {
   const latestVersion = versions[0];
   const pastVersions = versions.filter((version) => version !== latestVersion);
   const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
+
   return (
     <Layout
       permalink="/versions"
@@ -33,11 +34,14 @@ function Version() {
                 <td>
                   <Link to={useBaseUrl('/docs/welcome')}>Documentation</Link>
                 </td>
+                <td>
+                  <a href={repoUrl}>Source Code</a>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
-        <div className="margin-bottom--lg">
+        {/* <div className="margin-bottom--lg">
           <h3 id="next">Next version (Unreleased)</h3>
           <p>Here you can find the documentation for unreleased version.</p>
           <table>
@@ -55,7 +59,7 @@ function Version() {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
         {pastVersions.length > 0 && (
           <div className="margin-bottom--lg">
             <h3 id="archive">Past Versions</h3>
@@ -73,6 +77,9 @@ function Version() {
                       >
                         Documentation
                       </Link>
+                    </td>
+                    <td>
+                      <a href={`${repoUrl}/tree/version_3.x`}>Source Code</a>
                     </td>
                   </tr>
                 ))}
