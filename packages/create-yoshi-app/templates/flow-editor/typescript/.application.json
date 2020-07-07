@@ -11,6 +11,7 @@
   "translations": {
     "default": "en"
   },
+  "bi": "bi-logger-editor-flow-template",
   "experiments": {
     "scope": "test"
   }

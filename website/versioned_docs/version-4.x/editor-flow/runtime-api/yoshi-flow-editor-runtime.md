@@ -43,54 +43,97 @@ export default () => (
 ```
 
 ## `BILogger`
+Renders a `children` function with `biLogger` relevant for current environment.
 
-Currently it consists of `BILoggerProvider` and `BILogger` components.
+You can configure 2 different kinds of BI logger according to user's roles: `owner` and `visitor`:
 
-`BILoggerProvider` should be rendered in the root of you component and receive a `biLogger` prop.
+- **Owner** will be available in `Settings` panel.
+- **Visitor** will be available in `Widget`, `controller` and `initAppForPage` in `viewer.app.ts`.
 
-`BILogger` is a consumer. It will render a `children` function with `biLogger` passed to provider.
+After you generate a project, a demo BI logger (`bi-logger-editor-flow-template`) will be added to `.application.json` configuration.
+It's a show case and should be finally repaced in `.application.json` and `package.json` with user's BI logger schema. 
+To configure own BI logger, please read the [fed-handbook BI section](https://github.com/wix-private/fed-handbook/blob/master/BI.md#overview).
 
-You still need to create and configure `biLogger` instance, so it's just an attempt to remove some boilerplate from your side.
-
-To configure biLogger instance, you have to follow [fed-handbook BI section steps](https://github.com/wix-private/fed-handbook/blob/master/BI.md#overview).
-
-By loading schema logger you've initialized and registered, you should use different loggers according to runtime environment:
-
-- Settings panel: `iframeAppBiLoggerFactory` imported from `@wix/iframe-app-bi-logger` package
-- Widget: `@wix/web-bi-logger` package
-
-_Settings.ts_
-
+**Settings.tsx**
 ```tsx
-import { WixSDK, BILogger, BILoggerProvider } from "yoshi-flow-editor-runtime";
-import { iframeAppBiLoggerFactory } from "@wix/iframe-app-bi-logger";
-import initSchemaLogger from "your-schema-logger-package";
-
-const biLogger = initSchemaLogger(iframeAppBiLoggerFactory);
-
-// Root component
-export default () => (
-  <BILoggerProvider logger={biLogger}>
-    // Settings content...
-    <ColorPicker />
-  </BILoggerProvider>
-);
-
-// Somewhere deeper in the component
+// Somewhere deep in the component tree
 const ColorPicker = () => (
-  <BiLogger>
+  <BILogger owner>
     {biLogger => (
       <ColorPickerColorSpace
-        onChange={() => {
-          logger.logColorChange();
+        onChange={(color) => {
+          logger.logColorChange({ color });
         }}
       />
     )}
-  </BiLogger>
+  </BILogger>
 );
 ```
 
+**controller.ts**
+```tsx
+const createController = async ({ flowAPI, controllerConfig }) => {
+  const { setProps } = controllerConfig;
+
+  onSomeAction = async () => {
+    // Do something...
+    await flowAPI.biLogger?.somethingWasDone({});
+  };
+
+  return {
+    async pageReady() {
+      setProps({
+        onSomeAction,
+      });
+      await flowAPI.biLogger?.templateWidgetLoaded({});
+    },
+  }
+}
 ```
+
+### `BILoggerDefaults`
+To update defaults for each event being called from the `BILogger` render prop, you can update the context by wrapping your root component, 
+which contain consumers.
+
+```Settings.tsx
+import { BILogger, BILoggerDefaults } from 'yoshi-flow-editor-runtime'
+
+<BILoggerDefaults defaults={{ someData: 'hey' }}>
+  <div>
+  // Somwhere deeper...
+  <BILogger owner>
+    {biLogger => (
+      <ColorPickerColorSpace
+        onChange={() => {
+          logger.logColorChange({ color }); // Event will include `someData` field.
+        }}
+      />
+    )}
+  </BILogger>
+  </div>
+</BILoggerDefaults>
+```
+
+> To update defaults in controller, you can just call `flowAPI.biLogger.util.updateDefaults(newDefaults)`.
+
+### Testing
+For unit testing components that contain a BI logger you should wrap it in `BILoggerProvider` HOC imported from `yoshi-flow-editor-runtime/test`.
+
+It accepts `logger` property which can be a plain object with bi methods you want to mock.
+
+_Widget.spec.tsx_
+```tsx
+import { BILoggerProvider } from 'yoshi-flow-editor-runtime/test';
+
+it('should send a BI event on button click', async () => {
+  const buttonClickedBIEvent = jest.fn();
+  const { getByTestId } = render(
+    <BILoggerProvider logger={{ onButtonClicked: buttonClickedBIEvent }}>
+      <Widget />
+    </BILoggerProvider>
+  );
+  expect(buttonClickedBIEvent).toHaveBeenCalled();
+});
 ```
 
 ## `translate`
@@ -166,3 +209,4 @@ it('should render a title correctly', async () => {
   expect(getByTestId('app-title').textContent).toBe('👋');
 })
 ```
+

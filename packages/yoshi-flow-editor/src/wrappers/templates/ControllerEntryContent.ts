@@ -14,6 +14,6 @@ export default t<Opts>`
   ${({ viewerEntryFileName }) =>
     viewerScriptOptionalImport({ viewerEntryFileName })}
 
-  export const initAppForPage = initAppForPageWrapper(importedApp.initAppForPage);
+  export const initAppForPage = initAppForPageWrapper({ initAppForPage: importedApp.initAppForPage });
   export const createControllers = createControllersWrapper(userController);
 `;

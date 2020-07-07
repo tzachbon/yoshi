@@ -21,6 +21,7 @@ import {
   buildViewerScriptEntry,
   webWorkerExternals,
 } from '../buildEditorEntires';
+import { overrideBILoggerTypes } from '../wrappers/biLoggerTypes';
 import { writeCiConfig } from './ciConfigGenerator';
 import { generateEditorHTMLFiles } from './htmlGenerator';
 
@@ -76,6 +77,9 @@ const build: cliCommand = async function (argv, config, model) {
   ]);
 
   await copyTemplates();
+  if (model.biConfig) {
+    overrideBILoggerTypes(model.biConfig);
+  }
 
   if (inTeamCity()) {
     await writeCiConfig(model);

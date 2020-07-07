@@ -21,6 +21,7 @@ import {
   webWorkerExternals,
 } from '../buildEditorEntires';
 import { URLsConfig } from '../model';
+import { overrideBILoggerTypes } from '../wrappers/biLoggerTypes';
 import getDevEnvironmentLogger from './dev-environment-logger';
 
 const start: cliCommand = async function (argv, config, model) {
@@ -70,6 +71,10 @@ const start: cliCommand = async function (argv, config, model) {
     fs.emptyDir(joinDirs(BUILD_DIR)),
     fs.emptyDir(joinDirs(TARGET_DIR)),
   ]);
+
+  if (model.biConfig) {
+    overrideBILoggerTypes(model.biConfig);
+  }
 
   const clientConfig = createClientWebpackConfig(config, {
     isDev: true,

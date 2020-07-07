@@ -1,6 +1,6 @@
-const { bootstrapServer } = require('./environment');
+const { bootstrap } = require('yoshi-serverless-testing');
 
 (async () => {
-  const app = bootstrapServer();
+  const app = bootstrap();
   await app.start();
 })();

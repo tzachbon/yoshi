@@ -1,6 +1,6 @@
 {
   "name": "yoshi-flow-editor-runtime",
-  "version": "4.112.0",
+  "version": "4.114.0",
   "main": "build/index.js",
   "sideEffects": false,
   "keywords": [
@@ -13,6 +13,7 @@
   "dependencies": {
     "@sentry/browser": "^5.15.5",
     "@wix/fedops-logger": "^5.12.0",
+    "@wix/iframe-app-bi-logger": "^2.0.42",
     "@wix/native-components-infra": "^1.0.668",
     "@wix/platform-editor-sdk": "^0.0.940",
     "@wix/wix-base-ui": "^3.0.0",

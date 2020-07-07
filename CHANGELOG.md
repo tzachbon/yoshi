@@ -1,5 +1,36 @@
 # Changelog
 
+## 4.114.0 (2020-07-06)
+
+#### :rocket: New Feature
+
+- `yoshi-flow-monorepo`
+  - [#2673](https://github.com/wix/yoshi/pull/2673) Experimentally support skipping type check in monorepo flow ([@ronami](https://github.com/ronami))
+- `create-yoshi-app`, `yoshi-flow-editor-runtime`, `yoshi-flow-editor`
+  - [#2663](https://github.com/wix/yoshi/pull/2663) Add a BI logger support for editor flow ([@yavorsky](https://github.com/yavorsky))
+
+## 4.113.0 (2020-07-06)
+
+#### :rocket: New Feature
+
+- `babel-preset-yoshi`
+  - [#2672](https://github.com/wix/yoshi/pull/2672) Deprecated Legacy Decorators Support ([@borislit](https://github.com/borislit))
+- `yoshi-flow-bm`
+  - [#2624](https://github.com/wix/yoshi/pull/2624) Add `legacyBundle` config option to pages & exported-components in BM Flow ([@amitdahan](https://github.com/amitdahan))
+
+#### :bug: Bug Fix
+
+- `yoshi-flow-bm-runtime`
+  - [#2653](https://github.com/wix/yoshi/pull/2653) Fix BM method call without `{ module, moduleParams }` ([@amitdahan](https://github.com/amitdahan))
+
+#### :memo: Documentation
+
+- [#2668](https://github.com/wix/yoshi/pull/2668) Remove `next` version docs and simplify working with the documentation ([@ranyitz](https://github.com/ranyitz))
+
+#### :house: Internal
+
+- [#2669](https://github.com/wix/yoshi/pull/2669) use `experimentalMonorepoPublish` to publish preview packages on PR and remove the custom publish script ([@netanelgilad](https://github.com/netanelgilad))
+
 ## 4.112.0 (2020-07-02)
 
 #### :rocket: New Feature

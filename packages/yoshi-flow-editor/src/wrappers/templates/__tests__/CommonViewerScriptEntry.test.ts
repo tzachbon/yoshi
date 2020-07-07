@@ -10,7 +10,10 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      projectName: 'someProject',
       defaultTranslations: {},
+      biConfig: {},
+      visitorBiLoggerPath: 'a/b/c',
       translationsConfig: null,
       appName: 'someapp',
       controllersMeta: [
@@ -36,8 +39,11 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      projectName: 'someProject',
       appName: 'someApp',
+      visitorBiLoggerPath: 'a/b/c',
       defaultTranslations: null,
+      biConfig: {},
       translationsConfig: {
         default: 'en',
       },
@@ -64,7 +70,13 @@ describe('CommonViewerScriptEntry template', () => {
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
       appName: 'someapp',
+      visitorBiLoggerPath: 'a/b/c',
+      projectName: 'someProject',
       defaultTranslations: { a: 'b' },
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       translationsConfig: {
         default: 'en',
       },
@@ -98,8 +110,14 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      projectName: 'someProject',
       appName: 'someapp',
       defaultTranslations: { a: 'b' },
+      visitorBiLoggerPath: null,
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       translationsConfig: {
         default: 'en',
       },
@@ -133,6 +151,12 @@ describe('CommonViewerScriptEntry template', () => {
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: null,
+      projectName: 'someProject',
+      visitorBiLoggerPath: 'a/b/c',
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       translationsConfig: {
         default: 'en',
       },
@@ -154,6 +178,12 @@ describe('CommonViewerScriptEntry template', () => {
         default: 'en',
       },
       defaultTranslations: { a: 'b' },
+      projectName: 'someProject',
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
+      visitorBiLoggerPath: null,
       viewerScriptWrapperPath:
         'yoshi-flow-editor-runtime/build/viewerScript.js',
       sentryConfig: {

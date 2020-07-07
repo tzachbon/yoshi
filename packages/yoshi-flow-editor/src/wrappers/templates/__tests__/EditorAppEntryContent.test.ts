@@ -6,9 +6,15 @@ describe('EditorAppEntry template', () => {
       editorAppWrapperPath: 'some/editor-app-wrapper',
       componentName: 'MyWidget',
       translationsConfig: null,
+      projectName: 'myProject',
       defaultTranslations: { a: 'b' },
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
+      visitorBiLoggerPath: 'a/b/c',
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       viewerEntryFileName: 'some/viwer.app.ts',
       sentryConfig: {
         DSN: 'https//dsn.com',
@@ -27,8 +33,14 @@ describe('EditorAppEntry template', () => {
       editorAppWrapperPath: 'some/editor-app-wrapper',
       componentName: 'MyWidget',
       defaultTranslations: { a: 'b' },
+      projectName: 'myProject',
       componentFileName: 'some/components/MyWidget.tsx',
       controllerFileName: 'some/components/controller.ts',
+      visitorBiLoggerPath: null,
+      biConfig: {
+        visitor: 'visitor-bi-package',
+        owner: 'owner-bi-package',
+      },
       viewerEntryFileName: null,
       translationsConfig: {
         default: 'en',

@@ -1,12 +1,9 @@
 const path = require('path');
 const execa = require('execa');
 const chalk = require('chalk');
-const semver = require('semver');
 const prompts = require('prompts');
 const pkg = require('../package.json');
-const fs = require('fs');
 
-const websiteDirectory = path.resolve(__dirname, '../website');
 const lernaPath = path.resolve(__dirname, '../node_modules/.bin/lerna');
 
 // resets the console
@@ -43,58 +40,6 @@ Promise.resolve()
       stdio: 'inherit',
       shell: true,
     });
-  })
-  // Update docs according to new version
-  .then(() => {
-    const lernaJson = require('../lerna.json');
-    const monorepoVersion = lernaJson.version;
-    const majorVersion = `${semver.major(monorepoVersion)}.x`;
-
-    // In case the index of the major version already exist in versions.json remove it
-    // https://github.com/wix/yoshi/issues/1228
-    const versionsJsonPath = require.resolve('../website/versions.json');
-    const versionsJson = require(versionsJsonPath);
-    const indexOfVersion = versionsJson.indexOf(majorVersion);
-    if (indexOfVersion !== -1) {
-      versionsJson.splice(indexOfVersion, 1);
-      fs.writeFileSync(versionsJsonPath, JSON.stringify(versionsJson, null, 2));
-      console.log();
-      console.log(`version "${majorVersion}" already exist, overriding...`);
-      console.log();
-    }
-
-    const createVersionedDocsCommand = `yarn run version "${majorVersion}"`;
-
-    execa.sync(createVersionedDocsCommand, {
-      cwd: websiteDirectory,
-      stdio: 'inherit',
-      shell: true,
-    });
-
-    const numberOfUntrackedFiles = execa
-      .sync(`git ls-files --others --exclude-standard | wc -l`, {
-        shell: true,
-      })
-      .stdout.trim();
-
-    const numberOfModifiedFiles = execa
-      .sync(`git ls-files -m | wc -l`, { shell: true })
-      .stdout.trim();
-
-    if (numberOfModifiedFiles === '0' && numberOfUntrackedFiles === '0') {
-      console.log();
-      console.log(
-        `no changes created after running "${createVersionedDocsCommand}"`,
-      );
-      console.log();
-    } else {
-      execa.sync('git add -A', {
-        shell: true,
-      });
-      execa.sync(`git commit -m "documentation for version ${majorVersion}"`, {
-        shell: true,
-      });
-    }
   })
   .then(() => {
     console.log();

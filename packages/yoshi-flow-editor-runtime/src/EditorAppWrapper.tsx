@@ -15,8 +15,10 @@ import {
   ExperimentsConfig,
   TranslationsConfig,
   DefaultTranslations,
+  BIConfig,
 } from './constants';
 import { InitAppForPageFn, CreateControllerFn } from './types';
+import { VisitorBILoggerFactory } from './generated/bi-logger-types';
 
 declare global {
   interface Window {
@@ -33,6 +35,9 @@ interface IEditorAppCreatorProps {
   sentry: SentryConfig | null;
   experimentsConfig: ExperimentsConfig | null;
   defaultTranslations: DefaultTranslations | null;
+  biConfig: BIConfig;
+  projectName: string;
+  biLogger: VisitorBILoggerFactory;
 }
 interface IEditorAppWithWixSDKCreatorProps extends IEditorAppCreatorProps {
   sdk: IWixSDKContext;
@@ -52,6 +57,9 @@ const createEditorAppForWixSDK = ({
   experimentsConfig,
   translationsConfig,
   defaultTranslations,
+  projectName,
+  biConfig,
+  biLogger,
   sdk,
 }: IEditorAppWithWixSDKCreatorProps) => {
   const WithComponent = WidgetWrapper(UserComponent, {
@@ -68,13 +76,20 @@ const createEditorAppForWixSDK = ({
         translationsConfig,
         experimentsConfig,
         defaultTranslations,
+        biConfig,
+        biLogger,
+        projectName,
       ),
-      initAppForPage: initAppForPageWrapper(
-        customInitAppForPage,
-        sentry,
+      initAppForPage: initAppForPageWrapper({
+        initAppForPage: customInitAppForPage,
+        sentryConfig: sentry,
         experimentsConfig,
-        true,
-      ),
+        inEditor: true,
+        projectName,
+        biLogger,
+        biConfig,
+        appName: null,
+      }),
     },
     Wix: sdk.Wix,
     widgetConfig: {
